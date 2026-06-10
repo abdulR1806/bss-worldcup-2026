@@ -1,0 +1,46 @@
+name: Update match results
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 * * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update-results:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Update eligible match results
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+          API_FOOTBALL_LEAGUE_ID: ${{ secrets.API_FOOTBALL_LEAGUE_ID }}
+          API_FOOTBALL_SEASON: "2026"
+        run: python scripts/update_results.py
+
+      - name: Validate CSV data
+        run: python scripts/validate_data.py
+
+      - name: Test scoring
+        run: python scripts/test_scoring.py
+
+      - name: Build browser data
+        run: python scripts/build_site_data.py
+
+      - name: Commit updated data
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update World Cup results data"
+          file_pattern: data/results.csv site/data/site-data.js
