@@ -9,6 +9,8 @@ import urllib.request
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
+from build_site_data import write_site_data
+
 
 WIB = timezone(timedelta(hours=7))
 FINAL_MATCH_STATUSES = {"FINISHED", "AWARDED"}
@@ -159,6 +161,9 @@ def main() -> None:
 
     if not api_token:
         print("No FOOTBALL_DATA_TOKEN configured. Skipping result update.")
+        if not args.dry_run:
+            target = write_site_data(root)
+            print(f"Refreshed browser data: {target}")
         return
 
     now = parse_iso(args.now_wib) if args.now_wib else datetime.now(WIB)
@@ -236,6 +241,8 @@ def main() -> None:
         ["matchId", "status", "homeScore", "awayScore", "result", "source", "updatedAt"],
     )
     print(f"Updated {updated} result rows.")
+    target = write_site_data(root)
+    print(f"Refreshed browser data: {target}")
 
 
 if __name__ == "__main__":

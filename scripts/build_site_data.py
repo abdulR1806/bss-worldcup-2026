@@ -51,12 +51,7 @@ def build_payload(root: Path) -> dict:
     }
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser(description="Build browser data for the static leaderboard.")
-    parser.add_argument("--root", default=".", help="Project root. Defaults to current directory.")
-    args = parser.parse_args()
-
-    root = Path(args.root).resolve()
+def write_site_data(root: Path) -> Path:
     payload = build_payload(root)
     target = root / "site" / "data" / "site-data.js"
     target.parent.mkdir(parents=True, exist_ok=True)
@@ -66,6 +61,16 @@ def main() -> None:
         + ";\n",
         encoding="utf-8",
     )
+    return target
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Build browser data for the static leaderboard.")
+    parser.add_argument("--root", default=".", help="Project root. Defaults to current directory.")
+    args = parser.parse_args()
+
+    root = Path(args.root).resolve()
+    target = write_site_data(root)
     print(f"Wrote {target}")
 
 

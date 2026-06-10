@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+
+python scripts/build_site_data.py
+git add site/data/site-data.js

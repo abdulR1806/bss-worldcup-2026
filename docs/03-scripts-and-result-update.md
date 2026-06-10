@@ -42,6 +42,10 @@ site/data/site-data.js
 
 Website memakai file `.js` ini supaya bisa dibuka langsung dari `file://` di Chrome.
 
+Setiap build juga memperbarui `metadata.generatedAt` memakai waktu WIB. Nilai ini ditampilkan di website sebagai `Pembaruan terakhir`.
+
+Jika repository memakai hook lokal `.githooks/pre-commit`, hook akan menjalankan `scripts/build_site_data.py` dan menambahkan `site/data/site-data.js` ke commit. Pastikan `core.hooksPath` sudah mengarah ke `.githooks` jika ingin perilaku ini aktif di mesin lokal.
+
 ## Export Jadwal Dari Excel
 
 Jika file template Excel berubah, jalankan:
@@ -127,6 +131,8 @@ python scripts/update_results.py
 
 Jika memakai file `.env`, tidak perlu set `$env:` manual; script akan membaca `.env` dari project root.
 
+Setiap pemanggilan non-dry-run `scripts/update_results.py` akan membuild ulang `site/data/site-data.js` setelah proses update selesai. Artinya label `Pembaruan terakhir` ikut berubah saat update API dijalankan, termasuk ketika tidak ada hasil baru yang masuk.
+
 ## Aturan Fetch 100 Menit
 
 Script hanya mencoba mengambil hasil jika:
@@ -161,6 +167,8 @@ Untuk tes tanpa menulis CSV:
 ```bash
 python scripts/update_results.py --dry-run
 ```
+
+Mode `--dry-run` tidak menulis CSV dan tidak memperbarui `site/data/site-data.js`.
 
 ## Manual Override
 

@@ -1,6 +1,6 @@
 # Credit Divisions World Cup Leaderboard
 
-Website leaderboard statis untuk kompetisi prediksi hasil pertandingan World Cup 2026. Website ini dibuat dengan HTML, CSS, dan vanilla JavaScript, sehingga bisa langsung dites di Chrome tanpa server lokal.
+Website leaderboard statis untuk kompetisi prediksi hasil pertandingan World Cup 2026. Website ini dibuat dengan HTML, CSS, dan vanilla JavaScript, sehingga bisa langsung dites di Chrome tanpa server lokal dan tetap cocok untuk GitHub Pages.
 
 ## Mulai Cepat
 
@@ -25,6 +25,16 @@ Website leaderboard statis untuk kompetisi prediksi hasil pertandingan World Cup
    ```
 
 4. Refresh Chrome.
+
+## Catatan Frontend
+
+- Website harus tetap bisa dibuka langsung dari `site/index.html`.
+- Jangan menambahkan React, bundler, backend service, atau `fetch()` untuk data lokal.
+- Logo website dan avatar browser memakai `site/assets/logo-cropped.png`, yang berasal dari `reference/logo-cropped.png`.
+- Data browser berada di `site/data/site-data.js`; file ini dibuat ulang dari CSV.
+- Label `Pembaruan terakhir` membaca `metadata.generatedAt` dari `site/data/site-data.js`.
+- Tombol tema, navigasi, filter, pencarian, dan menu burger mobile/tablet semuanya memakai JavaScript sederhana di `site/app.js`.
+- Chip status `Selesai` di Hasil pertandingan sengaja memakai latar hijau di tema terang dan gelap.
 
 ## Struktur Folder
 
@@ -82,3 +92,14 @@ python scripts/validate_data.py
 python scripts/test_scoring.py
 python scripts/build_site_data.py
 ```
+
+## Verifikasi Render Lokal
+
+Untuk pengecekan visual lokal, jalankan server statis di port `8765`, lalu pakai Playwright:
+
+```bash
+python -m http.server 8765 --directory site
+venv\Scripts\python.exe scripts\verify_site_playwright.py
+```
+
+Script Playwright membuka `http://127.0.0.1:8765/index.html`, mengecek teks utama, filter, navigasi, tema terang/gelap, warna prediksi benar/salah, chip `Selesai`, logo cropped, search bar, dan menu burger di viewport 375, 768, 1024, dan 1440. Screenshot tersimpan di `screenshots/`.
