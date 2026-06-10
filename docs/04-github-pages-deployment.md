@@ -11,8 +11,8 @@ Paling sederhana:
 3. Di GitHub, buka `Settings > Pages`.
 4. Pilih:
    - Source: `Deploy from a branch`
-   - Branch: `main`
-   - Folder: `/site`
+   - Branch: `gh-pages`
+   - Folder: `/(root)`
 5. Klik `Save`.
 
 URL akan menjadi:
@@ -26,7 +26,7 @@ https://USERNAME.github.io/REPOSITORY_NAME/
 Jika folder ini berada di dalam repository yang lebih besar, ada dua pilihan:
 
 - Pindahkan isi `worldcup-leaderboard-website/` ke repository baru.
-- Atur GitHub Pages ke folder yang sesuai setelah push.
+- Atur GitHub Pages ke branch `gh-pages` dengan folder `/(root)` setelah workflow deploy berhasil.
 
 Untuk proyek sederhana, repository terpisah lebih mudah.
 
@@ -69,7 +69,8 @@ scripts/*.py
    git push
    ```
 
-4. GitHub Pages akan memperbarui website otomatis.
+4. Workflow deploy akan membuild `site/` dan mendorong hasilnya ke branch `gh-pages`.
+5. GitHub Pages akan memperbarui website otomatis dari branch itu.
 
 ## Catatan Penting
 
