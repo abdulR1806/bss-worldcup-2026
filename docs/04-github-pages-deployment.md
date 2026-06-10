@@ -72,6 +72,16 @@ scripts/*.py
 4. Workflow deploy akan membuild `site/` dan mendorong hasilnya ke branch `gh-pages`.
 5. GitHub Pages akan memperbarui website otomatis dari branch itu.
 
+## Kapan Deploy Jalan Otomatis
+
+Workflow deploy juga dipicu oleh:
+
+- push ke `main`
+- workflow `Clean demo preview data` yang selesai sukses
+- workflow `Update match results` yang selesai sukses
+
+Karena dua workflow data-update itu melakukan commit otomatis, deploy harus ikut `workflow_run` agar publish tetap terjadi tanpa push manual tambahan.
+
 ## Catatan Penting
 
 - Jangan taruh API key di `site/app.js` atau `site/data/site-data.js`.

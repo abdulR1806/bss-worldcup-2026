@@ -3,7 +3,7 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
     "title": "Credit Divisions World Cup Leaderboard",
     "dataMode": "Data diambil dari football-data.org",
     "sourceWorkbook": "Jadwal_FIFA_World_Cup_2026.xlsx",
-    "generatedAt": "2026-06-11T06:12:50+07:00",
+    "generatedAt": "2026-06-11T06:32:13+07:00",
     "timezone": "Asia/Jakarta",
     "resultDelayMinutes": 100,
     "scoring": "1 poin untuk setiap prediksi W/L/D yang benar. Pertandingan menunggu tidak dihitung."
@@ -3745,75 +3745,75 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
   "results": [
     {
       "matchId": "M001",
-      "status": "PENDING",
-      "homeScore": "",
-      "awayScore": "",
-      "result": "",
-      "source": "",
-      "updatedAt": ""
+      "status": "FINAL",
+      "homeScore": 2,
+      "awayScore": 1,
+      "result": "W",
+      "source": "Demo preview data",
+      "updatedAt": "2026-06-10T00:00:00+07:00"
     },
     {
       "matchId": "M002",
-      "status": "PENDING",
-      "homeScore": "",
-      "awayScore": "",
-      "result": "",
-      "source": "",
-      "updatedAt": ""
+      "status": "FINAL",
+      "homeScore": 1,
+      "awayScore": 1,
+      "result": "D",
+      "source": "Demo preview data",
+      "updatedAt": "2026-06-10T00:00:00+07:00"
     },
     {
       "matchId": "M003",
-      "status": "PENDING",
-      "homeScore": "",
-      "awayScore": "",
-      "result": "",
-      "source": "",
-      "updatedAt": ""
+      "status": "FINAL",
+      "homeScore": 0,
+      "awayScore": 2,
+      "result": "L",
+      "source": "Demo preview data",
+      "updatedAt": "2026-06-10T00:00:00+07:00"
     },
     {
       "matchId": "M004",
-      "status": "PENDING",
-      "homeScore": "",
-      "awayScore": "",
-      "result": "",
-      "source": "",
-      "updatedAt": ""
+      "status": "FINAL",
+      "homeScore": 3,
+      "awayScore": 0,
+      "result": "W",
+      "source": "Demo preview data",
+      "updatedAt": "2026-06-10T00:00:00+07:00"
     },
     {
       "matchId": "M005",
-      "status": "PENDING",
-      "homeScore": "",
-      "awayScore": "",
-      "result": "",
-      "source": "",
-      "updatedAt": ""
+      "status": "FINAL",
+      "homeScore": 1,
+      "awayScore": 0,
+      "result": "W",
+      "source": "Demo preview data",
+      "updatedAt": "2026-06-10T00:00:00+07:00"
     },
     {
       "matchId": "M006",
-      "status": "PENDING",
-      "homeScore": "",
-      "awayScore": "",
-      "result": "",
-      "source": "",
-      "updatedAt": ""
+      "status": "FINAL",
+      "homeScore": 2,
+      "awayScore": 2,
+      "result": "D",
+      "source": "Demo preview data",
+      "updatedAt": "2026-06-10T00:00:00+07:00"
     },
     {
       "matchId": "M007",
-      "status": "PENDING",
-      "homeScore": "",
-      "awayScore": "",
-      "result": "",
-      "source": "",
-      "updatedAt": ""
+      "status": "FINAL",
+      "homeScore": 0,
+      "awayScore": 1,
+      "result": "L",
+      "source": "Demo preview data",
+      "updatedAt": "2026-06-10T00:00:00+07:00"
     },
     {
       "matchId": "M008",
-      "status": "PENDING",
-      "homeScore": "",
-      "awayScore": "",
-      "result": "",
-      "source": "",
-      "updatedAt": ""
+      "status": "FINAL",
+      "homeScore": 2,
+      "awayScore": 0,
+      "result": "W",
+      "source": "Demo preview data",
+      "updatedAt": "2026-06-10T00:00:00+07:00"
     },
     {
       "matchId": "M009",

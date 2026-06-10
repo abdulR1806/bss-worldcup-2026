@@ -45,6 +45,26 @@ Workflow ini:
 4. Membuild `site/data/site-data.js`.
 5. Commit hasil jika ada perubahan.
 
+## 3. Deploy GitHub Pages
+
+File:
+
+```text
+.github/workflows/deploy.yml
+```
+
+Berjalan saat:
+
+- push ke `main`
+- workflow `Clean demo preview data` selesai sukses
+- workflow `Update match results` selesai sukses
+- manual dispatch
+
+Catatan:
+
+- Deploy ini sengaja ikut `workflow_run` supaya commit otomatis dari workflow data-update tetap memicu publish ke GitHub Pages.
+- Jika workflow data gagal, deploy tidak jalan.
+
 ## Secret Yang Perlu Dibuat
 
 Buka GitHub repository:

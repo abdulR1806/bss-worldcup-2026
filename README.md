@@ -36,6 +36,17 @@ Website leaderboard statis untuk kompetisi prediksi hasil pertandingan World Cup
 - Tombol tema, navigasi, filter, pencarian, dan menu burger mobile/tablet semuanya memakai JavaScript sederhana di `site/app.js`.
 - Chip status `Selesai` di Hasil pertandingan sengaja memakai latar hijau di tema terang dan gelap.
 
+## Deploy Otomatis
+
+GitHub Pages sekarang akan terpicu saat:
+
+- ada `push` ke branch `main`
+- workflow `Clean demo preview data` selesai sukses
+- workflow `Update match results` selesai sukses
+- manual dispatch
+
+Ini penting supaya commit otomatis dari workflow data-update tetap mem-publish website tanpa harus menunggu commit atau merge manual ke `main`.
+
 ## Struktur Folder
 
 ```text
