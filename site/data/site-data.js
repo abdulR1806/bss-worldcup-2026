@@ -1,9 +1,9 @@
 window.WORLD_CUP_LEADERBOARD_DATA = {
   "metadata": {
     "title": "Credit Divisions World Cup Leaderboard",
-    "dataMode": "Data lokal dari CSV",
+    "dataMode": "Data diambil dari football-data.org",
     "sourceWorkbook": "Jadwal_FIFA_World_Cup_2026.xlsx",
-    "generatedAt": "2026-06-11T00:48:28+07:00",
+    "generatedAt": "2026-06-11T00:58:54+07:00",
     "timezone": "Asia/Jakarta",
     "resultDelayMinutes": 100,
     "scoring": "1 poin untuk setiap prediksi W/L/D yang benar. Pertandingan menunggu tidak dihitung."
@@ -813,7 +813,7 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
     {
       "id": "P004",
       "displayName": "Joko",
-      "division": "Risk Management",
+      "division": "SME Credit Reviewer",
       "badge": "J",
       "date": "2026-06-10"
     },
@@ -841,14 +841,14 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
     {
       "id": "P008",
       "displayName": "Royhan",
-      "division": "Credit Reviewer",
+      "division": "SME Credit Reviewer",
       "badge": "R",
       "date": "2026-06-10"
     },
     {
       "id": "P009",
       "displayName": "Bowo",
-      "division": "Credit Reviewer",
+      "division": "SME Credit Reviewer",
       "badge": "B",
       "date": "2026-06-10"
     },

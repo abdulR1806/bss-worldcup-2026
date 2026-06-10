@@ -39,7 +39,7 @@ def main() -> None:
                 expect(page.locator('link[rel="icon"]')).to_have_attribute("href", "assets/logo-cropped.png")
                 if not page.locator(".brand img").evaluate("image => image.complete && image.naturalWidth > 0"):
                     raise AssertionError("Brand logo did not load.")
-                expect(page.locator("#dataMode")).to_have_text("Data lokal dari CSV")
+                expect(page.locator("#dataMode")).to_have_text("Data diambil dari football-data.org")
                 expect(page.locator("#groupFilter")).to_contain_text("Grup A")
                 expect(page.locator("#leaderboardBody tr").first).to_be_visible()
                 if width in (375, 768, 1024):

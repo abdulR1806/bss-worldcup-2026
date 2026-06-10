@@ -37,7 +37,7 @@ def build_payload(root: Path) -> dict:
     return {
         "metadata": {
             "title": "Credit Divisions World Cup Leaderboard",
-            "dataMode": "Data lokal dari CSV",
+            "dataMode": "Data diambil dari football-data.org",
             "sourceWorkbook": "Jadwal_FIFA_World_Cup_2026.xlsx",
             "generatedAt": datetime.now(WIB).isoformat(timespec="seconds"),
             "timezone": "Asia/Jakarta",
