@@ -11,11 +11,13 @@
     group: 'ALL',
     matchday: 'ALL',
     search: '',
+    activeParticipant: null,
   };
 
   const resultByMatch = new Map(data.results.map((result) => [result.matchId, result]));
   const matchById = new Map(data.matches.map((match) => [match.id, match]));
   const predictionsByParticipant = groupBy(data.predictions, 'participantId');
+  const predictionsByMatch = groupBy(data.predictions, 'matchId');
   const streamMode = new URLSearchParams(window.location.search).get('mode') === 'stream';
 
   const els = {
@@ -221,12 +223,13 @@
           <h3>${escapeHtml(row.displayName)}</h3>
         </div>
         <p class="meta">${escapeHtml(row.division)}</p>
+        ${row.date ? `<p class="meta">Bergabung: ${formatShortDate(row.date)}</p>` : ''}
         <div class="metric-row">
           ${metric(row.points, 'Poin')}
           ${metric(`${row.correct}/${row.played}`, 'Benar')}
           ${metric(formatPercent(row.accuracy), 'Akurasi')}
         </div>
-        <button type="button" data-participant="${escapeHtml(row.id)}">Lihat Prediksi</button>
+        <button type="button" data-participant="${escapeHtml(row.id)}" aria-expanded="${state.activeParticipant === row.id ? 'true' : 'false'}">Lihat Prediksi</button>
       </article>
     `).join('');
 
@@ -237,10 +240,13 @@
 
   function renderParticipantDetail(participantId) {
     const participant = data.participants.find((item) => item.id === participantId);
+    if (!participant) return;
+
     const predictions = (predictionsByParticipant.get(participantId) || []).filter((prediction) => {
       return filteredMatchSet().has(prediction.matchId);
     });
 
+    state.activeParticipant = participantId;
     els.participantDetail.hidden = false;
     els.participantDetail.innerHTML = `
       <div class="section-heading">
@@ -248,13 +254,35 @@
           <p class="eyebrow">Lembar prediksi</p>
           <h2>${escapeHtml(participant.displayName)}</h2>
         </div>
-        <p>${escapeHtml(participant.division)}</p>
+        <div class="detail-actions">
+          <p>${escapeHtml(participant.division)}${participant.date ? ` - Bergabung: ${formatShortDate(participant.date)}` : ''}</p>
+          <button type="button" class="close-detail" aria-label="Tutup lembar prediksi">Tutup</button>
+        </div>
       </div>
       <div class="prediction-list">
         ${predictions.map((prediction) => predictionItem(prediction)).join('')}
       </div>
     `;
+
+    els.participantCards.querySelectorAll('button[data-participant]').forEach((button) => {
+      button.setAttribute('aria-expanded', String(button.dataset.participant === participantId));
+    });
+    els.participantDetail.querySelector('.close-detail').addEventListener('click', closeParticipantDetail);
     els.participantDetail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function closeParticipantDetail() {
+    const participantId = state.activeParticipant;
+    state.activeParticipant = null;
+    els.participantDetail.innerHTML = '';
+    els.participantDetail.hidden = true;
+
+    let trigger = null;
+    els.participantCards.querySelectorAll('button[data-participant]').forEach((button) => {
+      if (button.dataset.participant === participantId) trigger = button;
+      button.setAttribute('aria-expanded', 'false');
+    });
+    if (trigger) trigger.focus();
   }
 
   function predictionItem(prediction) {
@@ -281,6 +309,7 @@
       const result = resultByMatch.get(match.id);
       const isFinal = result && result.status === 'FINAL';
       const score = isFinal ? `${result.homeScore} - ${result.awayScore}` : '-';
+      const outcome = isFinal ? matchOutcomeClasses(match, result) : { home: '', away: '' };
       return `
         <article class="match-card">
           <header>
@@ -288,15 +317,68 @@
             <span class="meta">Grup ${escapeHtml(match.group)}</span>
           </header>
           <div class="teams">
-            <span>${escapeHtml(match.homeTeam)}</span>
+            <span class="${outcome.home}">${escapeHtml(match.homeTeam)}</span>
             <span class="scoreline">${score}</span>
-            <span>${escapeHtml(match.awayTeam)}</span>
+            <span class="${outcome.away}">${escapeHtml(match.awayTeam)}</span>
           </div>
           <p class="meta">${formatDateTime(match.kickoffWib)} · ${escapeHtml(match.location)}</p>
           <p class="meta">Ambil hasil setelah: ${formatDateTime(match.resultFetchAfterWib)}</p>
+          ${matchPredictions(match.id, isFinal)}
         </article>
       `;
     }).join('');
+  }
+
+  function matchOutcomeClasses(match, result) {
+    const homeScore = Number(result.homeScore);
+    const awayScore = Number(result.awayScore);
+
+    if (homeScore > awayScore) {
+      return {
+        home: 'team-is-winner',
+        away: 'team-is-loser',
+      };
+    }
+
+    if (awayScore > homeScore) {
+      return {
+        home: 'team-is-loser',
+        away: 'team-is-winner',
+      };
+    }
+
+    return {
+      home: 'team-is-draw',
+      away: 'team-is-draw',
+    };
+  }
+
+  function matchPredictions(matchId, isFinal) {
+    const predictions = predictionsByMatch.get(matchId) || [];
+    const totals = predictions.reduce((counts, prediction) => {
+      const value = prediction.prediction;
+      counts[value] = (counts[value] || 0) + 1;
+      return counts;
+    }, { W: 0, L: 0, D: 0 });
+    const items = [
+      ['W', 'Menang'],
+      ['D', 'Seri'],
+      ['L', 'Kalah'],
+    ].map(([value, label]) => {
+      return `
+        <li class="${isFinal ? 'is-final' : 'is-pending'}">
+          <span>${escapeHtml(label)}</span>
+          <strong>${totals[value]}</strong>
+        </li>
+      `;
+    }).join('');
+
+    return `
+      <div class="match-predictions" aria-label="Statistik prediksi peserta">
+        <h3>Statistik Prediksi</h3>
+        <ul>${items}</ul>
+      </div>
+    `;
   }
 
   function renderStream() {
@@ -373,4 +455,5 @@
       .replaceAll('"', '&quot;')
       .replaceAll("'", '&#039;');
   }
+
 })();

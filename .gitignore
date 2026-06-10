@@ -1,1 +1,9 @@
 /Csv-participant-20260610T124541Z-3-001/
+.env
+.env.*
+!.env.example
+__pycache__/
+*.py[cod]
+*.pyd
+venv/
+.venv/

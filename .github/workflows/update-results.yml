@@ -25,9 +25,9 @@ jobs:
 
       - name: Update eligible match results
         env:
-          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
-          API_FOOTBALL_LEAGUE_ID: ${{ secrets.API_FOOTBALL_LEAGUE_ID }}
-          API_FOOTBALL_SEASON: "2026"
+          FOOTBALL_DATA_TOKEN: ${{ secrets.FOOTBALL_DATA_TOKEN }}
+          FOOTBALL_DATA_COMPETITION_CODE: "WC"
+          FOOTBALL_DATA_SEASON: "2026"
         run: python scripts/update_results.py
 
       - name: Validate CSV data

@@ -16,33 +16,19 @@ Codex membantu mengecek:
 
 ```text
 AGENTS.md
-.github/workflows/codex-review.yml
 .github/codex/prompts/review.md
 ```
 
-## Setup Codex GitHub Action
+## Catatan GitHub Action
 
-1. Buka GitHub repository.
-2. Masuk ke:
+Workflow `Codex review` tidak dipakai di repository ini. Validasi otomatis utama tetap:
 
-   ```text
-   Settings > Secrets and variables > Actions
-   ```
+```text
+.github/workflows/ci.yml
+.github/workflows/update-results.yml
+```
 
-3. Tambahkan secret:
-
-   ```text
-   OPENAI_API_KEY
-   ```
-
-4. Push file workflow:
-
-   ```text
-   .github/workflows/codex-review.yml
-   ```
-
-5. Buat pull request.
-6. Workflow `Codex review` akan berjalan.
+Jika nanti ingin mengaktifkan Codex GitHub Action lagi, buat ulang workflow review dan simpan `OPENAI_API_KEY` di GitHub Secrets.
 
 ## Setup Codex Cloud Automatic Review
 

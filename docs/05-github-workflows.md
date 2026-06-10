@@ -57,9 +57,9 @@ Buat:
 
 | Secret | Isi |
 | --- | --- |
-| `API_FOOTBALL_KEY` | API key dari API-FOOTBALL |
-| `API_FOOTBALL_LEAGUE_ID` | ID league World Cup dari API provider |
-| `OPENAI_API_KEY` | Hanya jika memakai Codex GitHub Action |
+| `FOOTBALL_DATA_TOKEN` | API token dari football-data.org |
+| `FOOTBALL_DATA_COMPETITION_CODE` | Kode competition World Cup, default `WC` |
+| `FOOTBALL_DATA_SEASON` | Season World Cup, default `2026` |
 
 ## Mengubah Jadwal Update
 

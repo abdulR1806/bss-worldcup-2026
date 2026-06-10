@@ -70,26 +70,62 @@ kickoffWib + 100 menit
 
 ## Update Hasil Dari API
 
+Script update hasil memakai football-data.org dengan endpoint:
+
+```text
+https://api.football-data.org/v4/competitions/WC/matches?season=2026
+```
+
+### Setup API Key Lokal
+
+Buat akun football-data.org, ambil API token dari dashboard, lalu buat file lokal `.env` dari `.env.example`:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Isi nilai ini di `.env`:
+
+```text
+FOOTBALL_DATA_TOKEN=isi_api_token
+FOOTBALL_DATA_COMPETITION_CODE=WC
+FOOTBALL_DATA_SEASON=2026
+```
+
+Jangan commit file `.env`; file ini sudah masuk `.gitignore`.
+
+### Cek Koneksi API
+
+Jalankan cek read-only ini sebelum update hasil:
+
+```bash
+python scripts/check_football_data_connection.py
+```
+
+Script akan memanggil endpoint World Cup 2026, lalu menampilkan jumlah match yang dikembalikan dan header quota seperti `X-RequestsAvailable` serta `X-RequestCounter-Reset`.
+
 ```bash
 python scripts/update_results.py
 ```
 
-Script ini menggunakan API-FOOTBALL jika environment variable tersedia:
+Script ini menggunakan football-data.org jika environment variable tersedia:
 
 ```bash
-API_FOOTBALL_KEY=isi_api_key
-API_FOOTBALL_LEAGUE_ID=isi_league_id_world_cup
-API_FOOTBALL_SEASON=2026
+FOOTBALL_DATA_TOKEN=isi_api_token
+FOOTBALL_DATA_COMPETITION_CODE=WC
+FOOTBALL_DATA_SEASON=2026
 ```
 
 Di Windows PowerShell:
 
 ```powershell
-$env:API_FOOTBALL_KEY="isi_api_key"
-$env:API_FOOTBALL_LEAGUE_ID="isi_league_id_world_cup"
-$env:API_FOOTBALL_SEASON="2026"
+$env:FOOTBALL_DATA_TOKEN="isi_api_token"
+$env:FOOTBALL_DATA_COMPETITION_CODE="WC"
+$env:FOOTBALL_DATA_SEASON="2026"
 python scripts/update_results.py
 ```
+
+Jika memakai file `.env`, tidak perlu set `$env:` manual; script akan membaca `.env` dari project root.
 
 ## Aturan Fetch 100 Menit
 
@@ -99,6 +135,8 @@ Script hanya mencoba mengambil hasil jika:
 - waktu sekarang sudah melewati `resultFetchAfterWib`.
 
 Jika API belum menandai pertandingan sebagai final, hasil tidak diubah dan akan dicoba lagi pada run berikutnya.
+
+Untuk menghindari masalah beda tanggal UTC dan WIB, script mengambil daftar match World Cup 2026 lalu mencocokkan nama tim terhadap `data/matches.csv`. API baru dipanggil saat ada minimal satu pertandingan yang sudah melewati `resultFetchAfterWib`. Response headers dipakai untuk memantau sisa request dan waktu reset quota.
 
 ## Mapping Nama Tim
 
@@ -112,8 +150,8 @@ Contoh:
 
 ```csv
 templateTeam,apiTeam,notes
-Amerika Serikat,USA,Nama API berbeda
-Ceko,Czech Republic,Nama API berbeda
+Amerika Serikat,United States|USA,Nama API berbeda
+Ceko,Czech Republic|Czechia,Nama API berbeda
 ```
 
 ## Dry Run

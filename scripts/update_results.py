@@ -5,14 +5,16 @@ import csv
 import json
 import os
 import unicodedata
-import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 
 WIB = timezone(timedelta(hours=7))
-FINAL_API_STATUSES = {"FT", "AET", "PEN"}
+FINAL_MATCH_STATUSES = {"FINISHED", "AWARDED"}
+DEFAULT_COMPETITION_CODE = "WC"
+DEFAULT_SEASON = "2026"
+API_BASE_URL = "https://api.football-data.org/v4"
 
 
 def read_csv(path: Path) -> list[dict[str, str]]:
@@ -27,6 +29,22 @@ def write_csv(path: Path, rows: list[dict[str, str]], fieldnames: list[str]) -> 
         writer.writerows(rows)
 
 
+def load_local_env(root: Path) -> None:
+    env_path = root / ".env"
+    if not env_path.exists():
+        return
+
+    for line in env_path.read_text(encoding="utf-8").splitlines():
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#") or "=" not in stripped:
+            continue
+        key, value = stripped.split("=", 1)
+        key = key.strip()
+        value = value.strip().strip('"').strip("'")
+        if key and key not in os.environ:
+            os.environ[key] = value
+
+
 def parse_iso(value: str) -> datetime:
     return datetime.fromisoformat(value)
 
@@ -36,50 +54,94 @@ def normalize(value: str) -> str:
     return " ".join(ascii_text.lower().replace("-", " ").split())
 
 
-def load_aliases(root: Path) -> dict[str, str]:
+def load_aliases(root: Path) -> dict[str, set[str]]:
     path = root / "data" / "team_aliases.csv"
     if not path.exists():
         return {}
-    aliases = {}
+    aliases: dict[str, set[str]] = {}
     for row in read_csv(path):
-        aliases[normalize(row["templateTeam"])] = normalize(row["apiTeam"])
+        template_key = normalize(row["templateTeam"])
+        api_values = {
+            normalize(candidate)
+            for candidate in row["apiTeam"].split("|")
+            if candidate.strip()
+        }
+        aliases.setdefault(template_key, set()).update(api_values or {template_key})
     return aliases
 
 
-def team_key(team: str, aliases: dict[str, str]) -> str:
+def local_team_keys(team: str, aliases: dict[str, set[str]]) -> set[str]:
     normalized = normalize(team)
-    return aliases.get(normalized, normalized)
+    keys = {normalized}
+    keys.update(aliases.get(normalized, set()))
+    return {key for key in keys if key}
 
 
-def fetch_fixtures(api_key: str, league_id: str, season: str, date: str) -> list[dict]:
-    query = urllib.parse.urlencode({"league": league_id, "season": season, "date": date})
+def api_team_keys(team: dict[str, str]) -> set[str]:
+    keys = {
+        normalize(team.get("name", "")),
+        normalize(team.get("shortName", "")),
+        normalize(team.get("tla", "")),
+    }
+    return {key for key in keys if key}
+
+
+def api_headers(response: urllib.request.addinfourl) -> dict[str, str]:
+    return {
+        "x-requests-available": response.headers.get("X-RequestsAvailable", ""),
+        "x-requestcounter-reset": response.headers.get("X-RequestCounter-Reset", ""),
+        "x-authenticated-client": response.headers.get("X-Authenticated-Client", ""),
+    }
+
+
+def fetch_matches(api_token: str, competition_code: str, season: str) -> tuple[list[dict], dict[str, str]]:
     request = urllib.request.Request(
-        f"https://v3.football.api-sports.io/fixtures?{query}",
-        headers={"x-apisports-key": api_key},
+        f"{API_BASE_URL}/competitions/{competition_code}/matches?season={season}",
+        headers={"X-Auth-Token": api_token},
     )
     with urllib.request.urlopen(request, timeout=30) as response:
         payload = json.loads(response.read().decode("utf-8"))
-    return payload.get("response", [])
+        headers = api_headers(response)
+    return payload.get("matches", []), headers
 
 
-def find_fixture(match: dict[str, str], fixtures: list[dict], aliases: dict[str, str]) -> dict | None:
-    home_key = team_key(match["homeTeam"], aliases)
-    away_key = team_key(match["awayTeam"], aliases)
+def find_match(match: dict[str, str], fixtures: list[dict], aliases: dict[str, set[str]]) -> dict | None:
+    home_keys = local_team_keys(match["homeTeam"], aliases)
+    away_keys = local_team_keys(match["awayTeam"], aliases)
     for fixture in fixtures:
-        teams = fixture.get("teams", {})
-        api_home = team_key(teams.get("home", {}).get("name", ""), aliases)
-        api_away = team_key(teams.get("away", {}).get("name", ""), aliases)
-        if api_home == home_key and api_away == away_key:
+        teams = fixture.get("homeTeam", {}), fixture.get("awayTeam", {})
+        api_home = api_team_keys(teams[0])
+        api_away = api_team_keys(teams[1])
+        if home_keys & api_home and away_keys & api_away:
             return fixture
     return None
 
 
-def result_code(home_score: int, away_score: int) -> str:
+def result_code(match: dict) -> str:
+    score = match.get("score", {})
+    winner = str(score.get("winner", "")).upper()
+    if winner == "HOME_TEAM":
+        return "W"
+    if winner == "AWAY_TEAM":
+        return "L"
+    if winner == "DRAW":
+        return "D"
+
+    full_time = score.get("fullTime", {}) or {}
+    home_score = full_time.get("home")
+    away_score = full_time.get("away")
+    if home_score is None or away_score is None:
+        return "D"
     if home_score > away_score:
         return "W"
     if home_score < away_score:
         return "L"
     return "D"
+
+
+def score_value(score: dict, key: str) -> int | None:
+    value = score.get(key)
+    return int(value) if value is not None else None
 
 
 def main() -> None:
@@ -90,12 +152,13 @@ def main() -> None:
     args = parser.parse_args()
 
     root = Path(args.root).resolve()
-    api_key = os.getenv("API_FOOTBALL_KEY", "")
-    league_id = os.getenv("API_FOOTBALL_LEAGUE_ID", "")
-    season = os.getenv("API_FOOTBALL_SEASON", "2026")
+    load_local_env(root)
+    api_token = os.getenv("FOOTBALL_DATA_TOKEN", "")
+    competition_code = os.getenv("FOOTBALL_DATA_COMPETITION_CODE", DEFAULT_COMPETITION_CODE)
+    season = os.getenv("FOOTBALL_DATA_SEASON", DEFAULT_SEASON)
 
-    if not api_key or not league_id:
-        print("No API_FOOTBALL_KEY or API_FOOTBALL_LEAGUE_ID configured. Skipping result update.")
+    if not api_token:
+        print("No FOOTBALL_DATA_TOKEN configured. Skipping result update.")
         return
 
     now = parse_iso(args.now_wib) if args.now_wib else datetime.now(WIB)
@@ -103,7 +166,8 @@ def main() -> None:
     results = read_csv(root / "data" / "results.csv")
     aliases = load_aliases(root)
     result_by_match = {row["matchId"]: row for row in results}
-    fixtures_by_date: dict[str, list[dict]] = {}
+    fixtures: list[dict] | None = None
+    response_headers: dict[str, str] = {}
     updated = 0
 
     for match in matches:
@@ -115,23 +179,30 @@ def main() -> None:
         if now < fetch_after:
             continue
 
-        date = match["kickoffWib"][:10]
-        if date not in fixtures_by_date:
-            fixtures_by_date[date] = fetch_fixtures(api_key, league_id, season, date)
+        if fixtures is None:
+            fixtures, response_headers = fetch_matches(api_token, competition_code, season)
+            available = response_headers.get("x-requests-available", "")
+            reset = response_headers.get("x-requestcounter-reset", "")
+            if available or reset:
+                print(f"football-data quota: available={available or 'unknown'} reset={reset or 'unknown'}")
 
-        fixture = find_fixture(match, fixtures_by_date[date], aliases)
+        fixture = find_match(match, fixtures, aliases)
         if not fixture:
             print(f"No API fixture match found for {match['id']} {match['homeTeam']} vs {match['awayTeam']}")
             continue
 
-        status = fixture.get("fixture", {}).get("status", {}).get("short", "")
-        if status not in FINAL_API_STATUSES:
+        status = str(fixture.get("status", "")).upper()
+        if status not in FINAL_MATCH_STATUSES:
             print(f"{match['id']} found but not final yet: {status or 'unknown'}")
             continue
 
-        goals = fixture.get("goals", {})
-        home_score = int(goals.get("home"))
-        away_score = int(goals.get("away"))
+        score = fixture.get("score", {})
+        full_time = score.get("fullTime", {}) or {}
+        home_score = score_value(full_time, "home")
+        away_score = score_value(full_time, "away")
+        if home_score is None or away_score is None:
+            print(f"{match['id']} final but missing full-time score.")
+            continue
         row = existing or {"matchId": match["id"]}
         row.update(
             {
@@ -139,8 +210,8 @@ def main() -> None:
                 "status": "FINAL",
                 "homeScore": str(home_score),
                 "awayScore": str(away_score),
-                "result": result_code(home_score, away_score),
-                "source": "API-FOOTBALL",
+                "result": result_code(fixture),
+                "source": "football-data.org",
                 "updatedAt": now.isoformat(timespec="seconds"),
             }
         )
@@ -152,7 +223,13 @@ def main() -> None:
         print(f"Dry run complete. Would update {updated} result rows.")
         return
 
-    ordered_results = [result_by_match.get(match["id"], {"matchId": match["id"], "status": "PENDING", "homeScore": "", "awayScore": "", "result": "", "source": "", "updatedAt": ""}) for match in matches]
+    ordered_results = [
+        result_by_match.get(
+            match["id"],
+            {"matchId": match["id"], "status": "PENDING", "homeScore": "", "awayScore": "", "result": "", "source": "", "updatedAt": ""},
+        )
+        for match in matches
+    ]
     write_csv(
         root / "data" / "results.csv",
         ordered_results,
