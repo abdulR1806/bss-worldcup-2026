@@ -1,0 +1,38 @@
+name: API Liveness & Schedule Check
+
+on:
+  workflow_dispatch: # Memungkinkan tombol manual "Run workflow" di GitHub Actions
+  schedule:
+    - cron: "0 0 * * *" # Berjalan otomatis sekali sehari untuk verifikasi berkala
+
+jobs:
+  check-api:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch Upcoming Matches from API
+        env:
+          FOOTBALL_DATA_TOKEN: ${{ secrets.FOOTBALL_DATA_TOKEN }}
+          COMPETITION: "WC" # World Cup
+          SEASON: "2026"
+        run: |
+          if [ -z "$FOOTBALL_DATA_TOKEN" ]; then
+            echo "::error::FOOTBALL_DATA_TOKEN is missing! Please configure it in Repository Secrets."
+            exit 1
+          fi
+          
+          echo "Testing API liveness and fetching nearest schedules..."
+          RESPONSE=$(curl -s -w "\n%{http_code}" -H "X-Auth-Token: $FOOTBALL_DATA_TOKEN" \
+            "https://api.football-data.org/v4/competitions/$COMPETITION/matches?season=$SEASON&limit=5")
+          
+          HTTP_STATUS=$(echo "$RESPONSE" | tail -n1)
+          BODY=$(echo "$RESPONSE" | sed '$d')
+          
+          if [ "$HTTP_STATUS" -ne 200 ]; then
+            echo "::error::API Request Failed with Status Code: $HTTP_STATUS"
+            echo "Response Body: $BODY"
+            exit 1
+          fi
+          
+          echo "✅ API is ALIVE! Status Code: 200"
+          echo "Matches Info (Short Summary):"
+          echo "$BODY" | jq -r '.matches[]? | "Match: \(.homeTeam.name) vs \(.awayTeam.name) | Status: \(.status) | Date: \(.utcDate)"' || echo "$BODY"

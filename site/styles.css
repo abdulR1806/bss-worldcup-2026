@@ -255,16 +255,15 @@ main {
   max-width: 100%;
   padding: 4px;
   border-radius: 8px;
-  background: #edf3ef;
+  background: #f1f5f9;
 }
 
 .tab {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: min(134px, 100%);
+  padding: 0 20px;
   min-height: 40px;
-  padding: 0 14px;
   border: 0;
   border-radius: 6px;
   color: var(--muted);
