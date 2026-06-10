@@ -86,16 +86,18 @@ Buat:
 Saat ini workflow berjalan setiap jam:
 
 ```yaml
-- cron: "0 * * * *"
+- cron: "13 * * * *"
 ```
 
 Jika ingin setiap 2 jam:
 
 ```yaml
-- cron: "0 */2 * * *"
+- cron: "13 */2 * * *"
 ```
 
 GitHub Actions memakai UTC, bukan WIB.
+
+Jam `:13` dipilih supaya tidak numpuk di top-of-hour, yang biasanya lebih sering terlambat di GitHub Actions.
 
 ## Menjalankan Manual
 
