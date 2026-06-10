@@ -1,0 +1,40 @@
+name: Clean demo preview data
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  clean-demo-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Clean demo preview data
+        run: python scripts/clean_demo_data.py
+
+      - name: Validate CSV data
+        run: python scripts/validate_data.py
+
+      - name: Test scoring
+        run: python scripts/test_scoring.py
+
+      - name: Build browser data
+        run: python scripts/build_site_data.py
+
+      - name: Commit cleaned data
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Clean results.csv demo preview data"
+          file_pattern: data/results.csv site/data/site-data.js
