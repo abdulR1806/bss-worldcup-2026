@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Credit Divisions World Cup Leaderboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="data/site-data.js"></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="hero">
+        <div class="stadium-beams" aria-hidden="true"></div>
+        <div class="hero-inner">
+          <div class="hero-title">
+            <img class="brand-mark" src="assets/leaderboard-mark.svg" alt="">
+            <div>
+              <p class="eyebrow">Kompetisi prediksi 2026</p>
+              <h1>Credit Divisions World Cup Leaderboard</h1>
+              <p class="hero-copy">Pantau peserta, prediksi menang/kalah/seri, dan perubahan poin setelah hasil pertandingan masuk.</p>
+            </div>
+          </div>
+          <div class="hero-board" aria-label="Competition summary">
+            <div>
+              <span id="summaryParticipants">0</span>
+              <small>Peserta</small>
+            </div>
+            <div>
+              <span id="summaryFinished">0</span>
+              <small>Selesai</small>
+            </div>
+            <div>
+              <span id="summaryPending">0</span>
+              <small>Menunggu</small>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section class="status-strip" aria-label="Data status">
+          <div>
+            <span class="status-dot"></span>
+            <strong id="dataMode">Memuat data</strong>
+          </div>
+          <div id="lastUpdated">Dibuat: -</div>
+          <div id="scoringNote">Skor: -</div>
+        </section>
+
+        <section class="toolbar" aria-label="Dashboard controls">
+          <div class="tabs" role="tablist" aria-label="Views">
+            <button class="tab is-active" type="button" data-view="leaderboard">Klasemen</button>
+            <button class="tab" type="button" data-view="participants">Peserta</button>
+            <button class="tab" type="button" data-view="matches">Pertandingan</button>
+          </div>
+          <div class="filters">
+            <label>
+              <span>Grup</span>
+              <select id="groupFilter"></select>
+            </label>
+            <label>
+              <span>Hari Main</span>
+              <select id="matchdayFilter"></select>
+            </label>
+            <label class="search-box">
+              <span>Cari</span>
+              <input id="searchInput" type="search" placeholder="Tim atau peserta">
+            </label>
+          </div>
+        </section>
+
+        <section id="leaderboardView" class="view is-visible">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Klasemen umum</p>
+              <h2>Klasemen</h2>
+            </div>
+            <p id="leaderboardContext">Diurutkan berdasarkan poin, akurasi, lalu nama.</p>
+          </div>
+          <div id="podium" class="podium" aria-label="Top three participants"></div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Peringkat</th>
+                  <th>Peserta</th>
+                  <th>Divisi</th>
+                  <th>Poin</th>
+                  <th>Benar</th>
+                  <th>Dinilai</th>
+                  <th>Akurasi</th>
+                </tr>
+              </thead>
+              <tbody id="leaderboardBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="participantsView" class="view">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Kartu prediksi</p>
+              <h2>Detail Peserta</h2>
+            </div>
+            <p>Buka kartu peserta untuk melihat prediksi setiap pertandingan.</p>
+          </div>
+          <div id="participantCards" class="participant-grid"></div>
+          <div id="participantDetail" class="detail-panel" hidden></div>
+        </section>
+
+        <section id="matchesView" class="view">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Ruang pertandingan</p>
+              <h2>Hasil Pertandingan</h2>
+              <p class="section-note">Catatan prediksi: <strong>W</strong> berarti tim pertama atau tim kandang menang, <strong>L</strong> berarti tim kedua atau tim tamu menang, dan <strong>D</strong> berarti seri.</p>
+            </div>
+            <p>Hasil diperbarui setelah jeda 100 menit dari jadwal kick-off.</p>
+          </div>
+          <div id="matchCards" class="match-grid"></div>
+        </section>
+
+        <section id="streamView" class="stream-view" hidden>
+          <div class="stream-header">
+            <p class="eyebrow">Mode streaming</p>
+            <h2>Credit Divisions World Cup Leaderboard</h2>
+          </div>
+          <div id="streamBoard" class="stream-board"></div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
