@@ -1203,7 +1203,7 @@ body[data-theme="light"] .page-main .prediction-item.outcome-wrong {
 }
 
 .team-is-winner::before {
-  content: "•";
+  content: "🏆";
   font-size: 1.1rem;
   line-height: 1;
 }
