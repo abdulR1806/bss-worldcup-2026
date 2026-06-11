@@ -3,7 +3,7 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
     "title": "Credit Divisions World Cup Leaderboard",
     "dataMode": "Data diambil dari football-data.org",
     "sourceWorkbook": "Jadwal_FIFA_World_Cup_2026.xlsx",
-    "generatedAt": "2026-06-11T14:50:00+07:00",
+    "generatedAt": "2026-06-11T15:28:46+07:00",
     "timezone": "Asia/Jakarta",
     "resultDelayMinutes": 100,
     "scoring": "1 poin untuk setiap prediksi W/L/D yang benar. Pertandingan menunggu tidak dihitung."
@@ -854,7 +854,7 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
     },
     {
       "id": "P099",
-      "displayName": "Gaussian Benchmark",
+      "displayName": "ZBenchmark",
       "division": "Benchmark",
       "badge": "G",
       "date": "2026-06-10"
@@ -862,7 +862,7 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
     {
       "id": "P011",
       "displayName": "Rena",
-      "division": "ESME",
+      "division": "ESME Credit",
       "badge": "R",
       "date": "2026-06-11"
     },
@@ -889,9 +889,16 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
     },
     {
       "id": "P015",
-      "displayName": "Benny Ghoufron",
+      "displayName": "MBG (Mas Benny G)",
       "division": "Early Warning",
       "badge": "B",
+      "date": "2026-06-11"
+    },
+    {
+      "id": "P016",
+      "displayName": "Anggit Pratitis",
+      "division": "SME Credit",
+      "badge": "A",
       "date": "2026-06-11"
     }
   ],
@@ -5573,6 +5580,366 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
     },
     {
       "participantId": "P015",
+      "matchId": "M072",
+      "prediction": "D"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M001",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M002",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M003",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M004",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M005",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M006",
+      "prediction": "D"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M007",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M008",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M009",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M010",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M011",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M012",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M013",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M014",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M015",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M016",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M017",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M018",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M019",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M020",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M021",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M022",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M023",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M024",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M025",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M026",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M027",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M028",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M029",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M030",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M031",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M032",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M033",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M034",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M035",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M036",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M037",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M038",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M039",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M040",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M041",
+      "prediction": "D"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M042",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M043",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M044",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M045",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M046",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M047",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M048",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M049",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M050",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M051",
+      "prediction": "D"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M052",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M053",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M054",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M055",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M056",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M057",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M058",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M059",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M060",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M061",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M062",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M063",
+      "prediction": "D"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M064",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M065",
+      "prediction": "D"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M066",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M067",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M068",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M069",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M070",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P016",
+      "matchId": "M071",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P016",
       "matchId": "M072",
       "prediction": "D"
     }
