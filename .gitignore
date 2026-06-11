@@ -9,3 +9,4 @@ venv/
 .venv/
 /reference/
 /screenshots/
+/csv-data-upload/
