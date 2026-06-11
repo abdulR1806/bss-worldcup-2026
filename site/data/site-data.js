@@ -3,7 +3,7 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
     "title": "Credit Divisions World Cup Leaderboard",
     "dataMode": "Data diambil dari football-data.org",
     "sourceWorkbook": "Jadwal_FIFA_World_Cup_2026.xlsx",
-    "generatedAt": "2026-06-11T15:09:48+07:00",
+    "generatedAt": "2026-06-11T15:24:24+07:00",
     "timezone": "Asia/Jakarta",
     "resultDelayMinutes": 100,
     "scoring": "1 poin untuk setiap prediksi W/L/D yang benar. Pertandingan menunggu tidak dihitung."
@@ -854,7 +854,7 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
     },
     {
       "id": "P099",
-      "displayName": "Gaussian Benchmark",
+      "displayName": "ZBenchmark",
       "division": "Benchmark",
       "badge": "G",
       "date": "2026-06-10"
@@ -862,7 +862,7 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
     {
       "id": "P011",
       "displayName": "Rena",
-      "division": "ESME",
+      "division": "ESME Credit",
       "badge": "R",
       "date": "2026-06-11"
     },
@@ -889,7 +889,7 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
     },
     {
       "id": "P015",
-      "displayName": "Benny Ghoufron",
+      "displayName": "MBG (Mas Benny G)",
       "division": "Early Warning",
       "badge": "B",
       "date": "2026-06-11"
