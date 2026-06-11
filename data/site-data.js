@@ -3,7 +3,7 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
     "title": "Credit Divisions World Cup Leaderboard",
     "dataMode": "Data diambil dari football-data.org",
     "sourceWorkbook": "Jadwal_FIFA_World_Cup_2026.xlsx",
-    "generatedAt": "2026-06-11T16:20:48+07:00",
+    "generatedAt": "2026-06-11T16:48:55+07:00",
     "timezone": "Asia/Jakarta",
     "resultDelayMinutes": 100,
     "scoring": "1 poin untuk setiap prediksi W/L/D yang benar. Pertandingan menunggu tidak dihitung."
@@ -899,6 +899,27 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "displayName": "Anggit Pratitis",
       "division": "SME Credit",
       "badge": "A",
+      "date": "2026-06-11"
+    },
+    {
+      "id": "P017",
+      "displayName": "Ganesh",
+      "division": "SME Credit",
+      "badge": "G",
+      "date": "2026-06-11"
+    },
+    {
+      "id": "P018",
+      "displayName": "Junius",
+      "division": "SAM",
+      "badge": "J",
+      "date": "2026-06-11"
+    },
+    {
+      "id": "P019",
+      "displayName": "Nurul Cantik",
+      "division": "SAM",
+      "badge": "N",
       "date": "2026-06-11"
     }
   ],
@@ -5940,6 +5961,1086 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
     },
     {
       "participantId": "P016",
+      "matchId": "M072",
+      "prediction": "D"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M001",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M002",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M003",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M004",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M005",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M006",
+      "prediction": "D"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M007",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M008",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M009",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M010",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M011",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M012",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M013",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M014",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M015",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M016",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M017",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M018",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M019",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M020",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M021",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M022",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M023",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M024",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M025",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M026",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M027",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M028",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M029",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M030",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M031",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M032",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M033",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M034",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M035",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M036",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M037",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M038",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M039",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M040",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M041",
+      "prediction": "D"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M042",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M043",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M044",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M045",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M046",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M047",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M048",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M049",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M050",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M051",
+      "prediction": "D"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M052",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M053",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M054",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M055",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M056",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M057",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M058",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M059",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M060",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M061",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M062",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M063",
+      "prediction": "D"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M064",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M065",
+      "prediction": "D"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M066",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M067",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M068",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M069",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M070",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M071",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P017",
+      "matchId": "M072",
+      "prediction": "D"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M001",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M002",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M003",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M004",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M005",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M006",
+      "prediction": "D"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M007",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M008",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M009",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M010",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M011",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M012",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M013",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M014",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M015",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M016",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M017",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M018",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M019",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M020",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M021",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M022",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M023",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M024",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M025",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M026",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M027",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M028",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M029",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M030",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M031",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M032",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M033",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M034",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M035",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M036",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M037",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M038",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M039",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M040",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M041",
+      "prediction": "D"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M042",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M043",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M044",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M045",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M046",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M047",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M048",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M049",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M050",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M051",
+      "prediction": "D"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M052",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M053",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M054",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M055",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M056",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M057",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M058",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M059",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M060",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M061",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M062",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M063",
+      "prediction": "D"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M064",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M065",
+      "prediction": "D"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M066",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M067",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M068",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M069",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M070",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M071",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P018",
+      "matchId": "M072",
+      "prediction": "D"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M001",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M002",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M003",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M004",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M005",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M006",
+      "prediction": "D"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M007",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M008",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M009",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M010",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M011",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M012",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M013",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M014",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M015",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M016",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M017",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M018",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M019",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M020",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M021",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M022",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M023",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M024",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M025",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M026",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M027",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M028",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M029",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M030",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M031",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M032",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M033",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M034",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M035",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M036",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M037",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M038",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M039",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M040",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M041",
+      "prediction": "D"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M042",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M043",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M044",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M045",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M046",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M047",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M048",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M049",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M050",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M051",
+      "prediction": "D"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M052",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M053",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M054",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M055",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M056",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M057",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M058",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M059",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M060",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M061",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M062",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M063",
+      "prediction": "D"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M064",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M065",
+      "prediction": "D"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M066",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M067",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M068",
+      "prediction": "W"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M069",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M070",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P019",
+      "matchId": "M071",
+      "prediction": "L"
+    },
+    {
+      "participantId": "P019",
       "matchId": "M072",
       "prediction": "D"
     }
