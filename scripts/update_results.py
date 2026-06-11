@@ -128,6 +128,8 @@ def fetch_matches(api_token: str, competition_code: str, season: str) -> tuple[l
     for i, m in enumerate(matches):
         home = m.get("homeTeam", {})
         away = m.get("awayTeam", {})
+        home_name = str(home.get("name") or "?")
+        away_name = str(away.get("name") or "?")
         score = m.get("score", {})
         ft = score.get("fullTime", {}) or {}
         ht = score.get("halfTime", {}) or {}
@@ -142,7 +144,7 @@ def fetch_matches(api_token: str, competition_code: str, season: str) -> tuple[l
         away_ht = ht.get("away", "--")
         print(
             f"  [{i+1:3d}] {status:<12} | "
-            f"{home.get('name','?'):>25} {home_ft}-{away_ft} {away.get('name','?'):<25} | "
+            f"{home_name:>25} {home_ft}-{away_ft} {away_name:<25} | "
             f"HT:{home_ht}-{away_ht} | winner={winner} | "
             f"group={group_name} md={matchday} | {utc_date}"
         )
