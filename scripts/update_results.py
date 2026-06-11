@@ -97,14 +97,58 @@ def api_headers(response: urllib.request.addinfourl) -> dict[str, str]:
 
 
 def fetch_matches(api_token: str, competition_code: str, season: str) -> tuple[list[dict], dict[str, str]]:
+    url = f"{API_BASE_URL}/competitions/{competition_code}/matches?season={season}"
+    print(f"\n{'='*80}")
+    print(f"API REQUEST: GET {url}")
+    print(f"{'='*80}")
     request = urllib.request.Request(
-        f"{API_BASE_URL}/competitions/{competition_code}/matches?season={season}",
+        url,
         headers={"X-Auth-Token": api_token},
     )
     with urllib.request.urlopen(request, timeout=30) as response:
-        payload = json.loads(response.read().decode("utf-8"))
+        raw_body = response.read().decode("utf-8")
+        payload = json.loads(raw_body)
         headers = api_headers(response)
-    return payload.get("matches", []), headers
+
+    # Log response headers
+    print(f"\nAPI RESPONSE HEADERS:")
+    for key, value in headers.items():
+        print(f"  {key}: {value}")
+
+    # Log competition info
+    competition = payload.get("competition", {})
+    print(f"\nAPI COMPETITION: {competition.get('name', 'N/A')} (code={competition.get('code', 'N/A')})")
+    print(f"API RESULT COUNT: {payload.get('resultSet', {}).get('count', 'N/A')} matches returned")
+
+    matches = payload.get("matches", [])
+    # Log full fixture list summary
+    print(f"\n{'='*80}")
+    print(f"FULL API FIXTURE DUMP ({len(matches)} matches):")
+    print(f"{'='*80}")
+    for i, m in enumerate(matches):
+        home = m.get("homeTeam", {})
+        away = m.get("awayTeam", {})
+        score = m.get("score", {})
+        ft = score.get("fullTime", {}) or {}
+        ht = score.get("halfTime", {}) or {}
+        utc_date = m.get("utcDate", "N/A")
+        status = m.get("status", "N/A")
+        matchday = m.get("matchday", "N/A")
+        group_name = m.get("group", "N/A")
+        winner = score.get("winner", "N/A")
+        home_ft = ft.get("home", "--")
+        away_ft = ft.get("away", "--")
+        home_ht = ht.get("home", "--")
+        away_ht = ht.get("away", "--")
+        print(
+            f"  [{i+1:3d}] {status:<12} | "
+            f"{home.get('name','?'):>25} {home_ft}-{away_ft} {away.get('name','?'):<25} | "
+            f"HT:{home_ht}-{away_ht} | winner={winner} | "
+            f"group={group_name} md={matchday} | {utc_date}"
+        )
+    print(f"{'='*80}\n")
+
+    return matches, headers
 
 
 def find_match(match: dict[str, str], fixtures: list[dict], aliases: dict[str, set[str]]) -> dict | None:
@@ -167,6 +211,7 @@ def main() -> None:
         return
 
     now = parse_iso(args.now_wib) if args.now_wib else datetime.now(WIB)
+    print(f"\nCurrent WIB time: {now.isoformat(timespec='seconds')}")
     matches = read_csv(root / "data" / "matches.csv")
     results = read_csv(root / "data" / "results.csv")
     aliases = load_aliases(root)
@@ -175,14 +220,29 @@ def main() -> None:
     response_headers: dict[str, str] = {}
     updated = 0
 
+    print(f"\nTotal matches in CSV: {len(matches)}")
+    print(f"Total existing results: {len(results)}")
+    final_count = sum(1 for r in results if r.get('status', '').upper() == 'FINAL')
+    pending_count = sum(1 for r in results if r.get('status', '').upper() != 'FINAL')
+    print(f"  FINAL: {final_count}, PENDING/other: {pending_count}")
+
+    print(f"\n{'='*80}")
+    print(f"MATCH ELIGIBILITY CHECK:")
+    print(f"{'='*80}")
     for match in matches:
         existing = result_by_match.get(match["id"])
         if existing and existing["status"].upper() == "FINAL":
+            print(f"  {match['id']} {match['homeTeam']:>20} vs {match['awayTeam']:<20} -> SKIP (already FINAL)")
             continue
 
         fetch_after = parse_iso(match["resultFetchAfterWib"])
         if now < fetch_after:
+            remaining = fetch_after - now
+            mins = int(remaining.total_seconds() / 60)
+            print(f"  {match['id']} {match['homeTeam']:>20} vs {match['awayTeam']:<20} -> SKIP (fetch window not open yet, opens in {mins}m at {fetch_after.isoformat(timespec='seconds')})")
             continue
+
+        print(f"  {match['id']} {match['homeTeam']:>20} vs {match['awayTeam']:<20} -> ELIGIBLE (fetch window open since {fetch_after.isoformat(timespec='seconds')})")
 
         if fixtures is None:
             fixtures, response_headers = fetch_matches(api_token, competition_code, season)
@@ -193,12 +253,33 @@ def main() -> None:
 
         fixture = find_match(match, fixtures, aliases)
         if not fixture:
-            print(f"No API fixture match found for {match['id']} {match['homeTeam']} vs {match['awayTeam']}")
+            home_keys = local_team_keys(match["homeTeam"], aliases)
+            away_keys = local_team_keys(match["awayTeam"], aliases)
+            print(f"    !! No API fixture match found for {match['id']}")
+            print(f"       Local home keys: {home_keys}")
+            print(f"       Local away keys: {away_keys}")
+            print(f"       Searching through {len(fixtures)} API fixtures...")
+            for fx in fixtures:
+                fx_home = api_team_keys(fx.get("homeTeam", {}))
+                fx_away = api_team_keys(fx.get("awayTeam", {}))
+                # Show partial matches for debugging
+                home_overlap = home_keys & fx_home
+                away_overlap = away_keys & fx_away
+                if home_overlap or away_overlap:
+                    print(f"       Partial match: {fx.get('homeTeam',{}).get('name','?')} vs {fx.get('awayTeam',{}).get('name','?')} (home_overlap={home_overlap}, away_overlap={away_overlap})")
             continue
+
+        # Log the matched fixture details
+        print(f"    Matched API fixture:")
+        print(f"      homeTeam: {json.dumps(fixture.get('homeTeam', {}), ensure_ascii=False)}")
+        print(f"      awayTeam: {json.dumps(fixture.get('awayTeam', {}), ensure_ascii=False)}")
+        print(f"      status: {fixture.get('status', 'N/A')}")
+        print(f"      utcDate: {fixture.get('utcDate', 'N/A')}")
+        print(f"      score: {json.dumps(fixture.get('score', {}), ensure_ascii=False)}")
 
         status = str(fixture.get("status", "")).upper()
         if status not in FINAL_MATCH_STATUSES:
-            print(f"{match['id']} found but not final yet: {status or 'unknown'}")
+            print(f"    -> {match['id']} found but NOT FINAL yet (status={status or 'unknown'})")
             continue
 
         score = fixture.get("score", {})
