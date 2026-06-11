@@ -7048,12 +7048,12 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
   "results": [
     {
       "matchId": "M001",
-      "status": "PENDING",
-      "homeScore": "",
-      "awayScore": "",
-      "result": "",
-      "source": "",
-      "updatedAt": ""
+      "status": "FINAL",
+      "homeScore": 2,
+      "awayScore": 0,
+      "result": "W",
+      "source": "football-data.org",
+      "updatedAt": "2026-06-12T05:00:00+07:00"
     },
     {
       "matchId": "M002",
