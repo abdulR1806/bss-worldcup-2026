@@ -74,10 +74,16 @@ kickoffWib + 100 menit
 
 ## Update Hasil Dari API
 
-Script update hasil memakai football-data.org dengan endpoint:
+Script update hasil memakai football-data.org sebagai sumber utama dengan endpoint:
 
 ```text
 https://api.football-data.org/v4/competitions/WC/matches?season=2026
+```
+
+Jika football-data.org belum punya skor full-time yang bisa dipakai, script akan mencoba fallback TheSportsDB:
+
+```text
+https://www.thesportsdb.com/api/v1/json/123/eventsseason.php?id=4429&s=2026
 ```
 
 ### Setup API Key Lokal
@@ -94,6 +100,8 @@ Isi nilai ini di `.env`:
 FOOTBALL_DATA_TOKEN=isi_api_token
 FOOTBALL_DATA_COMPETITION_CODE=WC
 FOOTBALL_DATA_SEASON=2026
+THESPORTSDB_API_KEY=123
+THESPORTSDB_LEAGUE_ID=4429
 ```
 
 Jangan commit file `.env`; file ini sudah masuk `.gitignore`.
@@ -112,12 +120,14 @@ Script akan memanggil endpoint World Cup 2026, lalu menampilkan jumlah match yan
 python scripts/update_results.py
 ```
 
-Script ini menggunakan football-data.org jika environment variable tersedia:
+Script ini menggunakan football-data.org sebagai prioritas utama jika environment variable tersedia, lalu TheSportsDB sebagai fallback jika skor football-data.org masih kosong/belum final:
 
 ```bash
 FOOTBALL_DATA_TOKEN=isi_api_token
 FOOTBALL_DATA_COMPETITION_CODE=WC
 FOOTBALL_DATA_SEASON=2026
+THESPORTSDB_API_KEY=123
+THESPORTSDB_LEAGUE_ID=4429
 ```
 
 Di Windows PowerShell:
@@ -126,6 +136,8 @@ Di Windows PowerShell:
 $env:FOOTBALL_DATA_TOKEN="isi_api_token"
 $env:FOOTBALL_DATA_COMPETITION_CODE="WC"
 $env:FOOTBALL_DATA_SEASON="2026"
+$env:THESPORTSDB_API_KEY="123"
+$env:THESPORTSDB_LEAGUE_ID="4429"
 python scripts/update_results.py
 ```
 
@@ -140,9 +152,9 @@ Script hanya mencoba mengambil hasil jika:
 - pertandingan belum `FINAL`, dan
 - waktu sekarang sudah melewati `resultFetchAfterWib`.
 
-Jika API belum menandai pertandingan sebagai final, hasil tidak diubah dan akan dicoba lagi pada run berikutnya.
+Jika football-data.org belum menandai pertandingan sebagai final atau skor full-time masih kosong, script akan mengecek TheSportsDB. TheSportsDB hanya dipakai saat football-data.org belum punya skor yang valid, sehingga skor football-data.org yang sudah valid tidak akan ditimpa oleh fallback. Jika kedua API belum punya skor, hasil tidak diubah dan akan dicoba lagi pada run berikutnya.
 
-Untuk menghindari masalah beda tanggal UTC dan WIB, script mengambil daftar match World Cup 2026 lalu mencocokkan nama tim terhadap `data/matches.csv`. API baru dipanggil saat ada minimal satu pertandingan yang sudah melewati `resultFetchAfterWib`. Response headers dipakai untuk memantau sisa request dan waktu reset quota.
+Untuk menghindari masalah beda tanggal UTC dan WIB, script mengambil daftar match World Cup 2026 lalu mencocokkan nama tim terhadap `data/matches.csv`. TheSportsDB juga dicocokkan dengan nama tim/alias dan memilih event dengan kickoff terdekat dari `kickoffWib`; jika urutan home/away TheSportsDB terbalik, skor dipetakan ulang ke urutan home/away CSV sebelum ditulis. API baru dipanggil saat ada minimal satu pertandingan yang sudah melewati `resultFetchAfterWib`. Response headers football-data.org dipakai untuk memantau sisa request dan waktu reset quota.
 
 ## Mapping Nama Tim
 
@@ -159,6 +171,17 @@ templateTeam,apiTeam,notes
 Amerika Serikat,United States|USA,Nama API berbeda
 Ceko,Czech Republic|Czechia,Nama API berbeda
 ```
+
+
+## Diagnostik TheSportsDB
+
+Untuk mengecek mapping TheSportsDB terhadap satu match CSV tanpa menulis file, jalankan:
+
+```bash
+python scripts/update_results.py --dry-run --diagnose-sportsdb-match-id M001
+```
+
+Output diagnostik menampilkan jumlah event dari TheSportsDB, alias home/away dari CSV, event yang terpilih, status, raw score TheSportsDB, apakah home/away perlu dibalik, skor yang sudah dipetakan ke urutan CSV, dan hasil `W`/`L`/`D`. GitHub Actions `Update match results` juga menjalankan diagnostik `M001`, menyimpan log `update-results.log` sebagai artifact, dan mencetak ringkasan konfigurasi/API tanpa membuka nilai token.
 
 ## Dry Run
 
