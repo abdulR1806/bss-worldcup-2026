@@ -9,7 +9,15 @@ jobs:
   check-api:
     runs-on: ubuntu-latest
     steps:
-      - name: Fetch Upcoming Matches from API
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Fetch upcoming matches from football-data.org
         env:
           FOOTBALL_DATA_TOKEN: ${{ secrets.FOOTBALL_DATA_TOKEN }}
           COMPETITION: "WC" # World Cup
@@ -19,20 +27,145 @@ jobs:
             echo "::error::FOOTBALL_DATA_TOKEN is missing! Please configure it in Repository Secrets."
             exit 1
           fi
-          
-          echo "Testing API liveness and fetching nearest schedules..."
-          RESPONSE=$(curl -s -w "\n%{http_code}" -H "X-Auth-Token: $FOOTBALL_DATA_TOKEN" \
+
+          echo "Testing football-data.org liveness and fetching nearest schedules..."
+          RESPONSE=$(curl -sS -w "\n%{http_code}" -H "X-Auth-Token: $FOOTBALL_DATA_TOKEN" \
             "https://api.football-data.org/v4/competitions/$COMPETITION/matches?season=$SEASON&limit=5")
-          
+
           HTTP_STATUS=$(echo "$RESPONSE" | tail -n1)
           BODY=$(echo "$RESPONSE" | sed '$d')
-          
+
           if [ "$HTTP_STATUS" -ne 200 ]; then
-            echo "::error::API Request Failed with Status Code: $HTTP_STATUS"
+            echo "::error::football-data.org request failed with status code: $HTTP_STATUS"
             echo "Response Body: $BODY"
             exit 1
           fi
-          
-          echo "✅ API is ALIVE! Status Code: 200"
+
+          echo "✅ football-data.org API is ALIVE! Status Code: 200"
           echo "Matches Info (Short Summary):"
           echo "$BODY" | jq -r '.matches[]? | "Match: \(.homeTeam.name) vs \(.awayTeam.name) | Status: \(.status) | Date: \(.utcDate)"' || echo "$BODY"
+
+      - name: Fetch World Cup schedule from TheSportsDB
+        env:
+          THESPORTSDB_API_KEY: ${{ secrets.THESPORTSDB_API_KEY || '123' }}
+          THESPORTSDB_LEAGUE_ID: "4429"
+          SEASON: "2026"
+        run: |
+          if [ -z "$THESPORTSDB_API_KEY" ]; then
+            echo "::error::THESPORTSDB_API_KEY is empty. Configure the secret or use the public test key 123."
+            exit 1
+          fi
+
+          URL="https://www.thesportsdb.com/api/v1/json/$THESPORTSDB_API_KEY/eventsseason.php?id=$THESPORTSDB_LEAGUE_ID&s=$SEASON"
+          echo "Testing TheSportsDB liveness and schedule freshness..."
+          echo "GET $URL"
+          RESPONSE=$(curl -sS -w "\n%{http_code}" "$URL")
+          HTTP_STATUS=$(echo "$RESPONSE" | tail -n1)
+          BODY=$(echo "$RESPONSE" | sed '$d')
+
+          if [ "$HTTP_STATUS" -ne 200 ]; then
+            echo "::error::TheSportsDB request failed with status code: $HTTP_STATUS"
+            echo "Response Body: $BODY"
+            exit 1
+          fi
+
+          printf '%s\n' "$BODY" > sportsdb-events.json
+          echo "✅ TheSportsDB API is ALIVE! Status Code: 200"
+
+          python - <<'PY'
+          import csv
+          import json
+          import sys
+          import unicodedata
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          def normalize(value: str) -> str:
+              ascii_text = unicodedata.normalize("NFKD", value).encode("ascii", "ignore").decode("ascii")
+              return " ".join(ascii_text.lower().replace("-", " ").split())
+
+          def parse_timestamp(value: str) -> datetime | None:
+              if not value:
+                  return None
+              try:
+                  parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+              except ValueError:
+                  return None
+              if parsed.tzinfo is None:
+                  parsed = parsed.replace(tzinfo=timezone.utc)
+              return parsed
+
+          payload = json.loads(Path("sportsdb-events.json").read_text(encoding="utf-8"))
+          events = payload.get("events") or []
+          if not events:
+              print("::error::TheSportsDB returned no World Cup events.")
+              sys.exit(1)
+
+          matches = list(csv.DictReader(Path("data/matches.csv").open(encoding="utf-8")))
+          aliases: dict[str, set[str]] = {}
+          for row in csv.DictReader(Path("data/team_aliases.csv").open(encoding="utf-8")):
+              template_key = normalize(row["templateTeam"])
+              aliases.setdefault(template_key, set()).update(
+                  normalize(candidate)
+                  for candidate in row["apiTeam"].split("|")
+                  if candidate.strip()
+              )
+
+          first_match = matches[0]
+          first_home_keys = {normalize(first_match["homeTeam"]), *aliases.get(normalize(first_match["homeTeam"]), set())}
+          first_away_keys = {normalize(first_match["awayTeam"]), *aliases.get(normalize(first_match["awayTeam"]), set())}
+          matching_first_event = None
+          for event in events:
+              event_home = normalize(event.get("strHomeTeam") or "")
+              event_away = normalize(event.get("strAwayTeam") or "")
+              if event_home in first_home_keys and event_away in first_away_keys:
+                  matching_first_event = event
+                  break
+
+          if matching_first_event is None:
+              print("::error::TheSportsDB schedule did not include the first CSV fixture.")
+              print(f"Expected: {first_match['homeTeam']} vs {first_match['awayTeam']}")
+              sys.exit(1)
+
+          timestamps = [parse_timestamp(str(event.get("strTimestamp") or "")) for event in events]
+          timestamps = [timestamp for timestamp in timestamps if timestamp is not None]
+          if not timestamps:
+              print("::error::TheSportsDB events did not include parseable strTimestamp values.")
+              sys.exit(1)
+
+          earliest = min(timestamps)
+          latest = max(timestamps)
+          first_kickoff = datetime.fromisoformat(first_match["kickoffWib"]).astimezone(timezone.utc)
+          matched_timestamp = parse_timestamp(str(matching_first_event.get("strTimestamp") or ""))
+          if matched_timestamp is None:
+              print("::error::TheSportsDB first fixture match has no parseable strTimestamp.")
+              sys.exit(1)
+          kickoff_delta_seconds = abs((matched_timestamp - first_kickoff).total_seconds())
+          if kickoff_delta_seconds > 60:
+              print("::error::TheSportsDB first fixture timestamp does not match the CSV kickoff within 60 seconds.")
+              print(f"CSV kickoff UTC: {first_kickoff.isoformat()}")
+              print(f"TheSportsDB timestamp UTC: {matched_timestamp.isoformat()}")
+              sys.exit(1)
+
+          print(f"TheSportsDB event count: {len(events)}")
+          print(f"TheSportsDB timestamp range UTC: {earliest.isoformat()} -> {latest.isoformat()}")
+          print("TheSportsDB first CSV fixture check:")
+          print(f"  CSV: {first_match['id']} {first_match['homeTeam']} vs {first_match['awayTeam']} kickoffWib={first_match['kickoffWib']}")
+          print(
+              "  API: "
+              f"{matching_first_event.get('idEvent', 'N/A')} "
+              f"{matching_first_event.get('strHomeTeam', 'N/A')} vs {matching_first_event.get('strAwayTeam', 'N/A')} "
+              f"status={matching_first_event.get('strStatus', 'N/A')} "
+              f"score={matching_first_event.get('intHomeScore', '--')}-{matching_first_event.get('intAwayScore', '--')} "
+              f"timestamp={matching_first_event.get('strTimestamp', 'N/A')}"
+          )
+          print("Nearest TheSportsDB fixtures:")
+          for event in sorted(events, key=lambda item: item.get("strTimestamp") or "")[:5]:
+              print(
+                  "  "
+                  f"{event.get('strTimestamp', 'N/A')} | "
+                  f"{event.get('strHomeTeam', 'N/A')} vs {event.get('strAwayTeam', 'N/A')} | "
+                  f"status={event.get('strStatus', 'N/A')} | "
+                  f"score={event.get('intHomeScore', '--')}-{event.get('intAwayScore', '--')}"
+              )
+          PY

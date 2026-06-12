@@ -23,12 +23,72 @@ jobs:
       - name: Install dependencies
         run: python -m pip install -r requirements.txt
 
+      - name: Print update context
+        env:
+          FOOTBALL_DATA_TOKEN: ${{ secrets.FOOTBALL_DATA_TOKEN }}
+          THESPORTSDB_API_KEY: ${{ secrets.THESPORTSDB_API_KEY || '123' }}
+          THESPORTSDB_LEAGUE_ID: "4429"
+          FOOTBALL_DATA_COMPETITION_CODE: "WC"
+          FOOTBALL_DATA_SEASON: "2026"
+        run: |
+          echo "::group::Runtime"
+          date -u
+          python --version
+          echo "repository=$GITHUB_REPOSITORY"
+          echo "ref=$GITHUB_REF"
+          echo "sha=$GITHUB_SHA"
+          echo "::endgroup::"
+
+          echo "::group::API configuration (masked)"
+          if [ -n "$FOOTBALL_DATA_TOKEN" ]; then
+            echo "FOOTBALL_DATA_TOKEN configured: yes"
+          else
+            echo "FOOTBALL_DATA_TOKEN configured: no"
+          fi
+          if [ -n "$THESPORTSDB_API_KEY" ]; then
+            echo "THESPORTSDB_API_KEY configured: yes"
+          else
+            echo "THESPORTSDB_API_KEY configured: no"
+          fi
+          echo "FOOTBALL_DATA_COMPETITION_CODE=$FOOTBALL_DATA_COMPETITION_CODE"
+          echo "FOOTBALL_DATA_SEASON=$FOOTBALL_DATA_SEASON"
+          echo "THESPORTSDB_LEAGUE_ID=$THESPORTSDB_LEAGUE_ID"
+          echo "::endgroup::"
+
+          echo "::group::CSV state before update"
+          python - <<'PY'
+          import csv
+          from collections import Counter
+          from pathlib import Path
+
+          matches = list(csv.DictReader(Path("data/matches.csv").open(encoding="utf-8")))
+          results = list(csv.DictReader(Path("data/results.csv").open(encoding="utf-8")))
+          statuses = Counter(row["status"] or "BLANK" for row in results)
+          print(f"matches={len(matches)} results={len(results)}")
+          print("result_status_counts=" + ", ".join(f"{key}:{value}" for key, value in sorted(statuses.items())))
+          print("first_eligible_windows:")
+          for match in matches[:5]:
+              print(f"  {match['id']} #{match['matchNo']} {match['homeTeam']} vs {match['awayTeam']} kickoffWib={match['kickoffWib']} fetchAfter={match['resultFetchAfterWib']}")
+          PY
+          echo "::endgroup::"
+
+      - name: Diagnose TheSportsDB first match mapping
+        env:
+          THESPORTSDB_API_KEY: ${{ secrets.THESPORTSDB_API_KEY || '123' }}
+          THESPORTSDB_LEAGUE_ID: "4429"
+          FOOTBALL_DATA_SEASON: "2026"
+        run: python scripts/update_results.py --dry-run --diagnose-sportsdb-match-id M001
+
       - name: Update eligible match results
         env:
           FOOTBALL_DATA_TOKEN: ${{ secrets.FOOTBALL_DATA_TOKEN }}
           FOOTBALL_DATA_COMPETITION_CODE: "WC"
           FOOTBALL_DATA_SEASON: "2026"
-        run: python scripts/update_results.py
+          THESPORTSDB_API_KEY: ${{ secrets.THESPORTSDB_API_KEY || '123' }}
+          THESPORTSDB_LEAGUE_ID: "4429"
+        run: |
+          set -o pipefail
+          python scripts/update_results.py 2>&1 | tee update-results.log
 
       - name: Validate CSV data
         run: python scripts/validate_data.py
@@ -36,8 +96,19 @@ jobs:
       - name: Test scoring
         run: python scripts/test_scoring.py
 
+      - name: Test TheSportsDB fallback matching
+        run: python scripts/test_update_results_fallback.py
+
       - name: Build browser data
         run: python scripts/build_site_data.py
+
+      - name: Upload update log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: update-results-log
+          path: update-results.log
+          if-no-files-found: warn
 
       - name: Commit updated data
         uses: stefanzweifel/git-auto-commit-action@v5
