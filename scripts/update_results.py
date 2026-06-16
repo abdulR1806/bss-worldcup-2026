@@ -302,6 +302,142 @@ def result_code_from_scores(home_score: int, away_score: int) -> str:
     return "D"
 
 
+def result_row_score(row: dict[str, str]) -> tuple[int | None, int | None]:
+    try:
+        home = int(row.get("homeScore", ""))
+        away = int(row.get("awayScore", ""))
+    except ValueError:
+        return None, None
+    return home, away
+
+
+def result_row_matches_score(row: dict[str, str], home_score: int, away_score: int) -> bool:
+    existing_home, existing_away = result_row_score(row)
+    return existing_home == home_score and existing_away == away_score
+
+
+def update_result_row(
+    row: dict[str, str],
+    match_id: str,
+    home_score: int,
+    away_score: int,
+    source: str,
+    updated_at: str,
+) -> None:
+    row.update(
+        {
+            "matchId": match_id,
+            "status": "FINAL",
+            "homeScore": str(home_score),
+            "awayScore": str(away_score),
+            "result": result_code_from_scores(home_score, away_score),
+            "source": source,
+            "updatedAt": updated_at,
+        }
+    )
+
+
+def api_score_for_match(
+    match: dict[str, str],
+    aliases: dict[str, set[str]],
+    *,
+    api_token: str,
+    competition_code: str,
+    season: str,
+    sportsdb_api_key: str,
+    sportsdb_league_id: str,
+    fixtures_cache: list[dict] | None,
+    sportsdb_events_cache: list[dict] | None,
+) -> tuple[tuple[int, int, str] | None, list[dict] | None, list[dict] | None]:
+    football_data_score: tuple[int, int] | None = None
+    fixture: dict | None = None
+    fixtures = fixtures_cache
+    sportsdb_events = sportsdb_events_cache
+
+    if api_token:
+        if fixtures is None:
+            fixtures, response_headers = fetch_matches(api_token, competition_code, season)
+            available = response_headers.get("x-requests-available", "")
+            reset = response_headers.get("x-requestcounter-reset", "")
+            if available or reset:
+                print(f"football-data quota: available={available or 'unknown'} reset={reset or 'unknown'}")
+
+        fixture = find_match(match, fixtures, aliases)
+        if not fixture:
+            home_keys = local_team_keys(match["homeTeam"], aliases)
+            away_keys = local_team_keys(match["awayTeam"], aliases)
+            print(f"    !! No football-data.org fixture match found for {match['id']}")
+            print(f"       Local home keys: {home_keys}")
+            print(f"       Local away keys: {away_keys}")
+            print(f"       Searching through {len(fixtures)} football-data.org fixtures...")
+            for fx in fixtures:
+                fx_home = api_team_keys(fx.get("homeTeam", {}))
+                fx_away = api_team_keys(fx.get("awayTeam", {}))
+                home_overlap = home_keys & fx_home
+                away_overlap = away_keys & fx_away
+                if home_overlap or away_overlap:
+                    print(f"       Partial match: {fx.get('homeTeam',{}).get('name','?')} vs {fx.get('awayTeam',{}).get('name','?')} (home_overlap={home_overlap}, away_overlap={away_overlap})")
+        else:
+            print(f"    Matched football-data.org fixture:")
+            print(f"      homeTeam: {json.dumps(fixture.get('homeTeam', {}), ensure_ascii=False)}")
+            print(f"      awayTeam: {json.dumps(fixture.get('awayTeam', {}), ensure_ascii=False)}")
+            print(f"      status: {fixture.get('status', 'N/A')}")
+            print(f"      utcDate: {fixture.get('utcDate', 'N/A')}")
+            print(f"      score: {json.dumps(fixture.get('score', {}), ensure_ascii=False)}")
+
+            status = str(fixture.get("status", "")).upper()
+            if status in FINAL_MATCH_STATUSES:
+                score = fixture.get("score", {})
+                full_time = score.get("fullTime", {}) or {}
+                home_score = score_value(full_time, "home")
+                away_score = score_value(full_time, "away")
+                if home_score is not None and away_score is not None:
+                    football_data_score = (home_score, away_score)
+                else:
+                    print(f"    -> {match['id']} final on football-data.org but missing full-time score; checking TheSportsDB fallback.")
+            else:
+                print(f"    -> {match['id']} found on football-data.org but score is not final/available yet (status={status or 'unknown'}); checking TheSportsDB fallback.")
+    else:
+        print(f"    -> Skipping football-data.org lookup for {match['id']} because FOOTBALL_DATA_TOKEN is not configured; checking TheSportsDB fallback.")
+
+    if football_data_score is not None:
+        home_score, away_score = football_data_score
+        return (home_score, away_score, "football-data.org"), fixtures, sportsdb_events
+
+    if not sportsdb_api_key:
+        print(f"    -> TheSportsDB fallback disabled because THESPORTSDB_API_KEY is empty.")
+        return None, fixtures, sportsdb_events
+
+    if sportsdb_events is None:
+        sportsdb_events = fetch_sportsdb_events(sportsdb_api_key, sportsdb_league_id, season)
+
+    sportsdb_match = find_sportsdb_event(match, sportsdb_events, aliases)
+    if not sportsdb_match:
+        home_keys = local_team_keys(match["homeTeam"], aliases)
+        away_keys = local_team_keys(match["awayTeam"], aliases)
+        print(f"    !! No TheSportsDB event match found for {match['id']}")
+        print(f"       Local home keys: {home_keys}")
+        print(f"       Local away keys: {away_keys}")
+        return None, fixtures, sportsdb_events
+
+    event, is_reversed = sportsdb_match
+    print(f"    Matched TheSportsDB event:")
+    print(f"      event: {event.get('strEvent', 'N/A')}")
+    print(f"      homeTeam: {event.get('strHomeTeam', 'N/A')}")
+    print(f"      awayTeam: {event.get('strAwayTeam', 'N/A')}")
+    print(f"      status: {event.get('strStatus', 'N/A')}")
+    print(f"      timestamp: {event.get('strTimestamp') or event.get('dateEvent') or 'N/A'}")
+    print(f"      score: {event.get('intHomeScore', '')}-{event.get('intAwayScore', '')}")
+    if is_reversed:
+        print("      note: TheSportsDB home/away order is reversed; scores will be mapped to the CSV home/away order.")
+
+    home_score, away_score = sportsdb_scores(event, is_reversed)
+    if home_score is None or away_score is None:
+        print(f"    -> {match['id']} has no football-data.org score and no TheSportsDB score yet.")
+        return None, fixtures, sportsdb_events
+    return (home_score, away_score, "thesportsdb.com"), fixtures, sportsdb_events
+
+
 def result_code(match: dict) -> str:
     score = match.get("score", {})
     winner = str(score.get("winner", "")).upper()
@@ -331,6 +467,7 @@ def main() -> None:
     parser.add_argument("--now-wib", default="", help="Override current WIB time, e.g. 2026-06-12T04:00:00+07:00.")
     parser.add_argument("--dry-run", action="store_true", help="Print eligible updates without writing data/results.csv.")
     parser.add_argument("--diagnose-sportsdb-match-id", default="", help="Fetch TheSportsDB and print the match mapping for a CSV match ID without writing data.")
+    parser.add_argument("--sync-final-scores", action="store_true", help="Re-check existing FINAL rows against API final scores and update rows whose score changed.")
     args = parser.parse_args()
 
     root = Path(args.root).resolve()
@@ -382,8 +519,34 @@ def main() -> None:
     print(f"{'='*80}")
     for match in matches:
         existing = result_by_match.get(match["id"])
-        if existing and existing["status"].upper() == "FINAL":
+        if existing and existing["status"].upper() == "FINAL" and not args.sync_final_scores:
             print(f"  {match['id']} {match['homeTeam']:>20} vs {match['awayTeam']:<20} -> SKIP (already FINAL)")
+            continue
+
+        if existing and existing["status"].upper() == "FINAL" and args.sync_final_scores:
+            print(f"  {match['id']} {match['homeTeam']:>20} vs {match['awayTeam']:<20} -> VERIFY FINAL score against API")
+            api_score, fixtures, sportsdb_events = api_score_for_match(
+                match,
+                aliases,
+                api_token=api_token,
+                competition_code=competition_code,
+                season=season,
+                sportsdb_api_key=sportsdb_api_key,
+                sportsdb_league_id=sportsdb_league_id,
+                fixtures_cache=fixtures,
+                sportsdb_events_cache=sportsdb_events,
+            )
+            if api_score is None:
+                print(f"    -> {match['id']} has no comparable final score from API; keeping existing {existing['homeScore']}-{existing['awayScore']}.")
+                continue
+            home_score, away_score, source = api_score
+            if result_row_matches_score(existing, home_score, away_score):
+                print(f"    -> {match['id']} unchanged: {home_score}-{away_score} ({source}).")
+                continue
+            print(f"    -> {match['id']} score difference found: CSV {existing.get('homeScore', '')}-{existing.get('awayScore', '')} vs API {home_score}-{away_score} ({source}).")
+            update_result_row(existing, match["id"], home_score, away_score, source, now.isoformat(timespec="seconds"))
+            result_by_match[match["id"]] = existing
+            updated += 1
             continue
 
         fetch_after = parse_iso(match["resultFetchAfterWib"])
@@ -448,17 +611,7 @@ def main() -> None:
         if football_data_score is not None:
             home_score, away_score = football_data_score
             row = existing or {"matchId": match["id"]}
-            row.update(
-                {
-                    "matchId": match["id"],
-                    "status": "FINAL",
-                    "homeScore": str(home_score),
-                    "awayScore": str(away_score),
-                    "result": result_code(fixture or {}),
-                    "source": "football-data.org",
-                    "updatedAt": now.isoformat(timespec="seconds"),
-                }
-            )
+            update_result_row(row, match["id"], home_score, away_score, "football-data.org", now.isoformat(timespec="seconds"))
             result_by_match[match["id"]] = row
             updated += 1
             print(f"Updated {match['id']} from football-data.org: {home_score}-{away_score}")
@@ -496,17 +649,7 @@ def main() -> None:
             print(f"    -> {match['id']} has no football-data.org score and no TheSportsDB score yet.")
             continue
         row = existing or {"matchId": match["id"]}
-        row.update(
-            {
-                "matchId": match["id"],
-                "status": "FINAL",
-                "homeScore": str(home_score),
-                "awayScore": str(away_score),
-                "result": result_code_from_scores(home_score, away_score),
-                "source": "thesportsdb.com",
-                "updatedAt": now.isoformat(timespec="seconds"),
-            }
-        )
+        update_result_row(row, match["id"], home_score, away_score, "thesportsdb.com", now.isoformat(timespec="seconds"))
         result_by_match[match["id"]] = row
         updated += 1
         print(f"Updated {match['id']} from TheSportsDB: {home_score}-{away_score}")

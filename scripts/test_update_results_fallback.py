@@ -1,6 +1,13 @@
 from __future__ import annotations
 
-from update_results import find_sportsdb_event, result_code_from_scores, sportsdb_scores
+from update_results import (
+    find_sportsdb_event,
+    result_code_from_scores,
+    result_row_matches_score,
+    result_row_score,
+    sportsdb_scores,
+    update_result_row,
+)
 
 
 def test_sportsdb_matches_current_csv_home_away_order() -> None:
@@ -95,10 +102,39 @@ def test_sportsdb_chooses_closest_event_when_teams_repeat() -> None:
     assert sportsdb_scores(event, is_reversed) == (2, 0)
 
 
+def test_final_score_comparison_helpers_detect_differences() -> None:
+    row = {
+        "matchId": "M001",
+        "status": "FINAL",
+        "homeScore": "2",
+        "awayScore": "0",
+        "result": "W",
+        "source": "manual",
+        "updatedAt": "old",
+    }
+
+    assert result_row_score(row) == (2, 0)
+    assert result_row_matches_score(row, 2, 0) is True
+    assert result_row_matches_score(row, 1, 1) is False
+
+    update_result_row(row, "M001", 1, 1, "football-data.org", "2026-06-16T12:00:00+07:00")
+
+    assert row == {
+        "matchId": "M001",
+        "status": "FINAL",
+        "homeScore": "1",
+        "awayScore": "1",
+        "result": "D",
+        "source": "football-data.org",
+        "updatedAt": "2026-06-16T12:00:00+07:00",
+    }
+
+
 def main() -> None:
     test_sportsdb_matches_current_csv_home_away_order()
     test_sportsdb_reversed_event_maps_scores_to_csv_order()
     test_sportsdb_chooses_closest_event_when_teams_repeat()
+    test_final_score_comparison_helpers_detect_differences()
     print("OK: update results fallback tests passed.")
 
 

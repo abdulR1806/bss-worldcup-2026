@@ -45,7 +45,22 @@ Workflow ini:
 4. Membuild `site/data/site-data.js`.
 5. Commit hasil jika ada perubahan.
 
-## 3. Deploy GitHub Pages
+## 3. Sinkronisasi Skor Final
+
+File:
+
+```text
+.github/workflows/sync-final-scores.yml
+```
+
+Berjalan:
+
+- setiap 6 jam pada menit `:37` UTC
+- manual dispatch
+
+Workflow ini menjalankan `scripts/update_results.py --sync-final-scores` untuk mengecek ulang semua baris `FINAL` di `data/results.csv` terhadap skor final dari API. Jika skor CSV berbeda dari skor API terbaru, baris hasil diperbarui, `site/data/site-data.js` dibuild ulang, lalu perubahan data dicommit.
+
+## 4. Deploy GitHub Pages
 
 File:
 
@@ -58,6 +73,7 @@ Berjalan saat:
 - push ke `main`
 - workflow `Clean demo preview data` selesai sukses
 - workflow `Update match results` selesai sukses
+- workflow `Sync final match scores` selesai sukses
 - manual dispatch
 
 Catatan:
@@ -80,6 +96,7 @@ Buat:
 | `FOOTBALL_DATA_TOKEN` | API token dari football-data.org |
 | `FOOTBALL_DATA_COMPETITION_CODE` | Kode competition World Cup, default `WC` |
 | `FOOTBALL_DATA_SEASON` | Season World Cup, default `2026` |
+| `THESPORTSDB_API_KEY` | API key TheSportsDB untuk fallback, default workflow memakai public test key `123` jika secret tidak ada |
 
 ## Mengubah Jadwal Update
 
