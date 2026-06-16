@@ -8,6 +8,7 @@ on:
     workflows:
       - Clean demo preview data
       - Update match results
+      - Sync final match scores
     types:
       - completed
   workflow_dispatch:
