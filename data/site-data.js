@@ -3,7 +3,7 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
     "title": "Credit Divisions World Cup Leaderboard",
     "dataMode": "Data utama dari football-data.org; fallback TheSportsDB jika skor kosong",
     "sourceWorkbook": "Jadwal_FIFA_World_Cup_2026.xlsx",
-    "generatedAt": "2026-06-17T09:21:15+07:00",
+    "generatedAt": "2026-06-17T10:21:10+07:00",
     "timezone": "Asia/Jakarta",
     "resultDelayMinutes": 100,
     "scoring": "1 poin untuk setiap prediksi W/L/D yang benar. Pertandingan menunggu tidak dihitung."
@@ -7210,12 +7210,12 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
     },
     {
       "matchId": "M019",
-      "status": "PENDING",
-      "homeScore": "",
-      "awayScore": "",
-      "result": "",
-      "source": "",
-      "updatedAt": ""
+      "status": "FINAL",
+      "homeScore": 3,
+      "awayScore": 0,
+      "result": "W",
+      "source": "football-data.org",
+      "updatedAt": "2026-06-17T10:20:54+07:00"
     },
     {
       "matchId": "M020",
