@@ -40,10 +40,11 @@ Berjalan:
 Workflow ini:
 
 1. Menjalankan `scripts/update_results.py`.
-2. Memvalidasi CSV.
-3. Menjalankan test scoring.
-4. Membuild `site/data/site-data.js`.
-5. Commit hasil jika ada perubahan.
+2. Mendownload klasemen resmi Google Sheet SKOR ke `data/standings.csv` jika `OFFICIAL_SCORE_SHEET_CSV_URL` atau `OFFICIAL_SCORE_SHEET_URL` tersedia.
+3. Memvalidasi CSV.
+4. Menjalankan test scoring.
+5. Membuild `site/data/site-data.js`.
+6. Commit hasil jika ada perubahan.
 
 ## 3. Sinkronisasi Skor Final
 
@@ -97,6 +98,9 @@ Buat:
 | `FOOTBALL_DATA_COMPETITION_CODE` | Kode competition World Cup, default `WC` |
 | `FOOTBALL_DATA_SEASON` | Season World Cup, default `2026` |
 | `THESPORTSDB_API_KEY` | API key TheSportsDB untuk fallback, default workflow memakai public test key `123` jika secret tidak ada |
+| `OFFICIAL_SCORE_SHEET_CSV_URL` | URL export CSV sheet `SKOR` untuk update otomatis `data/standings.csv` |
+| `OFFICIAL_SCORE_SHEET_URL` | URL share Google Sheet untuk link UI dan fallback konversi CSV |
+| `OFFICIAL_SCORE_SHEET_EMBED_URL` | URL publish/embed Google Sheet untuk iframe UI |
 
 ## Mengubah Jadwal Update
 

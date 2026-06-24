@@ -208,7 +208,15 @@ P003,Yanu,28,,,28
 P004,Joko,27,,,27
 ```
 
-Untuk menampilkan tautan/embedded Google Sheet di halaman Peserta dan Pertandingan, isi environment variable berikut sebelum menjalankan build:
+Untuk download CSV resmi dari Google Sheet publik ke `data/standings.csv`, isi `OFFICIAL_SCORE_SHEET_CSV_URL` lalu jalankan sync. `OFFICIAL_SCORE_SHEET_URL` bisa dipakai sebagai fallback jika URL mengandung `/spreadsheets/d/...` dan `gid` sheet `SKOR`:
+
+```bash
+OFFICIAL_SCORE_SHEET_CSV_URL="https://docs.google.com/spreadsheets/d/.../export?format=csv&gid=..."
+python scripts/sync_google_sheet_standings.py
+python scripts/build_site_data.py
+```
+
+Untuk menampilkan tautan/embedded Google Sheet di halaman Peserta dan Pertandingan, isi juga environment variable berikut sebelum menjalankan build:
 
 ```bash
 OFFICIAL_SCORE_SHEET_URL="https://docs.google.com/spreadsheets/d/.../edit?usp=sharing"

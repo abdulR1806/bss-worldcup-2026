@@ -90,6 +90,12 @@ jobs:
           set -o pipefail
           python scripts/update_results.py 2>&1 | tee update-results.log
 
+      - name: Download official Google Sheet standings
+        env:
+          OFFICIAL_SCORE_SHEET_CSV_URL: ${{ secrets.OFFICIAL_SCORE_SHEET_CSV_URL || vars.OFFICIAL_SCORE_SHEET_CSV_URL || '' }}
+          OFFICIAL_SCORE_SHEET_URL: ${{ secrets.OFFICIAL_SCORE_SHEET_URL || vars.OFFICIAL_SCORE_SHEET_URL || '' }}
+        run: python scripts/sync_google_sheet_standings.py
+
       - name: Validate CSV data
         run: python scripts/validate_data.py
 
@@ -100,6 +106,9 @@ jobs:
         run: python scripts/test_update_results_fallback.py
 
       - name: Build browser data
+        env:
+          OFFICIAL_SCORE_SHEET_URL: ${{ secrets.OFFICIAL_SCORE_SHEET_URL || vars.OFFICIAL_SCORE_SHEET_URL || '' }}
+          OFFICIAL_SCORE_SHEET_EMBED_URL: ${{ secrets.OFFICIAL_SCORE_SHEET_EMBED_URL || vars.OFFICIAL_SCORE_SHEET_EMBED_URL || '' }}
         run: python scripts/build_site_data.py
 
       - name: Upload update log
@@ -114,4 +123,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Update World Cup results data"
-          file_pattern: data/results.csv site/data/site-data.js
+          file_pattern: data/results.csv data/standings.csv site/data/site-data.js
