@@ -1566,3 +1566,41 @@ body.stream {
     margin-inline: -2px;
   }
 }
+.official-score-alert {
+  display: grid;
+  gap: 6px;
+  margin: 0 0 18px;
+  padding: 16px 18px;
+  border: 1px solid rgba(247, 195, 91, 0.46);
+  border-radius: var(--radius-lg);
+  background: rgba(247, 195, 91, 0.12);
+  color: var(--content-text);
+  box-shadow: var(--content-shadow);
+}
+
+.official-score-alert a {
+  width: fit-content;
+  color: var(--gold);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.official-score-alert a:hover {
+  text-decoration: underline;
+}
+
+.official-sheet-embed {
+  overflow: hidden;
+  margin: 0 0 22px;
+  border: 1px solid var(--content-line);
+  border-radius: var(--radius-lg);
+  background: var(--content-panel);
+  box-shadow: var(--content-shadow);
+}
+
+.official-sheet-embed iframe {
+  display: block;
+  width: 100%;
+  min-height: 420px;
+  border: 0;
+}

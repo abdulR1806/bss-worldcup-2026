@@ -23,6 +23,7 @@
   const matchById = new Map(data.matches.map((match) => [match.id, match]));
   const predictionsByParticipant = groupBy(data.predictions, 'participantId');
   const predictionsByMatch = groupBy(data.predictions, 'matchId');
+  const officialStandingsByParticipant = new Map((data.standings || []).map((row) => [row.participantId, row]));
 
   const els = {
     brand: document.querySelector('.brand[data-nav="beranda"]'),
@@ -47,6 +48,10 @@
     streamBoard: document.getElementById('streamBoard'),
     primaryNav: document.getElementById('primaryNav'),
     navButtons: Array.from(document.querySelectorAll('.nav-button[data-nav]')),
+    participantsSheetLink: document.getElementById('participantsSheetLink'),
+    matchesSheetLink: document.getElementById('matchesSheetLink'),
+    participantsSheetEmbed: document.getElementById('participantsSheetEmbed'),
+    matchesSheetEmbed: document.getElementById('matchesSheetEmbed'),
   };
 
   const ICONS = {
@@ -141,6 +146,8 @@
     if (els.lastUpdated) els.lastUpdated.textContent = `Dibuat: ${formatDateTime(data.metadata.generatedAt)}`;
     if (els.scoringNote) els.scoringNote.textContent = data.metadata.scoring;
 
+    fillOfficialSheetLinks();
+
     if (els.heroStats) {
       els.heroStats.innerHTML = [
         heroStat(ICONS.people, data.participants.length, 'Peserta', 'var(--accent)'),
@@ -148,6 +155,31 @@
         heroStat(ICONS.clock, pendingCount, 'Menunggu', 'var(--accent-3)'),
       ].join('');
     }
+  }
+
+  function fillOfficialSheetLinks() {
+    const sheetUrl = data.metadata.officialScoreSheetUrl || data.metadata.officialScoreSheetEmbedUrl;
+    const embedUrl = data.metadata.officialScoreSheetEmbedUrl || data.metadata.officialScoreSheetUrl;
+    [els.participantsSheetLink, els.matchesSheetLink].forEach((link) => {
+      if (!link) return;
+      if (sheetUrl) {
+        link.href = sheetUrl;
+        link.hidden = false;
+      } else {
+        link.hidden = true;
+      }
+    });
+
+    [els.participantsSheetEmbed, els.matchesSheetEmbed].forEach((target) => {
+      if (!target) return;
+      if (!embedUrl) {
+        target.hidden = true;
+        target.innerHTML = '';
+        return;
+      }
+      target.hidden = false;
+      target.innerHTML = `<iframe title="Google Sheet SKOR panitia" src="${escapeHtml(embedUrl)}" loading="lazy"></iframe>`;
+    });
   }
 
   function heroStat(icon, value, label, accent) {
@@ -329,43 +361,26 @@
   }
 
   function calculateStandings() {
-    const filteredMatches = filteredMatchSet();
-
     const standings = data.participants.map((participant) => {
-      const predictions = predictionsByParticipant.get(participant.id) || [];
-      let points = 0;
-      let correct = 0;
-      let wrong = 0;
-      let played = 0;
-
-      predictions.forEach((prediction) => {
-        if (!filteredMatches.has(prediction.matchId)) return;
-
-        const result = resultByMatch.get(prediction.matchId);
-        if (!result || result.status !== 'FINAL' || !result.result) return;
-
-        played += 1;
-        if (prediction.prediction === result.result) {
-          correct += 1;
-          points += 1;
-        } else {
-          wrong += 1;
-        }
-      });
+      const officialStanding = officialStandingsByParticipant.get(participant.id) || {};
+      const points = Number(officialStanding.points || 0);
+      const scoreAsIs = officialStanding.scoreAsIs === '' ? '' : Number(officialStanding.scoreAsIs || 0);
 
       return {
         ...participant,
         points,
-        correct,
-        wrong,
-        played,
-        accuracy: played ? correct / played : 0,
+        correct: points,
+        wrong: '',
+        played: '',
+        accuracy: null,
+        scoreAsIs,
+        officialDisplayName: officialStanding.displayName || participant.displayName,
       };
     });
 
     return standings
       .filter((row) => participantMatchesSearch(row))
-      .sort((a, b) => b.points - a.points || b.accuracy - a.accuracy || a.displayName.localeCompare(b.displayName));
+      .sort((a, b) => b.points - a.points || a.displayName.localeCompare(b.displayName));
   }
 
   function filteredMatchSet() {
@@ -410,8 +425,8 @@
         <p class="meta">${escapeHtml(row.division)}</p>
         <div class="metric-row">
           ${metric(row.points, 'Poin')}
-          ${metric(row.correct, 'Benar')}
-          ${metric(formatPercent(row.accuracy), 'Akurasi')}
+          ${metric(row.scoreAsIs === '' ? '-' : row.scoreAsIs, 'Skor as-is')}
+          ${metric('Sheet SKOR', 'Sumber')}
         </div>
       </article>
     `).join('');
@@ -428,12 +443,11 @@
           </td>
           <td>${escapeHtml(row.division)}</td>
           <td><strong>${row.points}</strong></td>
-          <td>${row.correct}</td>
-          <td>${row.played}</td>
-          <td>${formatPercent(row.accuracy)}</td>
+          <td>${row.scoreAsIs === '' ? '-' : row.scoreAsIs}</td>
+          <td>Sheet SKOR</td>
         </tr>
       `).join('')
-      : '<tr><td colspan="7">Tidak ada data yang cocok dengan filter saat ini.</td></tr>';
+      : '<tr><td colspan="6">Tidak ada data yang cocok dengan filter saat ini.</td></tr>';
   }
 
   function renderParticipants(standings) {
@@ -448,8 +462,8 @@
           ${row.date ? `<p class="meta">Bergabung: ${formatShortDate(row.date)}</p>` : ''}
           <div class="metric-row">
             ${metric(row.points, 'Poin')}
-            ${metric(`${row.correct}/${row.played}`, 'Benar')}
-            ${metric(formatPercent(row.accuracy), 'Akurasi')}
+            ${metric(row.scoreAsIs === '' ? '-' : row.scoreAsIs, 'Skor as-is')}
+            ${metric('Sheet SKOR', 'Sumber')}
           </div>
           <button type="button" data-participant="${escapeHtml(row.id)}" aria-expanded="${state.activeParticipant === row.id ? 'true' : 'false'}">Lihat Prediksi</button>
         </article>
@@ -624,7 +638,7 @@
             <span>${escapeHtml(row.division)}</span>
           </div>
           <strong>${row.points} poin</strong>
-          <span>${formatPercent(row.accuracy)}</span>
+          <span>Sheet SKOR</span>
         </div>
       `).join('')
       : '<p class="meta">Tidak ada data yang cocok dengan filter saat ini.</p>';
@@ -637,7 +651,7 @@
     if (state.group !== 'ALL') parts.push(`Grup ${state.group}`);
     if (state.matchday !== 'ALL') parts.push(formatShortDate(state.matchday));
     if (state.search) parts.push(`Cari: ${state.search}`);
-    return parts.length ? `Difilter berdasarkan ${parts.join(' · ')}` : 'Diurutkan berdasarkan poin, akurasi, lalu nama.';
+    return parts.length ? `Difilter berdasarkan ${parts.join(' · ')}` : 'Diurutkan berdasarkan total resmi Sheet SKOR panitia, lalu nama.';
   }
 
   function metric(value, label) {
