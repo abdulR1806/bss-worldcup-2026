@@ -35,7 +35,7 @@ def read_standings(path: Path) -> list[dict[str, object]]:
     for row in read_csv(path):
         participant_id = first_present(row, ["participantId", "Id participant", "id"]).strip()
         display_name = first_present(row, ["displayName", "nama participan", "nama participant", "nama peserta"]).strip()
-        score_as_is = first_present(row, ["scoreAsIs", "skor as is"])
+        score_as_is = first_present(row, ["scoreAsIs", "skor as is", "skor as is 2406"])
         total = first_present(row, ["total", "skor pertandingan selesai", "points"])
 
         if not participant_id:
