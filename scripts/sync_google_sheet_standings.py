@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import argparse
+import csv
+import io
 import os
 import re
 import sys
@@ -55,6 +57,45 @@ def download_csv(url: str, timeout: int) -> str:
         return response.read().decode(charset)
 
 
+def sort_standings_csv(content: str) -> str:
+    """Re-sort the downloaded standings CSV by descending total then ascending name.
+
+    The Google Sheet may list rows in any order. test_scoring.py asserts that
+    data/standings.csv is sorted by (-points, displayName) so we normalise the
+    order here before writing to disk.
+    """
+    reader = csv.DictReader(io.StringIO(content))
+    if reader.fieldnames is None:
+        return content
+    fieldnames = list(reader.fieldnames)
+    rows = list(reader)
+
+    # Determine which column holds the display name and the total.
+    name_col = next(
+        (f for f in fieldnames if f.strip().lower() in ("nama participan", "displayname", "nama participant", "nama peserta")),
+        fieldnames[1] if len(fieldnames) > 1 else "",
+    )
+    total_col = next(
+        (f for f in fieldnames if f.strip().lower() in ("total", "points", "skor pertandingan selesai")),
+        fieldnames[-1] if fieldnames else "",
+    )
+
+    def sort_key(row: dict) -> tuple:
+        try:
+            pts = -int(row.get(total_col, "0").strip() or "0")
+        except ValueError:
+            pts = 0
+        return (pts, str(row.get(name_col, "")).strip())
+
+    rows.sort(key=sort_key)
+
+    out = io.StringIO()
+    writer = csv.DictWriter(out, fieldnames=fieldnames, lineterminator="\r\n")
+    writer.writeheader()
+    writer.writerows(rows)
+    return out.getvalue()
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Download official standings CSV from a public Google Sheet.")
     parser.add_argument("--root", default=".", help="Project root. Defaults to current directory.")
@@ -84,10 +125,12 @@ def main() -> None:
     if not content.strip():
         raise SystemExit("Downloaded standings CSV is empty.")
 
+    content = sort_standings_csv(content)
+
     target = root / args.target
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(content, encoding="utf-8")
-    print(f"Downloaded official standings CSV to {target}")
+    print(f"Downloaded and sorted official standings CSV to {target}")
 
 
 if __name__ == "__main__":
