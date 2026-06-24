@@ -254,9 +254,8 @@
                 <th>Peserta</th>
                 <th>Divisi</th>
                 <th>Poin</th>
-                <th>Benar</th>
-                <th>Dinilai</th>
-                <th>Akurasi</th>
+                <th>Skor as-is</th>
+                <th>Sumber</th>
               </tr>
             </thead>
             <tbody id="leaderboardBody"></tbody>
@@ -272,6 +271,12 @@
           </div>
           <p>Buka kartu peserta untuk melihat prediksi setiap pertandingan.</p>
         </div>
+        <div class="official-score-alert" role="alert">
+          <strong>Perhatian sumber skor:</strong> tabel klasemen memakai total resmi dari Google Sheet SKOR panitia.
+          Detail prediksi peserta dan hasil pertandingan lokal dapat berbeda dari rekap asli panitia.
+          <a id="participantsSheetLink" href="#" target="_blank" rel="noopener">Buka Google Sheet</a>
+        </div>
+        <div class="official-sheet-embed" id="participantsSheetEmbed" hidden></div>
         <div id="participantCards" class="participant-grid"></div>
         <div id="participantDetail" class="detail-panel" hidden></div>
       </section>
@@ -288,6 +293,12 @@
           <p>Hasil diperbarui setelah jeda 100 menit dari jadwal kick-off. Namun, terdapat delay 10-15 menit dari data
             provider dan pembaruan sistem.</p>
         </div>
+        <div class="official-score-alert" role="alert">
+          <strong>Perhatian sumber skor:</strong> hasil pada kartu pertandingan adalah referensi lokal.
+          Peringkat dan poin peserta mengikuti Google Sheet SKOR panitia.
+          <a id="matchesSheetLink" href="#" target="_blank" rel="noopener">Buka Google Sheet</a>
+        </div>
+        <div class="official-sheet-embed" id="matchesSheetEmbed" hidden></div>
         <div id="matchCards" class="match-grid"></div>
       </section>
 
@@ -301,8 +312,7 @@
 
       <footer id="aboutSection" class="about-footnote">
         <strong>Tentang:</strong>
-        <span>Skor 1 poin untuk setiap prediksi W/L/D yang benar. Pertandingan menunggu tidak dihitung. Data diambil
-          dari <code>football-data.org</code>. Made with 💖 by <code> M Abdul Rokhim </code></span>
+        <span>Klasemen resmi memakai ekspor CSV dari Google Sheet SKOR panitia. Hasil pertandingan lokal hanya referensi tampilan. Made with 💖 by <code> M Abdul Rokhim </code></span>
       </footer>
     </main>
   </div>

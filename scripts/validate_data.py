@@ -37,11 +37,13 @@ def main() -> None:
     participants = read_csv(data_dir / "participants.csv")
     predictions = read_csv(data_dir / "predictions.csv")
     results = read_csv(data_dir / "results.csv")
+    standings = read_csv(data_dir / "standings.csv")
 
     require_columns(data_dir / "matches.csv", matches, ["id", "matchNo", "kickoffWib", "resultFetchAfterWib", "group", "homeTeam", "awayTeam", "location"], errors)
     require_columns(data_dir / "participants.csv", participants, ["id", "displayName", "division", "badge"], errors)
     require_columns(data_dir / "predictions.csv", predictions, ["participantId", "matchId", "prediction"], errors)
     require_columns(data_dir / "results.csv", results, ["matchId", "status", "homeScore", "awayScore", "result", "source", "updatedAt"], errors)
+    require_columns(data_dir / "standings.csv", standings, ["Id participant", "nama participan", "total"], errors)
 
     match_ids = {row["id"] for row in matches}
     participant_ids = {row["id"] for row in participants}
@@ -58,6 +60,17 @@ def main() -> None:
     for row in participants:
         if not row["id"].strip() or not row["displayName"].strip():
             errors.append("Each participant must have id and displayName.")
+
+    standing_ids = [row.get("Id participant", "").strip() for row in standings]
+    standing_id_set = set(standing_ids)
+    if standing_id_set != participant_ids:
+        errors.append("data/standings.csv must include exactly every participant from data/participants.csv.")
+    if len(standing_ids) != len(standing_id_set):
+        errors.append("Duplicate participant IDs found in data/standings.csv.")
+    for row in standings:
+        total = row.get("total", "").strip()
+        if not total.isdigit():
+            errors.append(f"Standing total for {row.get('Id participant', '<blank>')} must be numeric.")
 
     prediction_pairs = Counter((row["participantId"], row["matchId"]) for row in predictions)
     for pair, count in prediction_pairs.items():

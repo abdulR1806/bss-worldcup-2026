@@ -9,58 +9,44 @@ def read_csv(path: Path) -> list[dict[str, str]]:
         return list(csv.DictReader(handle))
 
 
-def calculate_standings(root: Path) -> list[dict[str, object]]:
-    participants = read_csv(root / "data" / "participants.csv")
-    predictions = read_csv(root / "data" / "predictions.csv")
-    results = read_csv(root / "data" / "results.csv")
-    final_results = {
-        row["matchId"]: row["result"]
-        for row in results
-        if row["status"].upper() == "FINAL" and row["result"]
-    }
+def first_present(row: dict[str, str], candidates: list[str]) -> str:
+    normalized = {key.strip().lower(): value for key, value in row.items()}
+    for candidate in candidates:
+        value = normalized.get(candidate.strip().lower())
+        if value is not None:
+            return value.strip()
+    return ""
 
-    standings = []
-    for participant in participants:
-        participant_predictions = [row for row in predictions if row["participantId"] == participant["id"]]
-        played = 0
-        correct = 0
-        for prediction in participant_predictions:
-            result = final_results.get(prediction["matchId"])
-            if not result:
-                continue
-            played += 1
-            if prediction["prediction"] == result:
-                correct += 1
-        standings.append(
-            {
-                "id": participant["id"],
-                "displayName": participant["displayName"],
-                "points": correct,
-                "correct": correct,
-                "played": played,
-                "accuracy": correct / played if played else 0,
-            }
-        )
 
-    return sorted(
-        standings,
-        key=lambda row: (-int(row["points"]), -float(row["accuracy"]), str(row["displayName"])),
-    )
+def read_official_standings(root: Path) -> list[dict[str, object]]:
+    rows = []
+    for row in read_csv(root / "data" / "standings.csv"):
+        participant_id = first_present(row, ["participantId", "Id participant", "id"])
+        display_name = first_present(row, ["displayName", "nama participan", "nama participant", "nama peserta"])
+        total = first_present(row, ["total", "skor pertandingan selesai", "points"])
+        assert participant_id, "Each official standing row must have participant id."
+        assert total.isdigit(), f"Official total for {participant_id} must be numeric."
+        rows.append({"id": participant_id, "displayName": display_name, "points": int(total)})
+    return rows
 
 
 def main() -> None:
     root = Path(__file__).resolve().parents[1]
-    standings = calculate_standings(root)
+    participants = read_csv(root / "data" / "participants.csv")
+    standings = read_official_standings(root)
 
-    assert standings, "Standings should not be empty."
-    assert all(row["points"] == row["correct"] for row in standings), "1 correct prediction must equal 1 point."
-    assert all(0 <= row["accuracy"] <= 1 for row in standings), "Accuracy must be between 0 and 1."
+    participant_ids = {row["id"] for row in participants}
+    standing_ids = [row["id"] for row in standings]
+
+    assert standings, "Official standings should not be empty."
+    assert set(standing_ids) == participant_ids, "Official standings must include exactly every participant."
+    assert len(standing_ids) == len(set(standing_ids)), "Official standings must not duplicate participants."
     assert standings == sorted(
         standings,
-        key=lambda row: (-int(row["points"]), -float(row["accuracy"]), str(row["displayName"])),
-    ), "Standings sort order changed."
+        key=lambda row: (-int(row["points"]), str(row["displayName"])),
+    ), "Official standings sort order changed."
 
-    print("OK: scoring test passed.")
+    print("OK: official Google Sheet scoring CSV test passed.")
 
 
 if __name__ == "__main__":

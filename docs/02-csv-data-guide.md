@@ -182,3 +182,36 @@ Belanda,Netherlands|Holland,Football-data country name
 - Ada duplikat untuk kombinasi peserta dan pertandingan yang sama.
 - Hasil belum final tetapi kolom `result` sudah diisi.
 - Kolom `date` di `participants.csv` tidak diisi atau formatnya salah (harus `YYYY-MM-DD`).
+
+---
+
+### `data/standings.csv`
+
+Klasemen resmi yang diekspor dari Google Sheet panitia pada sheet `SKOR`. File ini adalah sumber utama poin dan peringkat di website. Perhitungan skor dari `predictions.csv` + `results.csv` lama sudah tidak dipakai untuk menentukan klasemen.
+
+Kolom minimum yang dibaca:
+
+| Kolom | Contoh | Keterangan |
+| --- | --- | --- |
+| `Id participant` | `P003` | Harus sama dengan `id` di `participants.csv`. |
+| `nama participan` | `Yanu` | Nama peserta dari sheet panitia. |
+| `skor as is` | `24` | Nilai rekap mentah/as-is dari panitia, ditampilkan sebagai pembanding. |
+| `total` | `31` | Total resmi yang dipakai sebagai poin klasemen. |
+
+Kolom tambahan seperti `skor pertandingan ke 24` sampai `skor pertandingan selesai` boleh tetap ada di CSV. Script build hanya membutuhkan ID peserta dan `total` untuk klasemen.
+
+Contoh:
+
+```csv
+Id participant,nama participan,skor as is,skor pertandingan ke 24,skor pertandingan selesai,total
+P003,Yanu,28,,,28
+P004,Joko,27,,,27
+```
+
+Untuk menampilkan tautan/embedded Google Sheet di halaman Peserta dan Pertandingan, isi environment variable berikut sebelum menjalankan build:
+
+```bash
+OFFICIAL_SCORE_SHEET_URL="https://docs.google.com/spreadsheets/d/.../edit?usp=sharing"
+OFFICIAL_SCORE_SHEET_EMBED_URL="https://docs.google.com/spreadsheets/d/e/.../pubhtml?gid=...&single=true&widget=true&headers=false"
+python scripts/build_site_data.py
+```

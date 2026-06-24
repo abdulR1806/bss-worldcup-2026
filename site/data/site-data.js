@@ -1,12 +1,14 @@
 window.WORLD_CUP_LEADERBOARD_DATA = {
   "metadata": {
     "title": "Credit Divisions World Cup Leaderboard",
-    "dataMode": "Data utama dari football-data.org; fallback TheSportsDB jika skor kosong",
-    "sourceWorkbook": "Jadwal_FIFA_World_Cup_2026.xlsx",
-    "generatedAt": "2026-06-24T12:20:57+07:00",
+    "dataMode": "Klasemen resmi dari ekspor CSV Google Sheet panitia; data pertandingan lokal hanya sebagai referensi.",
+    "sourceWorkbook": "Google Sheet SKOR panitia",
+    "officialScoreSheetUrl": "",
+    "officialScoreSheetEmbedUrl": "",
+    "generatedAt": "2026-06-24T12:24:12+07:00",
     "timezone": "Asia/Jakarta",
     "resultDelayMinutes": 100,
-    "scoring": "1 poin untuk setiap prediksi W/L/D yang benar. Pertandingan menunggu tidak dihitung."
+    "scoring": "Klasemen memakai total resmi dari sheet SKOR panitia. Perhitungan W/L/D lama tidak lagi dipakai untuk menentukan peringkat."
   },
   "matches": [
     {
@@ -7693,6 +7695,110 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "result": "",
       "source": "",
       "updatedAt": ""
+    }
+  ],
+  "standings": [
+    {
+      "participantId": "P008",
+      "displayName": "Royhan",
+      "scoreAsIs": 31,
+      "points": 31
+    },
+    {
+      "participantId": "P016",
+      "displayName": "Anggit Pratitis",
+      "scoreAsIs": 30,
+      "points": 30
+    },
+    {
+      "participantId": "P012",
+      "displayName": "Appa",
+      "scoreAsIs": 30,
+      "points": 30
+    },
+    {
+      "participantId": "P017",
+      "displayName": "Ganesh",
+      "scoreAsIs": 30,
+      "points": 30
+    },
+    {
+      "participantId": "P013",
+      "displayName": "Irwan",
+      "scoreAsIs": 30,
+      "points": 30
+    },
+    {
+      "participantId": "P018",
+      "displayName": "Junius",
+      "scoreAsIs": 30,
+      "points": 30
+    },
+    {
+      "participantId": "P020",
+      "displayName": "Karina",
+      "scoreAsIs": 30,
+      "points": 30
+    },
+    {
+      "participantId": "P015",
+      "displayName": "MBG (Mas Benny G)",
+      "scoreAsIs": 30,
+      "points": 30
+    },
+    {
+      "participantId": "P019",
+      "displayName": "Nurul Cantik",
+      "scoreAsIs": 30,
+      "points": 30
+    },
+    {
+      "participantId": "P011",
+      "displayName": "Rena",
+      "scoreAsIs": 30,
+      "points": 30
+    },
+    {
+      "participantId": "P014",
+      "displayName": "Richa",
+      "scoreAsIs": 30,
+      "points": 30
+    },
+    {
+      "participantId": "P005",
+      "displayName": "Rokhim",
+      "scoreAsIs": 29,
+      "points": 29
+    },
+    {
+      "participantId": "P009",
+      "displayName": "Bowo",
+      "scoreAsIs": 28,
+      "points": 28
+    },
+    {
+      "participantId": "P007",
+      "displayName": "Oman",
+      "scoreAsIs": 28,
+      "points": 28
+    },
+    {
+      "participantId": "P004",
+      "displayName": "Joko",
+      "scoreAsIs": 25,
+      "points": 25
+    },
+    {
+      "participantId": "P006",
+      "displayName": "Fauzi Rulandi",
+      "scoreAsIs": 24,
+      "points": 24
+    },
+    {
+      "participantId": "P003",
+      "displayName": "Yanu",
+      "scoreAsIs": 20,
+      "points": 20
     }
   ]
 };
