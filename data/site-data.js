@@ -5,7 +5,7 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
     "sourceWorkbook": "Google Sheet SKOR panitia",
     "officialScoreSheetUrl": "https://docs.google.com/spreadsheets/d/1Y8KS4EsNpYr8MTv0bUBEsYz-wNN6FaI9ke9J485N05o/edit?usp=sharing",
     "officialScoreSheetEmbedUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1qP5REOzz6gjjbJf02gWWI3MzNnMCAfGfRPdLQQmSxibAMI2J3NJQCSK1SKZEfiUiS01mKxmmWFbA/pubhtml?gid=0&single=true&widget=true&headers=false",
-    "generatedAt": "2026-06-24T13:34:25+07:00",
+    "generatedAt": "2026-06-24T13:36:13+07:00",
     "timezone": "Asia/Jakarta",
     "resultDelayMinutes": 100,
     "scoring": "Klasemen memakai total resmi dari sheet SKOR panitia. Perhitungan W/L/D lama tidak lagi dipakai untuk menentukan peringkat."
@@ -7699,70 +7699,22 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
   ],
   "standings": [
     {
-      "participantId": "P008",
-      "displayName": "Royhan",
-      "scoreAsIs": 31,
-      "points": 31
-    },
-    {
-      "participantId": "P016",
-      "displayName": "Anggit Pratitis",
-      "scoreAsIs": 30,
-      "points": 30
-    },
-    {
-      "participantId": "P012",
-      "displayName": "Appa",
-      "scoreAsIs": 30,
-      "points": 30
-    },
-    {
       "participantId": "P017",
       "displayName": "Ganesh",
       "scoreAsIs": 30,
       "points": 30
     },
     {
+      "participantId": "P016",
+      "displayName": "Anggit Pratitis",
+      "scoreAsIs": 29,
+      "points": 29
+    },
+    {
       "participantId": "P013",
       "displayName": "Irwan",
-      "scoreAsIs": 30,
-      "points": 30
-    },
-    {
-      "participantId": "P018",
-      "displayName": "Junius",
-      "scoreAsIs": 30,
-      "points": 30
-    },
-    {
-      "participantId": "P020",
-      "displayName": "Karina",
-      "scoreAsIs": 30,
-      "points": 30
-    },
-    {
-      "participantId": "P015",
-      "displayName": "MBG (Mas Benny G)",
-      "scoreAsIs": 30,
-      "points": 30
-    },
-    {
-      "participantId": "P019",
-      "displayName": "Nurul Cantik",
-      "scoreAsIs": 30,
-      "points": 30
-    },
-    {
-      "participantId": "P011",
-      "displayName": "Rena",
-      "scoreAsIs": 30,
-      "points": 30
-    },
-    {
-      "participantId": "P014",
-      "displayName": "Richa",
-      "scoreAsIs": 30,
-      "points": 30
+      "scoreAsIs": 29,
+      "points": 29
     },
     {
       "participantId": "P005",
@@ -7771,34 +7723,82 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "points": 29
     },
     {
-      "participantId": "P009",
-      "displayName": "Bowo",
-      "scoreAsIs": 28,
-      "points": 28
-    },
-    {
       "participantId": "P007",
       "displayName": "Oman",
       "scoreAsIs": 28,
       "points": 28
     },
     {
-      "participantId": "P004",
-      "displayName": "Joko",
-      "scoreAsIs": 25,
-      "points": 25
+      "participantId": "P008",
+      "displayName": "Royhan",
+      "scoreAsIs": 28,
+      "points": 28
+    },
+    {
+      "participantId": "P012",
+      "displayName": "Appa",
+      "scoreAsIs": 27,
+      "points": 27
+    },
+    {
+      "participantId": "P018",
+      "displayName": "Junius",
+      "scoreAsIs": 27,
+      "points": 27
+    },
+    {
+      "participantId": "P015",
+      "displayName": "MBG (Mas Benny G)",
+      "scoreAsIs": 26,
+      "points": 26
     },
     {
       "participantId": "P006",
       "displayName": "Fauzi Rulandi",
+      "scoreAsIs": 25,
+      "points": 25
+    },
+    {
+      "participantId": "P009",
+      "displayName": "Bowo",
+      "scoreAsIs": 24,
+      "points": 24
+    },
+    {
+      "participantId": "P004",
+      "displayName": "Joko",
       "scoreAsIs": 24,
       "points": 24
     },
     {
       "participantId": "P003",
       "displayName": "Yanu",
+      "scoreAsIs": 22,
+      "points": 22
+    },
+    {
+      "participantId": "P011",
+      "displayName": "Rena",
+      "scoreAsIs": 21,
+      "points": 21
+    },
+    {
+      "participantId": "P014",
+      "displayName": "Richa",
       "scoreAsIs": 20,
       "points": 20
+    },
+    {
+      "participantId": "P020",
+      "displayName": "Karina",
+      "scoreAsIs": 18,
+      "points": 18
+    },
+    {
+      "participantId": "P019",
+      "displayName": "Nurul Cantik",
+      "scoreAsIs": 18,
+      "points": 18
     }
   ]
 };
