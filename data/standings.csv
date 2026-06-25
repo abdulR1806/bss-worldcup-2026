@@ -1,7 +1,7 @@
 Id participant,nama participan,skor as is 2406,skor-49,skor-50,skor-51,skor-52,skor-53,skor-54,skor-55,skor-56,skor-57,skor-58,skor-59,skor-60,skor-61,skor-62,skor-63,skor-64,skor-65,skor-66,skor-67,skor-68,skor-69,skor-70,skor-71,skor-72,total
-P017,Ganesh,30,,,,,,,,,,,,,,,,,,,,,,,,,30
-P016,Anggit Pratitis,29,,,,,,,,,,,,,,,,,,,,,,,,,29
-P013,Irwan,29,,,,,,,,,,,,,,,,,,,,,,,,,29
+P016,Anggit Pratitis,29,1,1,1,1,1,0,,,,,,,,,,,,,,,,,,,34
+P017,Ganesh,30,1,0,1,1,0,0,,,,,,,,,,,,,,,,,,,33
+P013,Irwan,29,1,1,1,1,0,0,,,,,,,,,,,,,,,,,,,33
 P005,Rokhim,29,,,,,,,,,,,,,,,,,,,,,,,,,29
 P007,Oman,28,,,,,,,,,,,,,,,,,,,,,,,,,28
 P008,Royhan,28,,,,,,,,,,,,,,,,,,,,,,,,,28
