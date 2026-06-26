@@ -5,7 +5,7 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
     "sourceWorkbook": "Google Sheet SKOR panitia",
     "officialScoreSheetUrl": "https://docs.google.com/spreadsheets/d/1Y8KS4EsNpYr8MTv0bUBEsYz-wNN6FaI9ke9J485N05o/edit?usp=sharing",
     "officialScoreSheetEmbedUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1qP5REOzz6gjjbJf02gWWI3MzNnMCAfGfRPdLQQmSxibAMI2J3NJQCSK1SKZEfiUiS01mKxmmWFbA/pubhtml?gid=0&single=true&widget=true&headers=false",
-    "generatedAt": "2026-06-27T03:57:47+07:00",
+    "generatedAt": "2026-06-27T04:21:16+07:00",
     "timezone": "Asia/Jakarta",
     "resultDelayMinutes": 100,
     "scoring": "Klasemen memakai total resmi dari sheet SKOR panitia. Perhitungan W/L/D lama tidak lagi dipakai untuk menentukan peringkat."
@@ -7590,21 +7590,21 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
     },
     {
       "matchId": "M061",
-      "status": "PENDING",
-      "homeScore": "",
-      "awayScore": "",
-      "result": "",
-      "source": "",
-      "updatedAt": ""
+      "status": "FINAL",
+      "homeScore": 1,
+      "awayScore": 4,
+      "result": "L",
+      "source": "football-data.org",
+      "updatedAt": "2026-06-27T04:20:55+07:00"
     },
     {
       "matchId": "M062",
-      "status": "PENDING",
-      "homeScore": "",
-      "awayScore": "",
-      "result": "",
-      "source": "",
-      "updatedAt": ""
+      "status": "FINAL",
+      "homeScore": 5,
+      "awayScore": 0,
+      "result": "W",
+      "source": "football-data.org",
+      "updatedAt": "2026-06-27T04:20:55+07:00"
     },
     {
       "matchId": "M063",
