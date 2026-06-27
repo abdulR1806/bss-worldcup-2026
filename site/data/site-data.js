@@ -3,9 +3,9 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
     "title": "Credit Divisions World Cup Leaderboard",
     "dataMode": "Klasemen resmi dari ekspor CSV Google Sheet panitia; data pertandingan lokal hanya sebagai referensi.",
     "sourceWorkbook": "Google Sheet SKOR panitia",
-    "officialScoreSheetUrl": "",
-    "officialScoreSheetEmbedUrl": "",
-    "generatedAt": "2026-06-27T11:38:53+07:00",
+    "officialScoreSheetUrl": "https://docs.google.com/spreadsheets/d/1Y8KS4EsNpYr8MTv0bUBEsYz-wNN6FaI9ke9J485N05o/edit?usp=sharing",
+    "officialScoreSheetEmbedUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1qP5REOzz6gjjbJf02gWWI3MzNnMCAfGfRPdLQQmSxibAMI2J3NJQCSK1SKZEfiUiS01mKxmmWFbA/pubhtml?gid=0&single=true&widget=true&headers=false",
+    "generatedAt": "2026-06-27T12:03:13+07:00",
     "timezone": "Asia/Jakarta",
     "resultDelayMinutes": 100,
     "scoring": "Klasemen memakai total resmi dari sheet SKOR panitia. Perhitungan W/L/D lama tidak lagi dipakai untuk menentukan peringkat."
@@ -7617,12 +7617,12 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
     },
     {
       "matchId": "M064",
-      "status": "PENDING",
-      "homeScore": "",
-      "awayScore": "",
-      "result": "",
-      "source": "",
-      "updatedAt": ""
+      "status": "FINAL",
+      "homeScore": 1,
+      "awayScore": 5,
+      "result": "L",
+      "source": "football-data.org",
+      "updatedAt": "2026-06-27T12:03:11+07:00"
     },
     {
       "matchId": "M065",
