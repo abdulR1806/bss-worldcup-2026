@@ -354,9 +354,40 @@
             </div>
             <button id="drawParticipantButton" type="button">Gunakan Peserta</button>
             <div id="drawCurrentParticipant" class="draw-current" hidden></div>
+
+            <div class="draw-exclusion-section">
+              <p class="draw-exclusion-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="m4.9 4.9 14.2 14.2"></path></svg>
+                Eksklusikan Negara
+              </p>
+              <p class="draw-exclusion-hint">Pilih maks. 3 negara yang tidak masuk roda undian (misal: pilihan peringkat 1).</p>
+              <div class="draw-exclusion-slots">
+                <label class="field">
+                  <span>Negara ke-1</span>
+                  <select id="drawExclude1"><option value="">— Tidak ada —</option></select>
+                </label>
+                <label class="field">
+                  <span>Negara ke-2</span>
+                  <select id="drawExclude2"><option value="">— Tidak ada —</option></select>
+                </label>
+                <label class="field">
+                  <span>Negara ke-3</span>
+                  <select id="drawExclude3"><option value="">— Tidak ada —</option></select>
+                </label>
+              </div>
+              <button id="drawExclusionApply" type="button" class="secondary-button">Terapkan Eksklusif</button>
+              <button id="drawExclusionClear" type="button" class="ghost-button">Hapus Semua Eksklusif</button>
+            </div>
           </section>
         </div>
 
+        <div class="draw-table-toolbar">
+          <p class="draw-table-label">Hasil Undian</p>
+          <button id="drawExportCsvButton" type="button" class="secondary-button draw-export-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Export CSV
+          </button>
+        </div>
         <div class="table-wrap draw-table-wrap">
           <table>
             <thead>
@@ -366,7 +397,7 @@
                 <th>1st Team</th>
                 <th>1st Team Group/Bracket</th>
                 <th>2nd Team</th>
-                <th>2nd Team Group /Bracket</th>
+                <th>2nd Team Group/Bracket</th>
               </tr>
             </thead>
             <tbody id="drawResultBody"></tbody>

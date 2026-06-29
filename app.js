@@ -25,6 +25,7 @@
       wheelRotation: 0,
       results: [],
       skippedParticipantIds: [],
+      excludedTeamNames: [],
     },
   };
 
@@ -75,6 +76,12 @@
     drawModal: document.getElementById('drawModal'),
     drawModalBody: document.getElementById('drawModalBody'),
     drawModalClose: document.getElementById('drawModalClose'),
+    drawExclude1: document.getElementById('drawExclude1'),
+    drawExclude2: document.getElementById('drawExclude2'),
+    drawExclude3: document.getElementById('drawExclude3'),
+    drawExclusionApply: document.getElementById('drawExclusionApply'),
+    drawExclusionClear: document.getElementById('drawExclusionClear'),
+    drawExportCsvButton: document.getElementById('drawExportCsvButton'),
   };
 
 
@@ -338,6 +345,18 @@
       els.drawModal.addEventListener('click', (event) => {
         if (event.target === els.drawModal) closeDrawModal();
       });
+    }
+
+    if (els.drawExclusionApply) {
+      els.drawExclusionApply.addEventListener('click', applyDrawExclusion);
+    }
+
+    if (els.drawExclusionClear) {
+      els.drawExclusionClear.addEventListener('click', clearDrawExclusion);
+    }
+
+    if (els.drawExportCsvButton) {
+      els.drawExportCsvButton.addEventListener('click', exportDrawResultsCsv);
     }
 
     if (els.searchInput) {
@@ -741,9 +760,11 @@
       const saved = JSON.parse(window.localStorage.getItem(drawStorageKey) || '{}');
       state.draw.results = Array.isArray(saved.results) ? saved.results : [];
       state.draw.skippedParticipantIds = Array.isArray(saved.skippedParticipantIds) ? saved.skippedParticipantIds : [];
+      state.draw.excludedTeamNames = Array.isArray(saved.excludedTeamNames) ? saved.excludedTeamNames : [];
     } catch {
       state.draw.results = [];
       state.draw.skippedParticipantIds = [];
+      state.draw.excludedTeamNames = [];
     }
   }
 
@@ -752,6 +773,7 @@
       window.localStorage.setItem(drawStorageKey, JSON.stringify({
         results: state.draw.results,
         skippedParticipantIds: state.draw.skippedParticipantIds,
+        excludedTeamNames: state.draw.excludedTeamNames,
       }));
     } catch {
       if (els.drawStatus) els.drawStatus.textContent = 'Browser tidak mengizinkan penyimpanan localStorage.';
@@ -771,6 +793,23 @@
     ].join('');
 
     if (selectedStillAvailable) els.drawParticipantSelect.value = state.draw.selectedParticipantId || '';
+
+    // Populate exclusion dropdowns — all 32 countries, minus already-drawn ones
+    const drawnNames = getDrawnCountryNames();
+    const allAvailableForExclusion = DRAW_COUNTRIES.filter((c) => !drawnNames.has(c.name));
+    const excluded = state.draw.excludedTeamNames;
+    [els.drawExclude1, els.drawExclude2, els.drawExclude3].forEach((sel, idx) => {
+      if (!sel) return;
+      const currentVal = excluded[idx] || '';
+      // Collect values chosen in the other two slots to avoid duplicates
+      const otherVals = excluded.filter((_, i) => i !== idx && excluded[i]);
+      sel.innerHTML = [
+        '<option value="">— Tidak ada —</option>',
+        ...allAvailableForExclusion
+          .filter((c) => !otherVals.includes(c.name) || c.name === currentVal)
+          .map((c) => `<option value="${escapeHtml(c.name)}"${c.name === currentVal ? ' selected' : ''}>${escapeHtml(c.name)} (${escapeHtml(c.group)} / ${escapeHtml(c.bracket)})</option>`),
+      ].join('');
+    });
 
     const availableCountries = getAvailableDrawCountries();
     if (els.drawRemainingLabel) els.drawRemainingLabel.textContent = `${availableCountries.length} negara tersedia`;
@@ -799,6 +838,29 @@
 
     updateDrawControls();
     drawWheel();
+  }
+
+  function applyDrawExclusion() {
+    const picks = [
+      els.drawExclude1 ? els.drawExclude1.value : '',
+      els.drawExclude2 ? els.drawExclude2.value : '',
+      els.drawExclude3 ? els.drawExclude3.value : '',
+    ].filter(Boolean);
+    // Deduplicate
+    state.draw.excludedTeamNames = [...new Set(picks)];
+    saveDrawState();
+    const names = state.draw.excludedTeamNames;
+    setDrawStatus(names.length
+      ? `${names.length} negara dikecualikan: ${names.join(', ')}.`
+      : 'Tidak ada negara yang dikecualikan.');
+    renderDraw();
+  }
+
+  function clearDrawExclusion() {
+    state.draw.excludedTeamNames = [];
+    saveDrawState();
+    setDrawStatus('Semua eksklusif negara dihapus.');
+    renderDraw();
   }
 
   function selectDrawParticipant() {
@@ -836,7 +898,8 @@
 
   function getAvailableDrawCountries() {
     const drawnNames = getDrawnCountryNames();
-    return DRAW_COUNTRIES.filter((country) => !drawnNames.has(country.name));
+    const excluded = new Set(state.draw.excludedTeamNames);
+    return DRAW_COUNTRIES.filter((country) => !drawnNames.has(country.name) && !excluded.has(country.name));
   }
 
   function getEligibleDrawCountries() {
@@ -1001,12 +1064,46 @@
     if (!window.confirm('Reset semua hasil undian di browser ini?')) return;
     state.draw.results = [];
     state.draw.skippedParticipantIds = [];
+    state.draw.excludedTeamNames = [];
     state.draw.selectedParticipantId = null;
     state.draw.currentPicks = [];
     state.draw.wheelRotation = 0;
     saveDrawState();
     setDrawStatus('Undian berhasil direset.');
     renderDraw();
+  }
+
+  function exportDrawResultsCsv() {
+    if (!state.draw.results.length) {
+      setDrawStatus('Belum ada hasil undian untuk diekspor.');
+      return;
+    }
+
+    const headers = ['Time Drawing', 'Participant', '1st Team', '1st Team Group/Bracket', '2nd Team', '2nd Team Group/Bracket'];
+    const rows = state.draw.results.map((result) => [
+      result.timeDrawing,
+      result.participantName,
+      result.firstTeam.name,
+      teamGroupBracket(result.firstTeam),
+      result.secondTeam.name,
+      teamGroupBracket(result.secondTeam),
+    ]);
+
+    const csvContent = [headers, ...rows]
+      .map((row) => row.map((cell) => `"${String(cell).replaceAll('"', '""')}"`).join(','))
+      .join('\r\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    const timestamp = new Date().toISOString().slice(0, 10);
+    link.href = url;
+    link.download = `hasil-undian-${timestamp}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    setDrawStatus(`${state.draw.results.length} hasil undian berhasil diekspor ke CSV.`);
   }
 
   function setDrawStatus(message) {
