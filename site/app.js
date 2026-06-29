@@ -7,6 +7,7 @@
   }
 
   const storageKey = 'credit-divisions-world-cup-theme';
+  const drawStorageKey = 'credit-divisions-world-cup-country-draws-v1';
   const streamMode = new URLSearchParams(window.location.search).get('mode') === 'stream';
 
   const state = {
@@ -17,6 +18,14 @@
     search: '',
     activeParticipant: null,
     theme: 'dark',
+    draw: {
+      selectedParticipantId: null,
+      currentPicks: [],
+      spinning: false,
+      wheelRotation: 0,
+      results: [],
+      skippedParticipantIds: [],
+    },
   };
 
   const resultByMatch = new Map(data.results.map((result) => [result.matchId, result]));
@@ -52,7 +61,57 @@
     matchesSheetLink: document.getElementById('matchesSheetLink'),
     participantsSheetEmbed: document.getElementById('participantsSheetEmbed'),
     matchesSheetEmbed: document.getElementById('matchesSheetEmbed'),
+    drawWheel: document.getElementById('drawWheel'),
+    drawParticipantSelect: document.getElementById('drawParticipantSelect'),
+    drawParticipantActive: document.getElementById('drawParticipantActive'),
+    drawParticipantButton: document.getElementById('drawParticipantButton'),
+    drawSpinButton: document.getElementById('drawSpinButton'),
+    drawResetButton: document.getElementById('drawResetButton'),
+    drawStatus: document.getElementById('drawStatus'),
+    drawStepLabel: document.getElementById('drawStepLabel'),
+    drawRemainingLabel: document.getElementById('drawRemainingLabel'),
+    drawCurrentParticipant: document.getElementById('drawCurrentParticipant'),
+    drawResultBody: document.getElementById('drawResultBody'),
+    drawModal: document.getElementById('drawModal'),
+    drawModalBody: document.getElementById('drawModalBody'),
+    drawModalClose: document.getElementById('drawModalClose'),
   };
+
+
+  const DRAW_COUNTRIES = [
+    { name: 'Brazil', bracket: 'Left', group: 'Group C', match: 'M76: Brazil vs Japan | Monday, 29 June 2026 | Houston Stadium, Houston' },
+    { name: 'Japan', bracket: 'Left', group: 'Group F', match: 'M76: Brazil vs Japan | Monday, 29 June 2026 | Houston Stadium, Houston' },
+    { name: 'Ivory Coast', bracket: 'Left', group: 'Group E', match: 'M78: Ivory Coast vs Norway | Tuesday, 30 June 2026 | Dallas Stadium, Arlington' },
+    { name: 'Norway', bracket: 'Left', group: 'Group I', match: 'M78: Ivory Coast vs Norway | Tuesday, 30 June 2026 | Dallas Stadium, Arlington' },
+    { name: 'Mexico', bracket: 'Left', group: 'Group A', match: 'M79: Mexico vs Ecuador | Tuesday, 30 June 2026 | Mexico City Stadium, Mexico City' },
+    { name: 'Ecuador', bracket: 'Left', group: 'Group E', match: 'M79: Mexico vs Ecuador | Tuesday, 30 June 2026 | Mexico City Stadium, Mexico City' },
+    { name: 'England', bracket: 'Left', group: 'Group L', match: 'M80: England vs DR Congo | Wednesday, 1 July 2026 | Atlanta Stadium, Atlanta' },
+    { name: 'DR Congo', bracket: 'Left', group: 'Group K', match: 'M80: England vs DR Congo | Wednesday, 1 July 2026 | Atlanta Stadium, Atlanta' },
+    { name: 'Switzerland', bracket: 'Left', group: 'Group B', match: 'M85: Switzerland vs Algeria | Thursday, 2 July 2026 | BC Place Vancouver, Vancouver' },
+    { name: 'Algeria', bracket: 'Left', group: 'Group J', match: 'M85: Switzerland vs Algeria | Thursday, 2 July 2026 | BC Place Vancouver, Vancouver' },
+    { name: 'Colombia', bracket: 'Left', group: 'Group K', match: 'M87: Colombia vs Ghana | Friday, 3 July 2026 | Kansas City Stadium, Kansas City' },
+    { name: 'Ghana', bracket: 'Left', group: 'Group L', match: 'M87: Colombia vs Ghana | Friday, 3 July 2026 | Kansas City Stadium, Kansas City' },
+    { name: 'Australia', bracket: 'Left', group: 'Group D', match: 'M88: Australia vs Egypt | Friday, 3 July 2026 | Dallas Stadium, Arlington' },
+    { name: 'Egypt', bracket: 'Left', group: 'Group G', match: 'M88: Australia vs Egypt | Friday, 3 July 2026 | Dallas Stadium, Arlington' },
+    { name: 'Argentina', bracket: 'Left', group: 'Group J', match: 'M86: Argentina vs Cape Verde | Friday, 3 July 2026 | Miami Stadium, Miami Gardens' },
+    { name: 'Cape Verde', bracket: 'Left', group: 'Group H', match: 'M86: Argentina vs Cape Verde | Friday, 3 July 2026 | Miami Stadium, Miami Gardens' },
+    { name: 'South Africa', bracket: 'Right', group: 'Group A', match: 'M73: South Africa vs Canada | Sunday, 28 June 2026 | Los Angeles Stadium, Los Angeles' },
+    { name: 'Canada', bracket: 'Right', group: 'Group B', match: 'M73: South Africa vs Canada | Sunday, 28 June 2026 | Los Angeles Stadium, Los Angeles' },
+    { name: 'Netherlands', bracket: 'Right', group: 'Group F', match: 'M75: Netherlands vs Morocco | Monday, 29 June 2026 | Monterrey Stadium, Monterrey' },
+    { name: 'Morocco', bracket: 'Right', group: 'Group C', match: 'M75: Netherlands vs Morocco | Monday, 29 June 2026 | Monterrey Stadium, Monterrey' },
+    { name: 'Germany', bracket: 'Right', group: 'Group E', match: 'M74: Germany vs Paraguay | Monday, 29 June 2026 | Boston Stadium, Boston' },
+    { name: 'Paraguay', bracket: 'Right', group: 'Group D', match: 'M74: Germany vs Paraguay | Monday, 29 June 2026 | Boston Stadium, Boston' },
+    { name: 'France', bracket: 'Right', group: 'Group I', match: 'M77: France vs Sweden | Tuesday, 30 June 2026 | New York New Jersey Stadium, New York/New Jersey' },
+    { name: 'Sweden', bracket: 'Right', group: 'Group F', match: 'M77: France vs Sweden | Tuesday, 30 June 2026 | New York New Jersey Stadium, New York/New Jersey' },
+    { name: 'Belgium', bracket: 'Right', group: 'Group G', match: 'M82: Belgium vs Senegal | Wednesday, 1 July 2026 | Seattle Stadium, Seattle' },
+    { name: 'Senegal', bracket: 'Right', group: 'Group I', match: 'M82: Belgium vs Senegal | Wednesday, 1 July 2026 | Seattle Stadium, Seattle' },
+    { name: 'United States', bracket: 'Right', group: 'Group D', match: 'M81: United States vs Bosnia and Herzegovina | Wednesday, 1 July 2026 | San Francisco Bay Area Stadium, Santa Clara' },
+    { name: 'Bosnia and Herzegovina', bracket: 'Right', group: 'Group B', match: 'M81: United States vs Bosnia and Herzegovina | Wednesday, 1 July 2026 | San Francisco Bay Area Stadium, Santa Clara' },
+    { name: 'Spain', bracket: 'Right', group: 'Group H', match: 'M84: Spain vs Austria | Thursday, 2 July 2026 | Los Angeles Stadium, Los Angeles' },
+    { name: 'Austria', bracket: 'Right', group: 'Group J', match: 'M84: Spain vs Austria | Thursday, 2 July 2026 | Los Angeles Stadium, Los Angeles' },
+    { name: 'Portugal', bracket: 'Right', group: 'Group K', match: 'M83: Portugal vs Croatia | Thursday, 2 July 2026 | Toronto Stadium, Toronto' },
+    { name: 'Croatia', bracket: 'Right', group: 'Group L', match: 'M83: Portugal vs Croatia | Thursday, 2 July 2026 | Toronto Stadium, Toronto' },
+  ];
 
   const ICONS = {
     people: `
@@ -97,6 +156,8 @@
     applyTheme(state.theme);
     fillMetadata();
     fillFilters();
+    loadDrawState();
+    initializeDrawWheel();
     bindEvents();
     syncNav();
     render();
@@ -257,7 +318,30 @@
       });
     }
 
+    if (els.drawParticipantButton) {
+      els.drawParticipantButton.addEventListener('click', selectDrawParticipant);
+    }
+
+    if (els.drawSpinButton) {
+      els.drawSpinButton.addEventListener('click', spinDrawWheel);
+    }
+
+    if (els.drawResetButton) {
+      els.drawResetButton.addEventListener('click', resetDrawState);
+    }
+
+    if (els.drawModalClose) {
+      els.drawModalClose.addEventListener('click', closeDrawModal);
+    }
+
+    if (els.drawModal) {
+      els.drawModal.addEventListener('click', (event) => {
+        if (event.target === els.drawModal) closeDrawModal();
+      });
+    }
+
     if (els.searchInput) {
+
       els.searchInput.addEventListener('input', (event) => {
         state.search = event.target.value.trim().toLowerCase();
         render();
@@ -339,6 +423,7 @@
     renderLeaderboard(standings);
     renderParticipants(standings);
     renderMatches();
+    renderDraw();
   }
 
   function showBootError(error) {
@@ -644,6 +729,297 @@
       : '<p class="meta">Tidak ada data yang cocok dengan filter saat ini.</p>';
 
     els.streamView.hidden = false;
+  }
+
+
+  function initializeDrawWheel() {
+    drawWheel();
+  }
+
+  function loadDrawState() {
+    try {
+      const saved = JSON.parse(window.localStorage.getItem(drawStorageKey) || '{}');
+      state.draw.results = Array.isArray(saved.results) ? saved.results : [];
+      state.draw.skippedParticipantIds = Array.isArray(saved.skippedParticipantIds) ? saved.skippedParticipantIds : [];
+    } catch {
+      state.draw.results = [];
+      state.draw.skippedParticipantIds = [];
+    }
+  }
+
+  function saveDrawState() {
+    try {
+      window.localStorage.setItem(drawStorageKey, JSON.stringify({
+        results: state.draw.results,
+        skippedParticipantIds: state.draw.skippedParticipantIds,
+      }));
+    } catch {
+      if (els.drawStatus) els.drawStatus.textContent = 'Browser tidak mengizinkan penyimpanan localStorage.';
+    }
+  }
+
+  function renderDraw() {
+    if (!els.drawParticipantSelect) return;
+    const usedParticipantIds = new Set(state.draw.results.map((result) => result.participantId));
+    const skipped = new Set(state.draw.skippedParticipantIds);
+    const availableParticipants = data.participants.filter((participant) => !usedParticipantIds.has(participant.id) && !skipped.has(participant.id));
+    const selectedStillAvailable = availableParticipants.some((participant) => participant.id === els.drawParticipantSelect.value);
+
+    els.drawParticipantSelect.innerHTML = [
+      '<option value="">Pilih peserta</option>',
+      ...availableParticipants.map((participant) => `<option value="${escapeHtml(participant.id)}">${escapeHtml(participant.displayName)} - ${escapeHtml(participant.division)}</option>`),
+    ].join('');
+
+    if (selectedStillAvailable) els.drawParticipantSelect.value = state.draw.selectedParticipantId || '';
+
+    const availableCountries = getAvailableDrawCountries();
+    if (els.drawRemainingLabel) els.drawRemainingLabel.textContent = `${availableCountries.length} negara tersedia`;
+    if (els.drawResultBody) {
+      els.drawResultBody.innerHTML = state.draw.results.length
+        ? state.draw.results.map((result) => `
+          <tr>
+            <td>${escapeHtml(result.timeDrawing)}</td>
+            <td>${escapeHtml(result.participantName)}</td>
+            <td>${escapeHtml(result.firstTeam.name)}</td>
+            <td>${escapeHtml(teamGroupBracket(result.firstTeam))}</td>
+            <td>${escapeHtml(result.secondTeam.name)}</td>
+            <td>${escapeHtml(teamGroupBracket(result.secondTeam))}</td>
+          </tr>
+        `).join('')
+        : '<tr><td colspan="6">Belum ada hasil undian.</td></tr>';
+    }
+
+    const participant = getCurrentDrawParticipant();
+    if (els.drawCurrentParticipant) {
+      els.drawCurrentParticipant.hidden = !participant;
+      els.drawCurrentParticipant.innerHTML = participant
+        ? `<strong>${escapeHtml(participant.displayName)}</strong><span>${escapeHtml(participant.division)}</span>`
+        : '';
+    }
+
+    updateDrawControls();
+    drawWheel();
+  }
+
+  function selectDrawParticipant() {
+    const participantId = els.drawParticipantSelect ? els.drawParticipantSelect.value : '';
+    if (!participantId) {
+      setDrawStatus('Pilih peserta terlebih dahulu.');
+      return;
+    }
+
+    if (els.drawParticipantActive && !els.drawParticipantActive.checked) {
+      state.draw.skippedParticipantIds = unique([...state.draw.skippedParticipantIds, participantId]);
+      state.draw.selectedParticipantId = null;
+      state.draw.currentPicks = [];
+      if (els.drawParticipantActive) els.drawParticipantActive.checked = true;
+      saveDrawState();
+      setDrawStatus('Peserta ditandai tidak ikut undian.');
+      renderDraw();
+      return;
+    }
+
+    state.draw.selectedParticipantId = participantId;
+    state.draw.currentPicks = [];
+    const participant = getCurrentDrawParticipant();
+    setDrawStatus(participant ? `${participant.displayName} siap untuk undian pertama.` : 'Peserta siap untuk undian.');
+    renderDraw();
+  }
+
+  function getCurrentDrawParticipant() {
+    return data.participants.find((participant) => participant.id === state.draw.selectedParticipantId) || null;
+  }
+
+  function getDrawnCountryNames() {
+    return new Set(state.draw.results.flatMap((result) => [result.firstTeam.name, result.secondTeam.name]));
+  }
+
+  function getAvailableDrawCountries() {
+    const drawnNames = getDrawnCountryNames();
+    return DRAW_COUNTRIES.filter((country) => !drawnNames.has(country.name));
+  }
+
+  function getEligibleDrawCountries() {
+    const available = getAvailableDrawCountries();
+    const firstPick = state.draw.currentPicks[0];
+    if (!firstPick) return available;
+    return available.filter((country) => country.bracket !== firstPick.bracket && country.group !== firstPick.group);
+  }
+
+  function spinDrawWheel() {
+    if (state.draw.spinning) return;
+    const participant = getCurrentDrawParticipant();
+    if (!participant) {
+      setDrawStatus('Pilih dan gunakan peserta sebelum memutar roda.');
+      return;
+    }
+
+    const eligible = getEligibleDrawCountries();
+    if (!eligible.length) {
+      setDrawStatus('Tidak ada negara valid yang tersisa untuk aturan bracket dan grup berbeda.');
+      return;
+    }
+
+    const winner = eligible[Math.floor(Math.random() * eligible.length)];
+    const wheelCountries = getAvailableDrawCountries();
+    const winnerIndex = wheelCountries.findIndex((country) => country.name === winner.name);
+    const slice = (Math.PI * 2) / wheelCountries.length;
+    const targetAngle = Math.PI * 1.5 - (winnerIndex * slice + slice / 2);
+    const extraSpins = 5 + Math.floor(Math.random() * 4);
+    const start = state.draw.wheelRotation;
+    const end = start + extraSpins * Math.PI * 2 + normalizeAngle(targetAngle - start);
+    const duration = 3600;
+    const startedAt = performance.now();
+
+    state.draw.spinning = true;
+    updateDrawControls();
+    setDrawStatus(`Roda berputar untuk ${participant.displayName}...`);
+
+    function animate(now) {
+      const progress = Math.min((now - startedAt) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      state.draw.wheelRotation = start + (end - start) * eased;
+      drawWheel();
+      if (progress < 1) {
+        window.requestAnimationFrame(animate);
+        return;
+      }
+      state.draw.wheelRotation = end;
+      finishDrawSpin(winner);
+    }
+
+    window.requestAnimationFrame(animate);
+  }
+
+  function finishDrawSpin(winner) {
+    state.draw.spinning = false;
+    state.draw.currentPicks.push(winner);
+
+    if (state.draw.currentPicks.length === 1) {
+      setDrawStatus(`${winner.name} terpilih. Putar sekali lagi untuk negara kedua dari bracket dan grup berbeda.`);
+      updateDrawControls();
+      drawWheel();
+      return;
+    }
+
+    const participant = getCurrentDrawParticipant();
+    const [firstTeam, secondTeam] = state.draw.currentPicks;
+    const result = {
+      timeDrawing: new Date().toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' }),
+      participantId: participant.id,
+      participantName: participant.displayName,
+      firstTeam,
+      secondTeam,
+    };
+    state.draw.results.push(result);
+    state.draw.selectedParticipantId = null;
+    state.draw.currentPicks = [];
+    saveDrawState();
+    showDrawModal(result);
+    setDrawStatus(`${participant.displayName} selesai mendapatkan ${firstTeam.name} dan ${secondTeam.name}.`);
+    renderDraw();
+  }
+
+  function updateDrawControls() {
+    const participant = getCurrentDrawParticipant();
+    const eligibleCount = getEligibleDrawCountries().length;
+    if (els.drawSpinButton) {
+      els.drawSpinButton.disabled = state.draw.spinning || !participant || eligibleCount === 0;
+      els.drawSpinButton.textContent = state.draw.currentPicks.length ? 'Putar Roda Kedua' : 'Putar Roda';
+    }
+    if (els.drawStepLabel) {
+      els.drawStepLabel.textContent = participant
+        ? (state.draw.currentPicks.length ? 'Undian ke-2' : 'Undian ke-1')
+        : 'Pilih peserta';
+    }
+  }
+
+  function drawWheel() {
+    if (!els.drawWheel) return;
+    const canvas = els.drawWheel;
+    const context = canvas.getContext('2d');
+    const countries = getAvailableDrawCountries();
+    const size = canvas.width;
+    const radius = size / 2 - 12;
+    context.clearRect(0, 0, size, size);
+    context.save();
+    context.translate(size / 2, size / 2);
+    context.rotate(state.draw.wheelRotation);
+
+    if (!countries.length) {
+      context.fillStyle = '#1f2b36';
+      context.beginPath();
+      context.arc(0, 0, radius, 0, Math.PI * 2);
+      context.fill();
+      context.restore();
+      return;
+    }
+
+    const slice = (Math.PI * 2) / countries.length;
+    countries.forEach((country, index) => {
+      const start = index * slice;
+      const end = start + slice;
+      context.beginPath();
+      context.moveTo(0, 0);
+      context.arc(0, 0, radius, start, end);
+      context.closePath();
+      context.fillStyle = index % 4 === 0 ? '#21d07a' : index % 4 === 1 ? '#43a8ff' : index % 4 === 2 ? '#f2b33d' : '#ef6a70';
+      context.fill();
+      context.strokeStyle = 'rgba(255,255,255,0.32)';
+      context.lineWidth = 2;
+      context.stroke();
+
+      context.save();
+      context.rotate(start + slice / 2);
+      context.textAlign = 'right';
+      context.fillStyle = '#06131d';
+      context.font = '700 13px Segoe UI, sans-serif';
+      context.fillText(country.name, radius - 16, 4);
+      context.restore();
+    });
+    context.restore();
+  }
+
+  function showDrawModal(result) {
+    if (!els.drawModal || !els.drawModalBody) return;
+    els.drawModalBody.innerHTML = `
+      <p><strong>${escapeHtml(result.participantName)}</strong> mendapatkan:</p>
+      <div class="draw-modal-teams">
+        <article><strong>${escapeHtml(result.firstTeam.name)}</strong><span>${escapeHtml(teamGroupBracket(result.firstTeam))}</span></article>
+        <article><strong>${escapeHtml(result.secondTeam.name)}</strong><span>${escapeHtml(teamGroupBracket(result.secondTeam))}</span></article>
+      </div>
+    `;
+    els.drawModal.hidden = false;
+    els.drawModalClose.focus();
+  }
+
+  function closeDrawModal() {
+    if (els.drawModal) els.drawModal.hidden = true;
+  }
+
+  function resetDrawState() {
+    if (!window.confirm('Reset semua hasil undian di browser ini?')) return;
+    state.draw.results = [];
+    state.draw.skippedParticipantIds = [];
+    state.draw.selectedParticipantId = null;
+    state.draw.currentPicks = [];
+    state.draw.wheelRotation = 0;
+    saveDrawState();
+    setDrawStatus('Undian berhasil direset.');
+    renderDraw();
+  }
+
+  function setDrawStatus(message) {
+    if (els.drawStatus) els.drawStatus.textContent = message;
+  }
+
+  function teamGroupBracket(team) {
+    return `${team.group} / ${team.bracket}`;
+  }
+
+  function normalizeAngle(angle) {
+    const full = Math.PI * 2;
+    return ((angle % full) + full) % full;
   }
 
   function contextText() {
