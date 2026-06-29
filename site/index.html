@@ -63,6 +63,19 @@
             </span>
             <span>Peserta</span>
           </button>
+          <button class="nav-button" type="button" data-nav="draw">
+            <span class="nav-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"
+                stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9"></circle>
+                <path d="M12 3v18"></path>
+                <path d="M3 12h18"></path>
+                <path d="m5.6 5.6 12.8 12.8"></path>
+                <path d="m18.4 5.6-12.8 12.8"></path>
+              </svg>
+            </span>
+            <span>Undian</span>
+          </button>
           <button class="nav-button" type="button" data-nav="matches">
             <span class="nav-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"
@@ -301,6 +314,74 @@
         <div class="official-sheet-embed" id="matchesSheetEmbed" hidden></div>
         <div id="matchCards" class="match-grid"></div>
       </section>
+
+
+      <section id="drawView" class="view">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Undian negara</p>
+            <h2>Roulette World Cup</h2>
+            <p class="section-note">Pilih peserta, putar roda dua kali, lalu sistem akan mencatat dua negara dengan bracket dan grup berbeda.</p>
+          </div>
+          <p>Hasil disimpan di browser ini menggunakan localStorage. Jika peserta tidak ikut, matikan checkbox sebelum menekan tombol gunakan.</p>
+        </div>
+
+        <div class="draw-layout">
+          <section class="draw-wheel-card" aria-label="Roda undian negara">
+            <div class="wheel-stage">
+              <div class="wheel-pointer" aria-hidden="true"></div>
+              <canvas id="drawWheel" width="520" height="520" aria-label="Roda negara tersisa"></canvas>
+              <div class="wheel-center">
+                <strong id="drawStepLabel">Pilih peserta</strong>
+                <span id="drawRemainingLabel">32 negara tersedia</span>
+              </div>
+            </div>
+            <div class="draw-actions">
+              <button id="drawSpinButton" type="button" disabled>Putar Roda</button>
+              <button id="drawResetButton" type="button" class="secondary-button">Reset Undian</button>
+            </div>
+            <p id="drawStatus" class="meta">Pilih peserta untuk memulai undian.</p>
+          </section>
+
+          <section class="draw-control-card" aria-label="Kontrol undian peserta">
+            <label class="field">
+              <span>Peserta</span>
+              <select id="drawParticipantSelect"></select>
+            </label>
+            <div class="draw-checkbox-row">
+              <input id="drawParticipantActive" type="checkbox" checked>
+              <label for="drawParticipantActive">Peserta ini ikut undian</label>
+            </div>
+            <button id="drawParticipantButton" type="button">Gunakan Peserta</button>
+            <div id="drawCurrentParticipant" class="draw-current" hidden></div>
+          </section>
+        </div>
+
+        <div class="table-wrap draw-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Time Drawing</th>
+                <th>Participant</th>
+                <th>1st Team</th>
+                <th>1st Team Group/Bracket</th>
+                <th>2nd Team</th>
+                <th>2nd Team Group /Bracket</th>
+              </tr>
+            </thead>
+            <tbody id="drawResultBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <div id="drawModal" class="draw-modal" role="dialog" aria-modal="true" aria-labelledby="drawModalTitle" hidden>
+        <div class="draw-modal-card">
+          <p class="eyebrow">Undian selesai</p>
+          <h2 id="drawModalTitle">Hasil Undian</h2>
+          <div id="drawModalBody"></div>
+          <button id="drawModalClose" type="button">Tutup</button>
+        </div>
+      </div>
 
       <section id="streamView" class="stream-view" hidden>
         <div class="stream-header">
