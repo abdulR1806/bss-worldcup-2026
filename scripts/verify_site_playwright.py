@@ -32,7 +32,7 @@ def main() -> None:
 
         try:
             primary_nav_names = ["Beranda", "Klasemen", "Bracket"]
-            secondary_nav_names = ["Peserta", "Undian", "Pertandingan", "Tentang"]
+            combined_nav_names = ["Beranda", "Klasemen", "Bracket", "Peserta", "Undian", "Pertandingan", "Tentang"]
 
             for width in (375, 768, 1024, 1440):
                 page.set_viewport_size({"width": width, "height": 1200})
@@ -46,15 +46,20 @@ def main() -> None:
                 expect(page.locator("#dataMode")).to_contain_text("data pertandingan lokal hanya sebagai referensi")
                 expect(page.locator("#groupFilter")).to_contain_text("Grup A")
                 expect(page.locator("#leaderboardBody tr").first).to_be_visible()
-                expect(page.locator("#primaryNav .nav-button[data-nav]")).to_have_count(3)
-                expect(page.locator("#primaryNav .nav-button[data-nav]")).to_contain_text(primary_nav_names)
                 expect(page.locator("#menuToggle")).to_be_visible()
                 expect(page.locator("#secondaryNav")).not_to_be_visible()
+
+                if width > 1100:
+                    expect(page.locator("#primaryNav .nav-button[data-nav]")).to_have_count(3)
+                    expect(page.locator("#primaryNav .nav-button[data-nav]")).to_contain_text(primary_nav_names)
+                else:
+                    expect(page.locator("#primaryNav")).not_to_be_visible()
+
                 page.locator("#menuToggle").click()
                 expect(page.locator("#secondaryNav")).to_be_visible()
                 expect(page.locator("#menuToggle")).to_have_attribute("aria-expanded", "true")
-                expect(page.locator("#secondaryNav .nav-button[data-nav]")).to_have_count(4)
-                expect(page.locator("#secondaryNav .nav-button[data-nav]")).to_contain_text(secondary_nav_names)
+                expect(page.locator("#secondaryNav .nav-button[data-nav]")).to_have_count(7)
+                expect(page.locator("#secondaryNav .nav-button[data-nav]")).to_contain_text(combined_nav_names)
                 page.keyboard.press("Escape")
                 expect(page.locator("#secondaryNav")).not_to_be_visible()
                 expect(page.locator("#menuToggle")).to_have_attribute("aria-expanded", "false")
@@ -73,7 +78,11 @@ def main() -> None:
                 expect(page.locator("#leaderboardBody").get_by_text("Bowo", exact=True)).to_be_visible()
                 page.locator("#searchInput").fill("")
 
-                page.locator("#primaryNav button[data-nav=\"bracket\"]").click()
+                if width > 1100:
+                    page.locator("#primaryNav button[data-nav=\"bracket\"]").click()
+                else:
+                    page.locator("#menuToggle").click()
+                    page.locator("#secondaryNav button[data-nav=\"bracket\"]").click()
                 expect(page.locator("#bracketView")).to_be_visible()
                 bracket_box = page.locator("#bracketView").bounding_box()
                 if bracket_box["width"] < width * 0.94:
@@ -170,8 +179,8 @@ def main() -> None:
                 "group_filter_loaded": True,
                 "leaderboard_rows_visible": True,
                 "participant_name_visible": True,
-                "primary_nav_split": True,
-                "secondary_menu_navigation": True,
+                "desktop_primary_nav": True,
+                "combined_navigation_menu": True,
                 "responsive_bracket_layout": True,
                 "mobile_bracket_scroll": True,
                 "search_input_layout": True,
