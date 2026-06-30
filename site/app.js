@@ -127,6 +127,121 @@
     'South Africa': 'Anggit Pratitis', Canada: 'Joko', Netherlands: 'Fauzi Rulandi', Morocco: 'Yanu', Germany: 'Rokhim', Paraguay: 'Irwan', France: 'Ganesh', Sweden: 'Oman', Belgium: 'Rena', Senegal: 'Royhan', 'United States': 'Bowo', 'Bosnia and Herzegovina': 'Karina', Spain: 'Junius', Austria: 'MBG (Mas Benny G)', Portugal: 'Richa', Croatia: 'Appa',
   };
 
+  const LOCKED_DRAW_RESULTS = [
+    {
+      timeDrawing: '23 Jun 2026, 20:00',
+      participantId: 'P008',
+      participantName: 'Royhan',
+      firstTeam: { name: 'Brazil', bracket: 'Left', group: 'Group C' },
+      secondTeam: { name: 'Senegal', bracket: 'Right', group: 'Group I' }
+    },
+    {
+      timeDrawing: '23 Jun 2026, 20:05',
+      participantId: 'P005',
+      participantName: 'Rokhim',
+      firstTeam: { name: 'Japan', bracket: 'Left', group: 'Group F' },
+      secondTeam: { name: 'Germany', bracket: 'Right', group: 'Group E' }
+    },
+    {
+      timeDrawing: '23 Jun 2026, 20:10',
+      participantId: 'P018',
+      participantName: 'Junius',
+      firstTeam: { name: 'Ivory Coast', bracket: 'Left', group: 'Group E' },
+      secondTeam: { name: 'Spain', bracket: 'Right', group: 'Group H' }
+    },
+    {
+      timeDrawing: '23 Jun 2026, 20:15',
+      participantId: 'P004',
+      participantName: 'Joko',
+      firstTeam: { name: 'Norway', bracket: 'Left', group: 'Group I' },
+      secondTeam: { name: 'Canada', bracket: 'Right', group: 'Group B' }
+    },
+    {
+      timeDrawing: '23 Jun 2026, 20:20',
+      participantId: 'P017',
+      participantName: 'Ganesh',
+      firstTeam: { name: 'Mexico', bracket: 'Left', group: 'Group A' },
+      secondTeam: { name: 'France', bracket: 'Right', group: 'Group I' }
+    },
+    {
+      timeDrawing: '23 Jun 2026, 20:25',
+      participantId: 'P012',
+      participantName: 'Appa',
+      firstTeam: { name: 'Ecuador', bracket: 'Left', group: 'Group E' },
+      secondTeam: { name: 'Croatia', bracket: 'Right', group: 'Group L' }
+    },
+    {
+      timeDrawing: '23 Jun 2026, 20:30',
+      participantId: 'P014',
+      participantName: 'Richa',
+      firstTeam: { name: 'England', bracket: 'Left', group: 'Group L' },
+      secondTeam: { name: 'Portugal', bracket: 'Right', group: 'Group K' }
+    },
+    {
+      timeDrawing: '23 Jun 2026, 20:35',
+      participantId: 'P011',
+      participantName: 'Rena',
+      firstTeam: { name: 'DR Congo', bracket: 'Left', group: 'Group K' },
+      secondTeam: { name: 'Belgium', bracket: 'Right', group: 'Group G' }
+    },
+    {
+      timeDrawing: '23 Jun 2026, 20:40',
+      participantId: 'P009',
+      participantName: 'Bowo',
+      firstTeam: { name: 'Switzerland', bracket: 'Left', group: 'Group B' },
+      secondTeam: { name: 'United States', bracket: 'Right', group: 'Group D' }
+    },
+    {
+      timeDrawing: '23 Jun 2026, 20:45',
+      participantId: 'P013',
+      participantName: 'Irwan',
+      firstTeam: { name: 'Algeria', bracket: 'Left', group: 'Group J' },
+      secondTeam: { name: 'Paraguay', bracket: 'Right', group: 'Group D' }
+    },
+    {
+      timeDrawing: '23 Jun 2026, 20:50',
+      participantId: 'P015',
+      participantName: 'MBG (Mas Benny G)',
+      firstTeam: { name: 'Colombia', bracket: 'Left', group: 'Group K' },
+      secondTeam: { name: 'Austria', bracket: 'Right', group: 'Group J' }
+    },
+    {
+      timeDrawing: '23 Jun 2026, 20:55',
+      participantId: 'P007',
+      participantName: 'Oman',
+      firstTeam: { name: 'Ghana', bracket: 'Left', group: 'Group L' },
+      secondTeam: { name: 'Sweden', bracket: 'Right', group: 'Group F' }
+    },
+    {
+      timeDrawing: '23 Jun 2026, 21:00',
+      participantId: 'P020',
+      participantName: 'Karina',
+      firstTeam: { name: 'Australia', bracket: 'Left', group: 'Group D' },
+      secondTeam: { name: 'Bosnia and Herzegovina', bracket: 'Right', group: 'Group B' }
+    },
+    {
+      timeDrawing: '23 Jun 2026, 21:05',
+      participantId: 'P006',
+      participantName: 'Fauzi Rulandi',
+      firstTeam: { name: 'Egypt', bracket: 'Left', group: 'Group G' },
+      secondTeam: { name: 'Netherlands', bracket: 'Right', group: 'Group F' }
+    },
+    {
+      timeDrawing: '23 Jun 2026, 21:10',
+      participantId: 'P016',
+      participantName: 'Anggit Pratitis',
+      firstTeam: { name: 'Argentina', bracket: 'Left', group: 'Group J' },
+      secondTeam: { name: 'South Africa', bracket: 'Right', group: 'Group A' }
+    },
+    {
+      timeDrawing: '23 Jun 2026, 21:15',
+      participantId: 'P003',
+      participantName: 'Yanu',
+      firstTeam: { name: 'Cape Verde', bracket: 'Left', group: 'Group H' },
+      secondTeam: { name: 'Morocco', bracket: 'Right', group: 'Group C' }
+    }
+  ];
+
   const BRACKET_MATCHES = [
     { id: 'M076', side: 'left', round: '32 Besar', home: 'Brazil', away: 'Japan' },
     { id: 'M078', side: 'left', round: '32 Besar', home: 'Ivory Coast', away: 'Norway' },
@@ -697,15 +812,58 @@
   function renderBracket() {
     if (!els.bracketBoard) return;
     const nodes = buildBracketNodes();
-    const sideMarkup = (side, title) => {
-      const rounds = ['32 Besar', '16 Besar', '8 Besar', '4 Besar'];
-      return `<section class="bracket-side"><h3>${title}</h3>${rounds.map((round) => {
-        const items = nodes.filter((node) => node.side === side && node.round === round);
-        return `<div class="bracket-round"><h4>${round}</h4>${items.map(bracketCard).join('')}</div>`;
-      }).join('')}</section>`;
-    };
-    const finalNode = nodes.find((node) => node.id === 'M104');
-    els.bracketBoard.innerHTML = `${sideMarkup('left', 'Kiri')}${finalNode ? `<section class="bracket-final"><h3>Final</h3>${bracketCard(finalNode)}</section>` : ''}${sideMarkup('right', 'Kanan')}`;
+    
+    const roundOrder = [
+      ['32 Besar', ['M076', 'M078', 'M079', 'M080', 'M088', 'M086', 'M085', 'M087', 'M073', 'M075', 'M074', 'M077', 'M083', 'M084', 'M081', 'M082']],
+      ['16 Besar', ['M091', 'M092', 'M095', 'M096', 'M089', 'M090', 'M093', 'M094']],
+      ['8 Besar', ['M099', 'M100', 'M097', 'M098']],
+      ['4 Besar', ['M102', 'M101']],
+      ['Final', ['M104']]
+    ];
+
+    let html = '<div class="google-bracket-container">';
+    html += '<button type="button" class="bracket-scroll-btn left" aria-label="Scroll left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>';
+    html += '<div class="google-bracket" id="googleBracketScroll">';
+    
+    roundOrder.forEach(([roundName, matchIds]) => {
+      html += `<div class="bracket-column">`;
+      html += `<div class="bracket-round-header">${roundName}</div>`;
+      html += `<div class="bracket-column-matches">`;
+      matchIds.forEach(id => {
+        const node = nodes.find(n => n.id === id);
+        html += `<div class="bracket-match-wrapper">`;
+        if (node) {
+          html += bracketCard(node);
+        } else {
+          html += `<article class="bracket-card google-match-card"><header class="google-match-header"><span class="meta">TBD</span><span class="status-chip">-</span></header><div class="google-match-teams"><div class="google-match-team"><span class="google-match-team-name"><strong>TBD</strong></span><span class="google-match-score"></span></div><div class="google-match-team"><span class="google-match-team-name"><strong>TBD</strong></span><span class="google-match-score"></span></div></div></article>`;
+        }
+        html += `</div>`;
+      });
+      html += `</div></div>`;
+    });
+    
+    html += '</div>';
+    html += '<button type="button" class="bracket-scroll-btn right" aria-label="Scroll right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></button>';
+    html += '</div>';
+    
+    els.bracketBoard.innerHTML = html;
+
+    const scrollContainer = document.getElementById('googleBracketScroll');
+    const btnLeft = els.bracketBoard.querySelector('.bracket-scroll-btn.left');
+    const btnRight = els.bracketBoard.querySelector('.bracket-scroll-btn.right');
+    
+    if (scrollContainer && btnLeft && btnRight) {
+      const scrollAmount = 320;
+      btnLeft.addEventListener('click', () => scrollContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' }));
+      btnRight.addEventListener('click', () => scrollContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' }));
+      
+      const updateButtons = () => {
+        btnLeft.disabled = scrollContainer.scrollLeft <= 0;
+        btnRight.disabled = scrollContainer.scrollLeft >= scrollContainer.scrollWidth - scrollContainer.clientWidth - 1;
+      };
+      scrollContainer.addEventListener('scroll', updateButtons);
+      updateButtons();
+    }
   }
 
   function buildBracketNodes() {
@@ -734,22 +892,26 @@
 
   function bracketCard(node) {
     const isFinal = node.result && node.result.status === 'FINAL';
-    const score = isFinal ? `${node.result.homeScore} - ${node.result.awayScore}` : 'TBD';
-    const date = node.match.kickoffWib ? formatDateTime(node.match.kickoffWib) : 'Jadwal TBD';
-    const venue = node.match.location || 'Stadion TBD';
-    return `<article class="bracket-card ${isFinal ? 'is-final' : ''}">
-      <header><span class="status-chip ${isFinal ? 'final' : ''}">${isFinal ? 'Selesai' : 'Menunggu'}</span><strong>${escapeHtml(node.id.replace('M0', 'M'))}</strong></header>
-      <div class="bracket-teams">
-        ${bracketTeamLine(node.home, isFinal && node.result.result === 'W')}
-        <span class="scoreline">${escapeHtml(score)}</span>
-        ${bracketTeamLine(node.away, isFinal && node.result.result === 'L')}
+    const scoreHome = isFinal ? node.result.homeScore : '';
+    const scoreAway = isFinal ? node.result.awayScore : '';
+    const date = node.match.kickoffWib ? formatDateTime(node.match.kickoffWib) : 'TBD';
+    return `<article class="bracket-card google-match-card ${isFinal ? 'is-final' : ''}">
+      <header class="google-match-header">
+        <span class="meta">${escapeHtml(date)}</span>
+        <span class="status-chip ${isFinal ? 'final' : ''}">${isFinal ? 'FT' : '-'}</span>
+      </header>
+      <div class="google-match-teams">
+        ${bracketTeamLine(node.home, scoreHome, isFinal && node.result.result === 'W')}
+        ${bracketTeamLine(node.away, scoreAway, isFinal && node.result.result === 'L')}
       </div>
-      <p class="meta">${escapeHtml(date)} · ${escapeHtml(venue)}</p>
     </article>`;
   }
 
-  function bracketTeamLine(team, isWinner) {
-    return `<span class="bracket-team ${isWinner ? 'team-is-winner' : ''}"><strong>${escapeHtml(team.country)}</strong><small>${escapeHtml(team.participant)}</small></span>`;
+  function bracketTeamLine(team, score, isWinner) {
+    return `<div class="google-match-team ${isWinner ? 'team-is-winner' : ''}">
+      <span class="google-match-team-name"><strong>${escapeHtml(team.country)}</strong> <small>(${escapeHtml(team.participant)})</small></span>
+      <span class="google-match-score">${escapeHtml(score)}</span>
+    </div>`;
   }
 
   function renderMatches() {
@@ -857,28 +1019,13 @@
   }
 
   function loadDrawState() {
-    try {
-      const saved = JSON.parse(window.localStorage.getItem(drawStorageKey) || '{}');
-      state.draw.results = Array.isArray(saved.results) ? saved.results : [];
-      state.draw.skippedParticipantIds = Array.isArray(saved.skippedParticipantIds) ? saved.skippedParticipantIds : [];
-      state.draw.excludedTeamNames = Array.isArray(saved.excludedTeamNames) ? saved.excludedTeamNames : [];
-    } catch {
-      state.draw.results = [];
-      state.draw.skippedParticipantIds = [];
-      state.draw.excludedTeamNames = [];
-    }
+    state.draw.results = LOCKED_DRAW_RESULTS;
+    state.draw.skippedParticipantIds = [];
+    state.draw.excludedTeamNames = [];
   }
 
   function saveDrawState() {
-    try {
-      window.localStorage.setItem(drawStorageKey, JSON.stringify({
-        results: state.draw.results,
-        skippedParticipantIds: state.draw.skippedParticipantIds,
-        excludedTeamNames: state.draw.excludedTeamNames,
-      }));
-    } catch {
-      if (els.drawStatus) els.drawStatus.textContent = 'Browser tidak mengizinkan penyimpanan localStorage.';
-    }
+    // No-op: Draw results are locked
   }
 
   function renderDraw() {
@@ -1162,16 +1309,7 @@
   }
 
   function resetDrawState() {
-    if (!window.confirm('Reset semua hasil undian di browser ini?')) return;
-    state.draw.results = [];
-    state.draw.skippedParticipantIds = [];
-    state.draw.excludedTeamNames = [];
-    state.draw.selectedParticipantId = null;
-    state.draw.currentPicks = [];
-    state.draw.wheelRotation = 0;
-    saveDrawState();
-    setDrawStatus('Undian berhasil direset.');
-    renderDraw();
+    // No-op: Draw results are locked
   }
 
   function exportDrawResultsCsv() {
