@@ -162,9 +162,13 @@ def fetch_sportsdb_events(api_key: str, league_id: str, season: str) -> list[dic
     print(f"THESPORTSDB REQUEST: GET {url}")
     print(f"{'='*80}")
     request = urllib.request.Request(url)
-    with urllib.request.urlopen(request, timeout=30) as response:
-        raw_body = response.read().decode("utf-8")
-        payload = json.loads(raw_body)
+    try:
+        with urllib.request.urlopen(request, timeout=30) as response:
+            raw_body = response.read().decode("utf-8")
+            payload = json.loads(raw_body)
+    except OSError as error:
+        print(f"THESPORTSDB WARNING: request failed ({error}). Continuing without fallback events.")
+        return []
 
     events = payload.get("events") or []
     print(f"THESPORTSDB EVENT COUNT: {len(events)} events returned")

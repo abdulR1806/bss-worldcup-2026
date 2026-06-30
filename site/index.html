@@ -76,6 +76,14 @@
             </span>
             <span>Undian</span>
           </button>
+          <button class="nav-button" type="button" data-nav="bracket" aria-label="Buka menu bracket knockout">
+            <span class="nav-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 4h6v5H6z"></path><path d="M12 6h6v5h-6"></path><path d="M6 15h6v5H6z"></path><path d="M12 13h6v5h-6"></path><path d="M9 9v6"></path><path d="M15 11v2"></path>
+              </svg>
+            </span>
+            <span>Bracket</span>
+          </button>
           <button class="nav-button" type="button" data-nav="matches">
             <span class="nav-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"
@@ -292,6 +300,18 @@
         <div class="official-sheet-embed" id="participantsSheetEmbed" hidden></div>
         <div id="participantCards" class="participant-grid"></div>
         <div id="participantDetail" class="detail-panel" hidden></div>
+      </section>
+
+      <section id="bracketView" class="view">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Bracket knockout</p>
+            <h2>Bracket Knockout</h2>
+            <p class="section-note">Draw 32 besar dikunci dari hasil roulette final. Pemenang dan peserta otomatis maju berdasarkan hasil pertandingan yang sama dengan halaman hasil.</p>
+          </div>
+          <p>Slot babak berikutnya tetap TBD sampai hasil pertandingan sebelumnya berstatus selesai.</p>
+        </div>
+        <div id="bracketBoard" class="bracket-board"></div>
       </section>
 
       <section id="matchesView" class="view">

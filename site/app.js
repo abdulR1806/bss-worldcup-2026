@@ -82,6 +82,7 @@
     drawExclusionApply: document.getElementById('drawExclusionApply'),
     drawExclusionClear: document.getElementById('drawExclusionClear'),
     drawExportCsvButton: document.getElementById('drawExportCsvButton'),
+    bracketBoard: document.getElementById('bracketBoard'),
   };
 
 
@@ -118,6 +119,46 @@
     { name: 'Austria', bracket: 'Right', group: 'Group J', match: 'M84: Spain vs Austria | Thursday, 2 July 2026 | Los Angeles Stadium, Los Angeles' },
     { name: 'Portugal', bracket: 'Right', group: 'Group K', match: 'M83: Portugal vs Croatia | Thursday, 2 July 2026 | Toronto Stadium, Toronto' },
     { name: 'Croatia', bracket: 'Right', group: 'Group L', match: 'M83: Portugal vs Croatia | Thursday, 2 July 2026 | Toronto Stadium, Toronto' },
+  ];
+
+
+  const LOCKED_BRACKET_TEAMS = {
+    Brazil: 'Royhan', Japan: 'Rokhim', 'Ivory Coast': 'Junius', Norway: 'Joko', Mexico: 'Ganesh', Ecuador: 'Appa', England: 'Richa', 'DR Congo': 'Rena', Switzerland: 'Bowo', Algeria: 'Irwan', Colombia: 'MBG (Mas Benny G)', Ghana: 'Oman', Australia: 'Karina', Egypt: 'Fauzi Rulandi', Argentina: 'Anggit Pratitis', 'Cape Verde': 'Yanu',
+    'South Africa': 'Anggit Pratitis', Canada: 'Joko', Netherlands: 'Fauzi Rulandi', Morocco: 'Yanu', Germany: 'Rokhim', Paraguay: 'Irwan', France: 'Ganesh', Sweden: 'Oman', Belgium: 'Rena', Senegal: 'Royhan', 'United States': 'Bowo', 'Bosnia and Herzegovina': 'Karina', Spain: 'Junius', Austria: 'MBG (Mas Benny G)', Portugal: 'Richa', Croatia: 'Appa',
+  };
+
+  const BRACKET_MATCHES = [
+    { id: 'M076', side: 'left', round: '32 Besar', home: 'Brazil', away: 'Japan' },
+    { id: 'M078', side: 'left', round: '32 Besar', home: 'Ivory Coast', away: 'Norway' },
+    { id: 'M079', side: 'left', round: '32 Besar', home: 'Mexico', away: 'Ecuador' },
+    { id: 'M080', side: 'left', round: '32 Besar', home: 'England', away: 'DR Congo' },
+    { id: 'M085', side: 'left', round: '32 Besar', home: 'Switzerland', away: 'Algeria' },
+    { id: 'M087', side: 'left', round: '32 Besar', home: 'Colombia', away: 'Ghana' },
+    { id: 'M088', side: 'left', round: '32 Besar', home: 'Australia', away: 'Egypt' },
+    { id: 'M086', side: 'left', round: '32 Besar', home: 'Argentina', away: 'Cape Verde' },
+    { id: 'M073', side: 'right', round: '32 Besar', home: 'South Africa', away: 'Canada' },
+    { id: 'M075', side: 'right', round: '32 Besar', home: 'Netherlands', away: 'Morocco' },
+    { id: 'M074', side: 'right', round: '32 Besar', home: 'Germany', away: 'Paraguay' },
+    { id: 'M077', side: 'right', round: '32 Besar', home: 'France', away: 'Sweden' },
+    { id: 'M082', side: 'right', round: '32 Besar', home: 'Belgium', away: 'Senegal' },
+    { id: 'M081', side: 'right', round: '32 Besar', home: 'United States', away: 'Bosnia and Herzegovina' },
+    { id: 'M084', side: 'right', round: '32 Besar', home: 'Spain', away: 'Austria' },
+    { id: 'M083', side: 'right', round: '32 Besar', home: 'Portugal', away: 'Croatia' },
+    { id: 'M091', side: 'left', round: '16 Besar', sources: ['M076', 'M078'] },
+    { id: 'M092', side: 'left', round: '16 Besar', sources: ['M079', 'M080'] },
+    { id: 'M096', side: 'left', round: '16 Besar', sources: ['M085', 'M087'] },
+    { id: 'M095', side: 'left', round: '16 Besar', sources: ['M088', 'M086'] },
+    { id: 'M089', side: 'right', round: '16 Besar', sources: ['M073', 'M075'] },
+    { id: 'M090', side: 'right', round: '16 Besar', sources: ['M074', 'M077'] },
+    { id: 'M094', side: 'right', round: '16 Besar', sources: ['M081', 'M082'] },
+    { id: 'M093', side: 'right', round: '16 Besar', sources: ['M083', 'M084'] },
+    { id: 'M099', side: 'left', round: '8 Besar', sources: ['M091', 'M092'] },
+    { id: 'M100', side: 'left', round: '8 Besar', sources: ['M095', 'M096'] },
+    { id: 'M097', side: 'right', round: '8 Besar', sources: ['M089', 'M090'] },
+    { id: 'M098', side: 'right', round: '8 Besar', sources: ['M093', 'M094'] },
+    { id: 'M102', side: 'left', round: '4 Besar', sources: ['M099', 'M100'] },
+    { id: 'M101', side: 'right', round: '4 Besar', sources: ['M097', 'M098'] },
+    { id: 'M104', side: 'final', round: 'Final', sources: ['M101', 'M102'] },
   ];
 
   const ICONS = {
@@ -443,6 +484,7 @@
     renderParticipants(standings);
     renderMatches();
     renderDraw();
+    renderBracket();
   }
 
   function showBootError(error) {
@@ -649,6 +691,65 @@
         </div>
       </article>
     `;
+  }
+
+
+  function renderBracket() {
+    if (!els.bracketBoard) return;
+    const nodes = buildBracketNodes();
+    const sideMarkup = (side, title) => {
+      const rounds = ['32 Besar', '16 Besar', '8 Besar', '4 Besar'];
+      return `<section class="bracket-side"><h3>${title}</h3>${rounds.map((round) => {
+        const items = nodes.filter((node) => node.side === side && node.round === round);
+        return `<div class="bracket-round"><h4>${round}</h4>${items.map(bracketCard).join('')}</div>`;
+      }).join('')}</section>`;
+    };
+    const finalNode = nodes.find((node) => node.id === 'M104');
+    els.bracketBoard.innerHTML = `${sideMarkup('left', 'Kiri')}${finalNode ? `<section class="bracket-final"><h3>Final</h3>${bracketCard(finalNode)}</section>` : ''}${sideMarkup('right', 'Kanan')}`;
+  }
+
+  function buildBracketNodes() {
+    const nodes = new Map();
+    BRACKET_MATCHES.forEach((template) => {
+      const match = matchById.get(template.id) || {};
+      const result = resultByMatch.get(template.id);
+      const home = template.home ? bracketTeam(template.home) : bracketWinner(nodes.get(template.sources[0]));
+      const away = template.away ? bracketTeam(template.away) : bracketWinner(nodes.get(template.sources[1]));
+      const node = { ...template, match, result, home, away };
+      nodes.set(template.id, node);
+    });
+    return Array.from(nodes.values());
+  }
+
+  function bracketTeam(country) {
+    return { country, participant: LOCKED_BRACKET_TEAMS[country] || 'TBD' };
+  }
+
+  function bracketWinner(node) {
+    if (!node || !node.result || node.result.status !== 'FINAL') return { country: 'TBD', participant: 'TBD' };
+    if (node.result.result === 'W') return node.home;
+    if (node.result.result === 'L') return node.away;
+    return { country: 'TBD', participant: 'TBD' };
+  }
+
+  function bracketCard(node) {
+    const isFinal = node.result && node.result.status === 'FINAL';
+    const score = isFinal ? `${node.result.homeScore} - ${node.result.awayScore}` : 'TBD';
+    const date = node.match.kickoffWib ? formatDateTime(node.match.kickoffWib) : 'Jadwal TBD';
+    const venue = node.match.location || 'Stadion TBD';
+    return `<article class="bracket-card ${isFinal ? 'is-final' : ''}">
+      <header><span class="status-chip ${isFinal ? 'final' : ''}">${isFinal ? 'Selesai' : 'Menunggu'}</span><strong>${escapeHtml(node.id.replace('M0', 'M'))}</strong></header>
+      <div class="bracket-teams">
+        ${bracketTeamLine(node.home, isFinal && node.result.result === 'W')}
+        <span class="scoreline">${escapeHtml(score)}</span>
+        ${bracketTeamLine(node.away, isFinal && node.result.result === 'L')}
+      </div>
+      <p class="meta">${escapeHtml(date)} · ${escapeHtml(venue)}</p>
+    </article>`;
+  }
+
+  function bracketTeamLine(team, isWinner) {
+    return `<span class="bracket-team ${isWinner ? 'team-is-winner' : ''}"><strong>${escapeHtml(team.country)}</strong><small>${escapeHtml(team.participant)}</small></span>`;
   }
 
   function renderMatches() {

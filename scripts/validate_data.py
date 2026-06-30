@@ -48,8 +48,9 @@ def main() -> None:
     match_ids = {row["id"] for row in matches}
     participant_ids = {row["id"] for row in participants}
 
-    if len(matches) != 72:
-      errors.append(f"Expected 72 matches, found {len(matches)}.")
+    prediction_match_ids = {row["matchId"] for row in predictions}
+    if len(prediction_match_ids) != 72:
+      errors.append(f"Expected predictions for exactly 72 group-stage matches, found {len(prediction_match_ids)}.")
 
     if len(match_ids) != len(matches):
       errors.append("Duplicate match IDs found in data/matches.csv.")
@@ -94,8 +95,8 @@ def main() -> None:
 
     for participant_id in participant_ids:
         count = len(predictions_by_participant[participant_id])
-        if count != len(matches):
-            errors.append(f"Participant {participant_id} has {count} predictions; expected {len(matches)}.")
+        if count != 72:
+            errors.append(f"Participant {participant_id} has {count} predictions; expected 72.")
 
     seen_result_matches = set()
     for row in results:
@@ -125,7 +126,7 @@ def main() -> None:
             print(f"ERROR: {error}")
         raise SystemExit(1)
 
-    print(f"OK: {len(matches)} matches, {len(participants)} participants, {len(predictions)} predictions.")
+    print(f"OK: {len(matches)} matches ({len(prediction_match_ids)} predicted), {len(participants)} participants, {len(predictions)} predictions.")
 
 
 if __name__ == "__main__":
