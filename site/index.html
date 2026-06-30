@@ -51,57 +51,19 @@
             </span>
             <span>Klasemen</span>
           </button>
-          <button class="nav-button" type="button" data-nav="participants">
+          <button class="nav-button" type="button" data-nav="bracket" aria-label="Buka menu bracket knockout">
             <span class="nav-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"
-                stroke-linejoin="round">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                <circle cx="9" cy="7" r="4"></circle>
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 4h6v5H6z"></path><path d="M12 6h6v5h-6"></path><path d="M6 15h6v5H6z"></path><path d="M12 13h6v5h-6"></path><path d="M9 9v6"></path><path d="M15 11v2"></path>
               </svg>
             </span>
-            <span>Peserta</span>
-          </button>
-          <button class="nav-button" type="button" data-nav="draw">
-            <span class="nav-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"
-                stroke-linejoin="round">
-                <circle cx="12" cy="12" r="9"></circle>
-                <path d="M12 3v18"></path>
-                <path d="M3 12h18"></path>
-                <path d="m5.6 5.6 12.8 12.8"></path>
-                <path d="m18.4 5.6-12.8 12.8"></path>
-              </svg>
-            </span>
-            <span>Undian</span>
-          </button>
-          <button class="nav-button" type="button" data-nav="matches">
-            <span class="nav-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"
-                stroke-linejoin="round">
-                <rect x="3" y="3" width="18" height="18" rx="2"></rect>
-                <path d="M3 12h18"></path>
-                <circle cx="12" cy="12" r="3"></circle>
-              </svg>
-            </span>
-            <span>Pertandingan</span>
-          </button>
-          <button class="nav-button" type="button" data-nav="tentang">
-            <span class="nav-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"
-                stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="M12 7v6l4 2"></path>
-              </svg>
-            </span>
-            <span>Tentang</span>
+            <span>Bracket</span>
           </button>
         </nav>
 
         <div class="header-actions">
           <button class="menu-toggle" id="menuToggle" type="button" aria-label="Buka menu navigasi"
-            aria-controls="primaryNav" aria-expanded="false">
+            aria-controls="secondaryNav" aria-expanded="false" aria-haspopup="true">
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
@@ -138,6 +100,54 @@
               <path d="M3 9h18"></path>
             </svg>
           </span>
+          <div class="nav-menu" id="secondaryNav" aria-label="Menu navigasi sekunder" hidden>
+            <button class="nav-button" type="button" data-nav="participants">
+              <span class="nav-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+              </span>
+              <span>Peserta</span>
+            </button>
+            <button class="nav-button" type="button" data-nav="draw">
+              <span class="nav-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="9"></circle>
+                  <path d="M12 3v18"></path>
+                  <path d="M3 12h18"></path>
+                  <path d="m5.6 5.6 12.8 12.8"></path>
+                  <path d="m18.4 5.6-12.8 12.8"></path>
+                </svg>
+              </span>
+              <span>Undian</span>
+            </button>
+            <button class="nav-button" type="button" data-nav="matches">
+              <span class="nav-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                  <path d="M3 12h18"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </span>
+              <span>Pertandingan</span>
+            </button>
+            <button class="nav-button" type="button" data-nav="tentang">
+              <span class="nav-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M12 7v6l4 2"></path>
+                </svg>
+              </span>
+              <span>Tentang</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -294,6 +304,17 @@
         <div id="participantDetail" class="detail-panel" hidden></div>
       </section>
 
+      <section id="bracketView" class="view bracket-view">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Bracket knockout</p>
+            <h2>Bracket Knockout</h2>
+            <p class="section-note">Draw 32 besar dikunci dari hasil roulette final. Pemenang dan peserta otomatis maju berdasarkan hasil pertandingan yang sama dengan halaman hasil.</p>
+          </div>
+        </div>
+        <div id="bracketBoard" class="bracket-board"></div>
+      </section>
+
       <section id="matchesView" class="view">
         <div class="section-heading">
           <div>
@@ -321,12 +342,16 @@
           <div>
             <p class="eyebrow">Undian negara</p>
             <h2>Roulette World Cup</h2>
-            <p class="section-note">Pilih peserta, putar roda dua kali, lalu sistem akan mencatat dua negara dengan bracket dan grup berbeda.</p>
+            <p class="section-note">Hasil undian babak 32 besar telah dikunci dan bersifat final.</p>
           </div>
-          <p>Hasil disimpan di browser ini menggunakan localStorage. Jika peserta tidak ikut, matikan checkbox sebelum menekan tombol gunakan.</p>
+          <p>Undian dilakukan menggunakan sistem roulette untuk menentukan dua negara bagi setiap peserta dengan bracket dan grup berbeda.</p>
         </div>
 
-        <div class="draw-layout">
+        <div class="official-score-alert" role="alert" style="margin-bottom: 2rem;">
+          <strong>Undian Selesai:</strong> Hasil undian di bawah ini telah dikunci sesuai hasil resmi dan tidak dapat diubah kembali.
+        </div>
+
+        <div class="draw-layout" hidden>
           <section class="draw-wheel-card" aria-label="Roda undian negara">
             <div class="wheel-stage">
               <div class="wheel-pointer" aria-hidden="true"></div>
@@ -400,7 +425,136 @@
                 <th>2nd Team Group/Bracket</th>
               </tr>
             </thead>
-            <tbody id="drawResultBody"></tbody>
+            <tbody id="drawResultBody">
+              <tr>
+                <td>23 Jun 2026, 20:00</td>
+                <td>Royhan</td>
+                <td>Brazil</td>
+                <td>Group C / Left</td>
+                <td>Senegal</td>
+                <td>Group I / Right</td>
+              </tr>
+              <tr>
+                <td>23 Jun 2026, 20:05</td>
+                <td>Rokhim</td>
+                <td>Japan</td>
+                <td>Group F / Left</td>
+                <td>Germany</td>
+                <td>Group E / Right</td>
+              </tr>
+              <tr>
+                <td>23 Jun 2026, 20:10</td>
+                <td>Junius</td>
+                <td>Ivory Coast</td>
+                <td>Group E / Left</td>
+                <td>Spain</td>
+                <td>Group H / Right</td>
+              </tr>
+              <tr>
+                <td>23 Jun 2026, 20:15</td>
+                <td>Joko</td>
+                <td>Norway</td>
+                <td>Group I / Left</td>
+                <td>Canada</td>
+                <td>Group B / Right</td>
+              </tr>
+              <tr>
+                <td>23 Jun 2026, 20:20</td>
+                <td>Ganesh</td>
+                <td>Mexico</td>
+                <td>Group A / Left</td>
+                <td>France</td>
+                <td>Group I / Right</td>
+              </tr>
+              <tr>
+                <td>23 Jun 2026, 20:25</td>
+                <td>Appa</td>
+                <td>Ecuador</td>
+                <td>Group E / Left</td>
+                <td>Croatia</td>
+                <td>Group L / Right</td>
+              </tr>
+              <tr>
+                <td>23 Jun 2026, 20:30</td>
+                <td>Richa</td>
+                <td>England</td>
+                <td>Group L / Left</td>
+                <td>Portugal</td>
+                <td>Group K / Right</td>
+              </tr>
+              <tr>
+                <td>23 Jun 2026, 20:35</td>
+                <td>Rena</td>
+                <td>DR Congo</td>
+                <td>Group K / Left</td>
+                <td>Belgium</td>
+                <td>Group G / Right</td>
+              </tr>
+              <tr>
+                <td>23 Jun 2026, 20:40</td>
+                <td>Bowo</td>
+                <td>Switzerland</td>
+                <td>Group B / Left</td>
+                <td>United States</td>
+                <td>Group D / Right</td>
+              </tr>
+              <tr>
+                <td>23 Jun 2026, 20:45</td>
+                <td>Irwan</td>
+                <td>Algeria</td>
+                <td>Group J / Left</td>
+                <td>Paraguay</td>
+                <td>Group D / Right</td>
+              </tr>
+              <tr>
+                <td>23 Jun 2026, 20:50</td>
+                <td>MBG (Mas Benny G)</td>
+                <td>Colombia</td>
+                <td>Group K / Left</td>
+                <td>Austria</td>
+                <td>Group J / Right</td>
+              </tr>
+              <tr>
+                <td>23 Jun 2026, 20:55</td>
+                <td>Oman</td>
+                <td>Ghana</td>
+                <td>Group L / Left</td>
+                <td>Sweden</td>
+                <td>Group F / Right</td>
+              </tr>
+              <tr>
+                <td>23 Jun 2026, 21:00</td>
+                <td>Karina</td>
+                <td>Australia</td>
+                <td>Group D / Left</td>
+                <td>Bosnia and Herzegovina</td>
+                <td>Group B / Right</td>
+              </tr>
+              <tr>
+                <td>23 Jun 2026, 21:05</td>
+                <td>Fauzi Rulandi</td>
+                <td>Egypt</td>
+                <td>Group G / Left</td>
+                <td>Netherlands</td>
+                <td>Group F / Right</td>
+              </tr>
+              <tr>
+                <td>23 Jun 2026, 21:10</td>
+                <td>Anggit Pratitis</td>
+                <td>Argentina</td>
+                <td>Group J / Left</td>
+                <td>South Africa</td>
+                <td>Group A / Right</td>
+              </tr>
+              <tr>
+                <td>23 Jun 2026, 21:15</td>
+                <td>Yanu</td>
+                <td>Cape Verde</td>
+                <td>Group H / Left</td>
+                <td>Morocco</td>
+                <td>Group C / Right</td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </section>

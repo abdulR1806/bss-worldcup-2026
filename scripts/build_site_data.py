@@ -64,6 +64,8 @@ def build_payload(root: Path) -> dict:
     for result in results:
         result["homeScore"] = int_or_blank(result.get("homeScore", ""))
         result["awayScore"] = int_or_blank(result.get("awayScore", ""))
+        result["homePenaltyScore"] = int_or_blank(result.get("homePenaltyScore", ""))
+        result["awayPenaltyScore"] = int_or_blank(result.get("awayPenaltyScore", ""))
 
     return {
         "metadata": {
