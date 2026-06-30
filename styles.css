@@ -2372,3 +2372,56 @@ body.nav-is-open .nav-menu {
     min-width: 244px;
   }
 }
+
+
+@media (max-width: 1100px) {
+  .topbar {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "brand actions"
+      "nav nav";
+  }
+
+  .brand {
+    grid-area: brand;
+  }
+
+  .header-actions {
+    grid-area: actions;
+    justify-self: end;
+  }
+
+  .primary-nav {
+    display: none;
+  }
+
+  .nav-menu {
+    grid-area: nav;
+    position: static;
+    top: auto;
+    right: auto;
+    width: 100%;
+    max-width: none;
+    margin-top: 2px;
+  }
+
+  body.nav-is-open .nav-menu {
+    display: grid;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 620px) {
+  .topbar {
+    gap: 10px;
+  }
+
+  .nav-menu {
+    width: 100%;
+  }
+
+  .nav-button {
+    min-height: 42px;
+    padding: 0 12px;
+  }
+}
