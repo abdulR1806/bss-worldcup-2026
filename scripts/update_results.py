@@ -54,6 +54,14 @@ def parse_iso(value: str) -> datetime:
     return datetime.fromisoformat(value)
 
 
+def result_fetch_window_is_open(now: datetime, fetch_after: datetime) -> bool:
+    return now >= fetch_after
+
+
+def result_fetch_wait_minutes(now: datetime, fetch_after: datetime) -> int:
+    return int((fetch_after - now).total_seconds() / 60)
+
+
 def normalize(value: str) -> str:
     ascii_text = unicodedata.normalize("NFKD", value).encode("ascii", "ignore").decode("ascii")
     return " ".join(ascii_text.lower().replace("-", " ").split())
@@ -600,9 +608,8 @@ def main() -> None:
             continue
 
         fetch_after = parse_iso(match["resultFetchAfterWib"])
-        if now < fetch_after:
-            remaining = fetch_after - now
-            mins = int(remaining.total_seconds() / 60)
+        if not result_fetch_window_is_open(now, fetch_after):
+            mins = result_fetch_wait_minutes(now, fetch_after)
             print(f"  {match['id']} {match['homeTeam']:>20} vs {match['awayTeam']:<20} -> SKIP (fetch window not open yet, opens in {mins}m at {fetch_after.isoformat(timespec='seconds')})")
             continue
 

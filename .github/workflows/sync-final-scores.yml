@@ -43,7 +43,13 @@ jobs:
       - name: Test TheSportsDB fallback matching
         run: python scripts/test_update_results_fallback.py
 
+      - name: Test site data metadata
+        run: python scripts/test_build_site_data.py
+
       - name: Build browser data
+        env:
+          OFFICIAL_SCORE_SHEET_URL: ${{ secrets.OFFICIAL_SCORE_SHEET_URL || vars.OFFICIAL_SCORE_SHEET_URL || '' }}
+          OFFICIAL_SCORE_SHEET_EMBED_URL: ${{ secrets.OFFICIAL_SCORE_SHEET_EMBED_URL || vars.OFFICIAL_SCORE_SHEET_EMBED_URL || '' }}
         run: python scripts/build_site_data.py
 
       - name: Upload sync log
