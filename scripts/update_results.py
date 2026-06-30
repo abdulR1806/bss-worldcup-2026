@@ -298,7 +298,18 @@ def diagnose_sportsdb_match(match: dict[str, str], events: list[dict], aliases: 
     print(f"{'='*80}\n")
 
 
-def result_code_from_scores(home_score: int, away_score: int) -> str:
+def result_code_from_scores(
+    home_score: int,
+    away_score: int,
+    home_penalty_score: int | None = None,
+    away_penalty_score: int | None = None,
+) -> str:
+    if home_penalty_score is not None and away_penalty_score is not None and home_score == away_score:
+        if home_penalty_score > away_penalty_score:
+            return "W"
+        if home_penalty_score < away_penalty_score:
+            return "L"
+        return "D"
     if home_score > away_score:
         return "W"
     if home_score < away_score:
@@ -315,9 +326,29 @@ def result_row_score(row: dict[str, str]) -> tuple[int | None, int | None]:
     return home, away
 
 
-def result_row_matches_score(row: dict[str, str], home_score: int, away_score: int) -> bool:
+def result_row_penalties(row: dict[str, str]) -> tuple[int | None, int | None]:
+    home_penalty = row.get("homePenaltyScore", "")
+    away_penalty = row.get("awayPenaltyScore", "")
+    return (
+        int(home_penalty) if str(home_penalty).strip() else None,
+        int(away_penalty) if str(away_penalty).strip() else None,
+    )
+
+
+def result_row_matches_score(
+    row: dict[str, str],
+    home_score: int,
+    away_score: int,
+    home_penalty_score: int | None = None,
+    away_penalty_score: int | None = None,
+) -> bool:
     existing_home, existing_away = result_row_score(row)
-    return existing_home == home_score and existing_away == away_score
+    if existing_home != home_score or existing_away != away_score:
+        return False
+    if home_penalty_score is None and away_penalty_score is None:
+        return True
+    existing_home_penalty, existing_away_penalty = result_row_penalties(row)
+    return existing_home_penalty == home_penalty_score and existing_away_penalty == away_penalty_score
 
 
 def update_result_row(
@@ -327,6 +358,8 @@ def update_result_row(
     away_score: int,
     source: str,
     updated_at: str,
+    home_penalty_score: int | None = None,
+    away_penalty_score: int | None = None,
 ) -> None:
     row.update(
         {
@@ -334,7 +367,9 @@ def update_result_row(
             "status": "FINAL",
             "homeScore": str(home_score),
             "awayScore": str(away_score),
-            "result": result_code_from_scores(home_score, away_score),
+            "homePenaltyScore": "" if home_penalty_score is None else str(home_penalty_score),
+            "awayPenaltyScore": "" if away_penalty_score is None else str(away_penalty_score),
+            "result": result_code_from_scores(home_score, away_score, home_penalty_score, away_penalty_score),
             "source": source,
             "updatedAt": updated_at,
         }
@@ -352,8 +387,8 @@ def api_score_for_match(
     sportsdb_league_id: str,
     fixtures_cache: list[dict] | None,
     sportsdb_events_cache: list[dict] | None,
-) -> tuple[tuple[int, int, str] | None, list[dict] | None, list[dict] | None]:
-    football_data_score: tuple[int, int] | None = None
+) -> tuple[tuple[int, int, int | None, int | None, str] | None, list[dict] | None, list[dict] | None]:
+    football_data_score: tuple[int, int, int | None, int | None] | None = None
     fixture: dict | None = None
     fixtures = fixtures_cache
     sportsdb_events = sportsdb_events_cache
@@ -392,11 +427,22 @@ def api_score_for_match(
             status = str(fixture.get("status", "")).upper()
             if status in FINAL_MATCH_STATUSES:
                 score = fixture.get("score", {})
-                full_time = score.get("fullTime", {}) or {}
-                home_score = score_value(full_time, "home")
-                away_score = score_value(full_time, "away")
+                duration = str(score.get("duration", "")).upper()
+                if duration == "PENALTY_SHOOTOUT":
+                    regular_time = score.get("regularTime", {}) or {}
+                    penalties = score.get("penalties", {}) or {}
+                    home_score = score_value(regular_time, "home")
+                    away_score = score_value(regular_time, "away")
+                    home_penalty = score_value(penalties, "home")
+                    away_penalty = score_value(penalties, "away")
+                else:
+                    full_time = score.get("fullTime", {}) or {}
+                    home_score = score_value(full_time, "home")
+                    away_score = score_value(full_time, "away")
+                    home_penalty = None
+                    away_penalty = None
                 if home_score is not None and away_score is not None:
-                    football_data_score = (home_score, away_score)
+                    football_data_score = (home_score, away_score, home_penalty, away_penalty)
                 else:
                     print(f"    -> {match['id']} final on football-data.org but missing full-time score; checking TheSportsDB fallback.")
             else:
@@ -405,8 +451,8 @@ def api_score_for_match(
         print(f"    -> Skipping football-data.org lookup for {match['id']} because FOOTBALL_DATA_TOKEN is not configured; checking TheSportsDB fallback.")
 
     if football_data_score is not None:
-        home_score, away_score = football_data_score
-        return (home_score, away_score, "football-data.org"), fixtures, sportsdb_events
+        home_score, away_score, home_penalty, away_penalty = football_data_score
+        return (home_score, away_score, home_penalty, away_penalty, "football-data.org"), fixtures, sportsdb_events
 
     if not sportsdb_api_key:
         print(f"    -> TheSportsDB fallback disabled because THESPORTSDB_API_KEY is empty.")
@@ -439,7 +485,7 @@ def api_score_for_match(
     if home_score is None or away_score is None:
         print(f"    -> {match['id']} has no football-data.org score and no TheSportsDB score yet.")
         return None, fixtures, sportsdb_events
-    return (home_score, away_score, "thesportsdb.com"), fixtures, sportsdb_events
+    return (home_score, away_score, None, None, "thesportsdb.com"), fixtures, sportsdb_events
 
 
 def result_code(match: dict) -> str:
@@ -543,12 +589,12 @@ def main() -> None:
             if api_score is None:
                 print(f"    -> {match['id']} has no comparable final score from API; keeping existing {existing['homeScore']}-{existing['awayScore']}.")
                 continue
-            home_score, away_score, source = api_score
-            if result_row_matches_score(existing, home_score, away_score):
+            home_score, away_score, home_penalty, away_penalty, source = api_score
+            if result_row_matches_score(existing, home_score, away_score, home_penalty, away_penalty):
                 print(f"    -> {match['id']} unchanged: {home_score}-{away_score} ({source}).")
                 continue
             print(f"    -> {match['id']} score difference found: CSV {existing.get('homeScore', '')}-{existing.get('awayScore', '')} vs API {home_score}-{away_score} ({source}).")
-            update_result_row(existing, match["id"], home_score, away_score, source, now.isoformat(timespec="seconds"))
+            update_result_row(existing, match["id"], home_score, away_score, source, now.isoformat(timespec="seconds"), home_penalty, away_penalty)
             result_by_match[match["id"]] = existing
             updated += 1
             continue
@@ -562,7 +608,7 @@ def main() -> None:
 
         print(f"  {match['id']} {match['homeTeam']:>20} vs {match['awayTeam']:<20} -> ELIGIBLE (fetch window open since {fetch_after.isoformat(timespec='seconds')})")
 
-        football_data_score: tuple[int, int] | None = None
+        football_data_score: tuple[int, int, int | None, int | None] | None = None
         fixture: dict | None = None
         if api_token:
             if fixtures is None:
@@ -600,11 +646,22 @@ def main() -> None:
                 status = str(fixture.get("status", "")).upper()
                 if status in FINAL_MATCH_STATUSES:
                     score = fixture.get("score", {})
-                    full_time = score.get("fullTime", {}) or {}
-                    home_score = score_value(full_time, "home")
-                    away_score = score_value(full_time, "away")
+                    duration = str(score.get("duration", "")).upper()
+                    if duration == "PENALTY_SHOOTOUT":
+                        regular_time = score.get("regularTime", {}) or {}
+                        penalties = score.get("penalties", {}) or {}
+                        home_score = score_value(regular_time, "home")
+                        away_score = score_value(regular_time, "away")
+                        home_penalty = score_value(penalties, "home")
+                        away_penalty = score_value(penalties, "away")
+                    else:
+                        full_time = score.get("fullTime", {}) or {}
+                        home_score = score_value(full_time, "home")
+                        away_score = score_value(full_time, "away")
+                        home_penalty = None
+                        away_penalty = None
                     if home_score is not None and away_score is not None:
-                        football_data_score = (home_score, away_score)
+                        football_data_score = (home_score, away_score, home_penalty, away_penalty)
                     else:
                         print(f"    -> {match['id']} final on football-data.org but missing full-time score; checking TheSportsDB fallback.")
                 else:
@@ -613,9 +670,9 @@ def main() -> None:
             print(f"    -> Skipping football-data.org lookup for {match['id']} because FOOTBALL_DATA_TOKEN is not configured; checking TheSportsDB fallback.")
 
         if football_data_score is not None:
-            home_score, away_score = football_data_score
+            home_score, away_score, home_penalty, away_penalty = football_data_score
             row = existing or {"matchId": match["id"]}
-            update_result_row(row, match["id"], home_score, away_score, "football-data.org", now.isoformat(timespec="seconds"))
+            update_result_row(row, match["id"], home_score, away_score, "football-data.org", now.isoformat(timespec="seconds"), home_penalty, away_penalty)
             result_by_match[match["id"]] = row
             updated += 1
             print(f"Updated {match['id']} from football-data.org: {home_score}-{away_score}")
@@ -672,7 +729,7 @@ def main() -> None:
     write_csv(
         root / "data" / "results.csv",
         ordered_results,
-        ["matchId", "status", "homeScore", "awayScore", "result", "source", "updatedAt"],
+        ["matchId", "status", "homeScore", "awayScore", "homePenaltyScore", "awayPenaltyScore", "result", "source", "updatedAt"],
     )
     print(f"Updated {updated} result rows.")
     target = write_site_data(root)

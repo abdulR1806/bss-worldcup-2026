@@ -51,31 +51,6 @@
             </span>
             <span>Klasemen</span>
           </button>
-          <button class="nav-button" type="button" data-nav="participants">
-            <span class="nav-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"
-                stroke-linejoin="round">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                <circle cx="9" cy="7" r="4"></circle>
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-              </svg>
-            </span>
-            <span>Peserta</span>
-          </button>
-          <button class="nav-button" type="button" data-nav="draw">
-            <span class="nav-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"
-                stroke-linejoin="round">
-                <circle cx="12" cy="12" r="9"></circle>
-                <path d="M12 3v18"></path>
-                <path d="M3 12h18"></path>
-                <path d="m5.6 5.6 12.8 12.8"></path>
-                <path d="m18.4 5.6-12.8 12.8"></path>
-              </svg>
-            </span>
-            <span>Undian</span>
-          </button>
           <button class="nav-button" type="button" data-nav="bracket" aria-label="Buka menu bracket knockout">
             <span class="nav-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
@@ -84,32 +59,11 @@
             </span>
             <span>Bracket</span>
           </button>
-          <button class="nav-button" type="button" data-nav="matches">
-            <span class="nav-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"
-                stroke-linejoin="round">
-                <rect x="3" y="3" width="18" height="18" rx="2"></rect>
-                <path d="M3 12h18"></path>
-                <circle cx="12" cy="12" r="3"></circle>
-              </svg>
-            </span>
-            <span>Pertandingan</span>
-          </button>
-          <button class="nav-button" type="button" data-nav="tentang">
-            <span class="nav-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"
-                stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="M12 7v6l4 2"></path>
-              </svg>
-            </span>
-            <span>Tentang</span>
-          </button>
         </nav>
 
         <div class="header-actions">
           <button class="menu-toggle" id="menuToggle" type="button" aria-label="Buka menu navigasi"
-            aria-controls="primaryNav" aria-expanded="false">
+            aria-controls="secondaryNav" aria-expanded="false" aria-haspopup="true">
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
@@ -146,6 +100,54 @@
               <path d="M3 9h18"></path>
             </svg>
           </span>
+          <div class="nav-menu" id="secondaryNav" aria-label="Menu navigasi sekunder" hidden>
+            <button class="nav-button" type="button" data-nav="participants">
+              <span class="nav-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+              </span>
+              <span>Peserta</span>
+            </button>
+            <button class="nav-button" type="button" data-nav="draw">
+              <span class="nav-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="9"></circle>
+                  <path d="M12 3v18"></path>
+                  <path d="M3 12h18"></path>
+                  <path d="m5.6 5.6 12.8 12.8"></path>
+                  <path d="m18.4 5.6-12.8 12.8"></path>
+                </svg>
+              </span>
+              <span>Undian</span>
+            </button>
+            <button class="nav-button" type="button" data-nav="matches">
+              <span class="nav-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                  <path d="M3 12h18"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </span>
+              <span>Pertandingan</span>
+            </button>
+            <button class="nav-button" type="button" data-nav="tentang">
+              <span class="nav-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M12 7v6l4 2"></path>
+                </svg>
+              </span>
+              <span>Tentang</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -302,14 +304,13 @@
         <div id="participantDetail" class="detail-panel" hidden></div>
       </section>
 
-      <section id="bracketView" class="view">
+      <section id="bracketView" class="view bracket-view">
         <div class="section-heading">
           <div>
             <p class="eyebrow">Bracket knockout</p>
             <h2>Bracket Knockout</h2>
             <p class="section-note">Draw 32 besar dikunci dari hasil roulette final. Pemenang dan peserta otomatis maju berdasarkan hasil pertandingan yang sama dengan halaman hasil.</p>
           </div>
-          <p>Slot babak berikutnya tetap TBD sampai hasil pertandingan sebelumnya berstatus selesai.</p>
         </div>
         <div id="bracketBoard" class="bracket-board"></div>
       </section>

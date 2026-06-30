@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
   const data = window.WORLD_CUP_LEADERBOARD_DATA;
 
   if (!data) {
@@ -57,6 +57,7 @@
     streamView: document.getElementById('streamView'),
     streamBoard: document.getElementById('streamBoard'),
     primaryNav: document.getElementById('primaryNav'),
+    navMenu: document.getElementById('secondaryNav'),
     navButtons: Array.from(document.querySelectorAll('.nav-button[data-nav]')),
     participantsSheetLink: document.getElementById('participantsSheetLink'),
     matchesSheetLink: document.getElementById('matchesSheetLink'),
@@ -322,6 +323,7 @@
     loadDrawState();
     initializeDrawWheel();
     bindEvents();
+    syncMenu(false);
     syncNav();
     render();
 
@@ -561,7 +563,6 @@
   }
 
   function closeMenu() {
-    if (!document.body.classList.contains('nav-is-open')) return;
     document.body.classList.remove('nav-is-open');
     syncMenu(false);
   }
@@ -570,6 +571,9 @@
     if (els.menuToggle) {
       els.menuToggle.setAttribute('aria-expanded', String(isOpen));
       els.menuToggle.setAttribute('aria-label', isOpen ? 'Tutup menu navigasi' : 'Buka menu navigasi');
+    }
+    if (els.navMenu) {
+      els.navMenu.hidden = !isOpen;
     }
   }
 
@@ -798,7 +802,7 @@
 
     return `
       <article class="prediction-item ${outcomeClass}">
-        <p class="meta">Pertandingan ${match.matchNo} · Grup ${escapeHtml(match.group)} · ${formatShortDate(match.kickoffWib)}</p>
+        <p class="meta">Pertandingan ${match.matchNo} Â· Grup ${escapeHtml(match.group)} Â· ${formatShortDate(match.kickoffWib)}</p>
         <strong>${escapeHtml(match.homeTeam)} vs ${escapeHtml(match.awayTeam)}</strong>
         <div class="metric-row">
           <span class="prediction-chip">${predictionLabel(prediction.prediction)}</span>
@@ -823,7 +827,8 @@
 
     let html = '<div class="google-bracket-container">';
     html += '<button type="button" class="bracket-scroll-btn left" aria-label="Scroll left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>';
-    html += '<div class="google-bracket" id="googleBracketScroll">';
+    html += '<div class="google-bracket-scroll" id="googleBracketScroll">';
+    html += '<div class="google-bracket">';
     
     roundOrder.forEach(([roundName, matchIds]) => {
       html += `<div class="bracket-column">`;
@@ -842,7 +847,7 @@
       html += `</div></div>`;
     });
     
-    html += '</div>';
+    html += '</div></div>';
     html += '<button type="button" class="bracket-scroll-btn right" aria-label="Scroll right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></button>';
     html += '</div>';
     
@@ -892,24 +897,36 @@
 
   function bracketCard(node) {
     const isFinal = node.result && node.result.status === 'FINAL';
-    const scoreHome = isFinal ? node.result.homeScore : '';
-    const scoreAway = isFinal ? node.result.awayScore : '';
     const date = node.match.kickoffWib ? formatDateTime(node.match.kickoffWib) : 'TBD';
+    const scoreText = isFinal ? formatScoreline(node.result) : '';
     return `<article class="bracket-card google-match-card ${isFinal ? 'is-final' : ''}">
       <header class="google-match-header">
         <span class="meta">${escapeHtml(date)}</span>
         <span class="status-chip ${isFinal ? 'final' : ''}">${isFinal ? 'FT' : '-'}</span>
       </header>
       <div class="google-match-teams">
-        ${bracketTeamLine(node.home, scoreHome, isFinal && node.result.result === 'W')}
-        ${bracketTeamLine(node.away, scoreAway, isFinal && node.result.result === 'L')}
+        ${bracketTeamLine(node.home, scoreText, isFinal && node.result.result === 'W')}
+        ${bracketTeamLine(node.away, '', isFinal && node.result.result === 'L')}
       </div>
     </article>`;
   }
 
+  function formatScoreline(result) {
+    const homeScore = result ? result.homeScore : '';
+    const awayScore = result ? result.awayScore : '';
+    const homePenalty = result ? result.homePenaltyScore : '';
+    const awayPenalty = result ? result.awayPenaltyScore : '';
+
+    if (homePenalty !== '' && awayPenalty !== '' && homeScore === awayScore) {
+      return `${escapeHtml(homeScore)}(${escapeHtml(homePenalty)}):${escapeHtml(awayScore)}(${escapeHtml(awayPenalty)})`;
+    }
+
+    return `${escapeHtml(homeScore)} - ${escapeHtml(awayScore)}`;
+  }
+
   function bracketTeamLine(team, score, isWinner) {
     return `<div class="google-match-team ${isWinner ? 'team-is-winner' : ''}">
-      <span class="google-match-team-name"><strong>${escapeHtml(team.country)}</strong> <small>(${escapeHtml(team.participant)})</small></span>
+      <span class="google-match-team-name">${isWinner ? '<span class="winner-badge" aria-hidden="true">🏆</span>' : ''}<strong>${escapeHtml(team.country)}</strong> <small>(${escapeHtml(team.participant)})</small></span>
       <span class="google-match-score">${escapeHtml(score)}</span>
     </div>`;
   }
@@ -920,7 +937,7 @@
       ? matches.map((match) => {
         const result = resultByMatch.get(match.id);
         const isFinal = result && result.status === 'FINAL';
-        const score = isFinal ? `${result.homeScore} - ${result.awayScore}` : '-';
+        const score = isFinal ? formatScoreline(result) : '-';
         const outcome = isFinal ? matchOutcomeClasses(match, result) : { home: '', away: '' };
 
         return `
@@ -930,11 +947,11 @@
               <span class="meta">Grup ${escapeHtml(match.group)}</span>
             </header>
             <div class="teams">
-              <span class="${outcome.home}">${escapeHtml(match.homeTeam)}</span>
+              <span class="${outcome.home}">${outcome.home === 'team-is-winner' ? '<span class="winner-badge" aria-hidden="true">🏆</span>' : ''}${escapeHtml(match.homeTeam)}</span>
               <span class="scoreline">${score}</span>
-              <span class="${outcome.away}">${escapeHtml(match.awayTeam)}</span>
+              <span class="${outcome.away}">${outcome.away === 'team-is-winner' ? '<span class="winner-badge" aria-hidden="true">🏆</span>' : ''}${escapeHtml(match.awayTeam)}</span>
             </div>
-            <p class="meta">${formatDateTime(match.kickoffWib)} · ${escapeHtml(match.location)}</p>
+            <p class="meta">${formatDateTime(match.kickoffWib)} Â· ${escapeHtml(match.location)}</p>
             <p class="meta">Ambil hasil setelah: ${formatDateTime(match.resultFetchAfterWib)}</p>
             ${matchPredictions(match.id, isFinal)}
           </article>
@@ -944,6 +961,21 @@
   }
 
   function matchOutcomeClasses(match, result) {
+    const winner = String(result.result || '').toUpperCase();
+    if (winner === 'W') {
+      return {
+        home: 'team-is-winner',
+        away: 'team-is-loser',
+      };
+    }
+
+    if (winner === 'L') {
+      return {
+        home: 'team-is-loser',
+        away: 'team-is-winner',
+      };
+    }
+
     const homeScore = Number(result.homeScore);
     const awayScore = Number(result.awayScore);
 
@@ -1042,7 +1074,7 @@
 
     if (selectedStillAvailable) els.drawParticipantSelect.value = state.draw.selectedParticipantId || '';
 
-    // Populate exclusion dropdowns — all 32 countries, minus already-drawn ones
+    // Populate exclusion dropdowns â€” all 32 countries, minus already-drawn ones
     const drawnNames = getDrawnCountryNames();
     const allAvailableForExclusion = DRAW_COUNTRIES.filter((c) => !drawnNames.has(c.name));
     const excluded = state.draw.excludedTeamNames;
@@ -1052,7 +1084,7 @@
       // Collect values chosen in the other two slots to avoid duplicates
       const otherVals = excluded.filter((_, i) => i !== idx && excluded[i]);
       sel.innerHTML = [
-        '<option value="">— Tidak ada —</option>',
+        '<option value="">â€” Tidak ada â€”</option>',
         ...allAvailableForExclusion
           .filter((c) => !otherVals.includes(c.name) || c.name === currentVal)
           .map((c) => `<option value="${escapeHtml(c.name)}"${c.name === currentVal ? ' selected' : ''}>${escapeHtml(c.name)} (${escapeHtml(c.group)} / ${escapeHtml(c.bracket)})</option>`),
@@ -1216,7 +1248,7 @@
     const participant = getCurrentDrawParticipant();
     const [firstTeam, secondTeam] = state.draw.currentPicks;
     const result = {
-      timeDrawing: new Date().toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' }),
+      timeDrawing: new Date().toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Jakarta' }),
       participantId: participant.id,
       participantName: participant.displayName,
       firstTeam,
@@ -1363,7 +1395,7 @@
     if (state.group !== 'ALL') parts.push(`Grup ${state.group}`);
     if (state.matchday !== 'ALL') parts.push(formatShortDate(state.matchday));
     if (state.search) parts.push(`Cari: ${state.search}`);
-    return parts.length ? `Difilter berdasarkan ${parts.join(' · ')}` : 'Diurutkan berdasarkan total resmi Sheet SKOR panitia, lalu nama.';
+    return parts.length ? `Difilter berdasarkan ${parts.join(' Â· ')}` : 'Diurutkan berdasarkan total resmi Sheet SKOR panitia, lalu nama.';
   }
 
   function metric(value, label) {
@@ -1393,13 +1425,14 @@
 
   function formatShortDate(value) {
     const date = new Date(value);
-    return date.toLocaleDateString('id-ID', { day: '2-digit', month: 'short' });
+    return date.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', timeZone: 'Asia/Jakarta' });
   }
 
   function formatDateTime(value) {
     if (!value) return '-';
     const date = new Date(value);
     return date.toLocaleString('id-ID', {
+      timeZone: 'Asia/Jakarta',
       day: '2-digit',
       month: 'short',
       hour: '2-digit',
@@ -1417,3 +1450,4 @@
       .replaceAll("'", '&#039;');
   }
 })();
+

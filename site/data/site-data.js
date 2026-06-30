@@ -5,7 +5,7 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
     "sourceWorkbook": "Google Sheet SKOR panitia",
     "officialScoreSheetUrl": "",
     "officialScoreSheetEmbedUrl": "",
-    "generatedAt": "2026-06-30T11:31:26+07:00",
+    "generatedAt": "2026-06-30T15:25:10+07:00",
     "timezone": "Asia/Jakarta",
     "resultDelayMinutes": 100,
     "scoring": "Klasemen memakai total resmi dari sheet SKOR panitia. Perhitungan W/L/D lama tidak lagi dipakai untuk menentukan peringkat."
@@ -839,9 +839,9 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
     {
       "id": "M076",
       "matchNo": 76,
-      "kickoffText": "29 Jun 2026, 20:00, R32",
-      "kickoffWib": "2026-06-30T08:00:00+07:00",
-      "resultFetchAfterWib": "2026-06-30T09:40:00+07:00",
+      "kickoffText": "30 Jun 2026, 00:00, R32",
+      "kickoffWib": "2026-06-30T00:00:00+07:00",
+      "resultFetchAfterWib": "2026-06-30T01:40:00+07:00",
       "group": "R32",
       "homeTeam": "Brasil",
       "awayTeam": "Jepang",
@@ -7394,6 +7394,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 2,
       "awayScore": 0,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "football-data.org",
       "updatedAt": "2026-06-12T06:25:16+07:00"
@@ -7403,6 +7405,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 2,
       "awayScore": 1,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "thesportsdb.com",
       "updatedAt": "2026-06-12T10:57:09+07:00"
@@ -7412,6 +7416,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 1,
       "awayScore": 1,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "D",
       "source": "football-data.org",
       "updatedAt": "2026-06-13T04:13:15+07:00"
@@ -7421,6 +7427,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 4,
       "awayScore": 1,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "football-data.org",
       "updatedAt": "2026-06-13T10:20:55+07:00"
@@ -7430,6 +7438,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 0,
       "awayScore": 1,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "L",
       "source": "football-data.org",
       "updatedAt": "2026-06-14T10:20:55+07:00"
@@ -7439,6 +7449,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 2,
       "awayScore": 0,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "football-data.org",
       "updatedAt": "2026-06-14T13:04:33+07:00"
@@ -7448,6 +7460,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 1,
       "awayScore": 1,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "D",
       "source": "football-data.org",
       "updatedAt": "2026-06-14T07:19:59+07:00"
@@ -7457,6 +7471,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 1,
       "awayScore": 1,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "D",
       "source": "thesportsdb.com",
       "updatedAt": "2026-06-14T10:47:52+07:00"
@@ -7466,6 +7482,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 1,
       "awayScore": 0,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "thesportsdb.com",
       "updatedAt": "2026-06-15T08:21:00+07:00"
@@ -7475,6 +7493,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 7,
       "awayScore": 1,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "football-data.org",
       "updatedAt": "2026-06-15T02:20:55+07:00"
@@ -7484,6 +7504,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 2,
       "awayScore": 2,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "D",
       "source": "football-data.org",
       "updatedAt": "2026-06-15T05:20:54+07:00"
@@ -7493,6 +7515,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 5,
       "awayScore": 1,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "football-data.org",
       "updatedAt": "2026-06-15T11:20:55+07:00"
@@ -7502,6 +7526,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 1,
       "awayScore": 1,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "D",
       "source": "thesportsdb.com",
       "updatedAt": "2026-06-16T07:01:27+07:00"
@@ -7511,6 +7537,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 0,
       "awayScore": 0,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "D",
       "source": "thesportsdb.com",
       "updatedAt": "2026-06-16T01:00:17+07:00"
@@ -7520,6 +7548,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 2,
       "awayScore": 2,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "D",
       "source": "football-data.org",
       "updatedAt": "2026-06-16T10:21:01+07:00"
@@ -7529,6 +7559,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 1,
       "awayScore": 1,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "D",
       "source": "football-data.org",
       "updatedAt": "2026-06-16T04:21:03+07:00"
@@ -7538,6 +7570,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 3,
       "awayScore": 1,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "football-data.org",
       "updatedAt": "2026-06-17T04:18:35+07:00"
@@ -7547,6 +7581,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 1,
       "awayScore": 4,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "L",
       "source": "football-data.org",
       "updatedAt": "2026-06-17T07:20:57+07:00"
@@ -7556,6 +7592,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 3,
       "awayScore": 0,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "football-data.org",
       "updatedAt": "2026-06-17T10:20:54+07:00"
@@ -7565,6 +7603,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 3,
       "awayScore": 1,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "football-data.org",
       "updatedAt": "2026-06-17T13:20:56+07:00"
@@ -7574,6 +7614,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 1,
       "awayScore": 0,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "football-data.org",
       "updatedAt": "2026-06-18T09:20:54+07:00"
@@ -7583,6 +7625,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 4,
       "awayScore": 2,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "football-data.org",
       "updatedAt": "2026-06-18T05:20:55+07:00"
@@ -7592,6 +7636,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 1,
       "awayScore": 1,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "D",
       "source": "football-data.org",
       "updatedAt": "2026-06-18T02:20:59+07:00"
@@ -7601,6 +7647,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 1,
       "awayScore": 3,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "L",
       "source": "football-data.org",
       "updatedAt": "2026-06-18T11:20:59+07:00"
@@ -7610,6 +7658,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 1,
       "awayScore": 1,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "D",
       "source": "football-data.org",
       "updatedAt": "2026-06-19T01:20:59+07:00"
@@ -7619,6 +7669,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 4,
       "awayScore": 1,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "football-data.org",
       "updatedAt": "2026-06-19T04:09:25+07:00"
@@ -7628,6 +7680,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 6,
       "awayScore": 0,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "football-data.org",
       "updatedAt": "2026-06-19T07:20:56+07:00"
@@ -7637,6 +7691,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 1,
       "awayScore": 0,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "football-data.org",
       "updatedAt": "2026-06-19T10:20:56+07:00"
@@ -7646,6 +7702,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 3,
       "awayScore": 0,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "football-data.org",
       "updatedAt": "2026-06-20T10:20:55+07:00"
@@ -7655,6 +7713,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 0,
       "awayScore": 1,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "L",
       "source": "football-data.org",
       "updatedAt": "2026-06-20T07:20:55+07:00"
@@ -7664,6 +7724,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 0,
       "awayScore": 1,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "L",
       "source": "football-data.org",
       "updatedAt": "2026-06-20T13:21:14+07:00"
@@ -7673,6 +7735,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 2,
       "awayScore": 0,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "football-data.org",
       "updatedAt": "2026-06-20T04:20:56+07:00"
@@ -7682,6 +7746,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 2,
       "awayScore": 1,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "football-data.org",
       "updatedAt": "2026-06-21T05:20:57+07:00"
@@ -7691,6 +7757,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 0,
       "awayScore": 0,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "D",
       "source": "football-data.org",
       "updatedAt": "2026-06-21T09:20:54+07:00"
@@ -7700,6 +7768,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 5,
       "awayScore": 1,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "football-data.org",
       "updatedAt": "2026-06-21T02:20:57+07:00"
@@ -7709,6 +7779,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 0,
       "awayScore": 4,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "L",
       "source": "football-data.org",
       "updatedAt": "2026-06-21T13:17:31+07:00"
@@ -7718,6 +7790,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 2,
       "awayScore": 2,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "D",
       "source": "football-data.org",
       "updatedAt": "2026-06-22T07:20:56+07:00"
@@ -7727,6 +7801,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 4,
       "awayScore": 0,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "football-data.org",
       "updatedAt": "2026-06-22T13:10:21+07:00"
@@ -7736,6 +7812,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 0,
       "awayScore": 0,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "D",
       "source": "football-data.org",
       "updatedAt": "2026-06-22T04:20:55+07:00"
@@ -7745,6 +7823,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 1,
       "awayScore": 3,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "L",
       "source": "football-data.org",
       "updatedAt": "2026-06-22T10:20:56+07:00"
@@ -7754,6 +7834,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 3,
       "awayScore": 2,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "football-data.org",
       "updatedAt": "2026-06-23T09:20:55+07:00"
@@ -7763,6 +7845,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 3,
       "awayScore": 0,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "football-data.org",
       "updatedAt": "2026-06-23T08:20:55+07:00"
@@ -7772,6 +7856,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 1,
       "awayScore": 2,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "L",
       "source": "football-data.org",
       "updatedAt": "2026-06-23T12:13:58+07:00"
@@ -7781,6 +7867,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 2,
       "awayScore": 0,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "football-data.org",
       "updatedAt": "2026-06-23T11:44:30+07:00"
@@ -7790,6 +7878,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 0,
       "awayScore": 0,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "D",
       "source": "football-data.org",
       "updatedAt": "2026-06-24T05:20:57+07:00"
@@ -7799,6 +7889,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 0,
       "awayScore": 1,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "L",
       "source": "football-data.org",
       "updatedAt": "2026-06-24T08:20:55+07:00"
@@ -7808,6 +7900,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 5,
       "awayScore": 0,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "football-data.org",
       "updatedAt": "2026-06-24T02:21:02+07:00"
@@ -7817,6 +7911,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 1,
       "awayScore": 0,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "football-data.org",
       "updatedAt": "2026-06-24T11:20:54+07:00"
@@ -7826,6 +7922,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 0,
       "awayScore": 3,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "L",
       "source": "football-data.org",
       "updatedAt": "2026-06-25T07:20:55+07:00"
@@ -7835,6 +7933,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 4,
       "awayScore": 2,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "football-data.org",
       "updatedAt": "2026-06-25T07:20:55+07:00"
@@ -7844,6 +7944,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 2,
       "awayScore": 1,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "football-data.org",
       "updatedAt": "2026-06-25T04:20:56+07:00"
@@ -7853,6 +7955,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 3,
       "awayScore": 1,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "football-data.org",
       "updatedAt": "2026-06-25T04:20:56+07:00"
@@ -7862,6 +7966,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 0,
       "awayScore": 3,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "L",
       "source": "football-data.org",
       "updatedAt": "2026-06-25T10:20:58+07:00"
@@ -7871,6 +7977,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 1,
       "awayScore": 0,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "football-data.org",
       "updatedAt": "2026-06-25T10:20:58+07:00"
@@ -7880,6 +7988,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 0,
       "awayScore": 2,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "L",
       "source": "football-data.org",
       "updatedAt": "2026-06-26T05:20:56+07:00"
@@ -7889,6 +7999,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 2,
       "awayScore": 1,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "football-data.org",
       "updatedAt": "2026-06-26T05:20:56+07:00"
@@ -7898,6 +8010,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 1,
       "awayScore": 1,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "D",
       "source": "football-data.org",
       "updatedAt": "2026-06-26T08:20:55+07:00"
@@ -7907,6 +8021,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 1,
       "awayScore": 3,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "L",
       "source": "football-data.org",
       "updatedAt": "2026-06-26T08:20:55+07:00"
@@ -7916,6 +8032,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 3,
       "awayScore": 2,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "football-data.org",
       "updatedAt": "2026-06-26T11:20:58+07:00"
@@ -7925,6 +8043,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 0,
       "awayScore": 0,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "D",
       "source": "football-data.org",
       "updatedAt": "2026-06-26T11:20:58+07:00"
@@ -7934,6 +8054,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 1,
       "awayScore": 4,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "L",
       "source": "football-data.org",
       "updatedAt": "2026-06-27T04:20:55+07:00"
@@ -7943,6 +8065,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 5,
       "awayScore": 0,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "football-data.org",
       "updatedAt": "2026-06-27T04:20:55+07:00"
@@ -7952,6 +8076,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 1,
       "awayScore": 1,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "D",
       "source": "football-data.org",
       "updatedAt": "2026-06-27T12:20:56+07:00"
@@ -7961,6 +8087,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 1,
       "awayScore": 5,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "L",
       "source": "football-data.org",
       "updatedAt": "2026-06-27T12:03:11+07:00"
@@ -7970,6 +8098,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 0,
       "awayScore": 0,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "D",
       "source": "football-data.org",
       "updatedAt": "2026-06-27T09:20:54+07:00"
@@ -7979,6 +8109,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 0,
       "awayScore": 1,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "L",
       "source": "football-data.org",
       "updatedAt": "2026-06-27T09:20:54+07:00"
@@ -7988,6 +8120,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 0,
       "awayScore": 2,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "L",
       "source": "football-data.org",
       "updatedAt": "2026-06-28T06:20:53+07:00"
@@ -7997,6 +8131,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 2,
       "awayScore": 1,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "football-data.org",
       "updatedAt": "2026-06-28T06:20:53+07:00"
@@ -8006,6 +8142,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 1,
       "awayScore": 3,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "L",
       "source": "football-data.org",
       "updatedAt": "2026-06-28T11:20:54+07:00"
@@ -8015,6 +8153,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 3,
       "awayScore": 3,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "D",
       "source": "football-data.org",
       "updatedAt": "2026-06-28T11:20:54+07:00"
@@ -8024,6 +8164,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 0,
       "awayScore": 0,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "D",
       "source": "football-data.org",
       "updatedAt": "2026-06-28T09:20:57+07:00"
@@ -8033,51 +8175,63 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "FINAL",
       "homeScore": 3,
       "awayScore": 1,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "W",
       "source": "football-data.org",
       "updatedAt": "2026-06-28T09:20:57+07:00"
     },
     {
       "matchId": "M073",
-      "status": "PENDING",
-      "homeScore": "",
-      "awayScore": "",
-      "result": "",
-      "source": "",
-      "updatedAt": ""
+      "status": "FINAL",
+      "homeScore": 0,
+      "awayScore": 1,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
+      "result": "L",
+      "source": "football-data.org",
+      "updatedAt": "2026-06-30T15:10:04+07:00"
     },
     {
       "matchId": "M074",
-      "status": "PENDING",
-      "homeScore": "",
-      "awayScore": "",
-      "result": "",
-      "source": "",
-      "updatedAt": ""
+      "status": "FINAL",
+      "homeScore": 1,
+      "awayScore": 1,
+      "homePenaltyScore": 3,
+      "awayPenaltyScore": 4,
+      "result": "L",
+      "source": "football-data.org",
+      "updatedAt": "2026-06-30T15:25:08+07:00"
     },
     {
       "matchId": "M075",
-      "status": "PENDING",
-      "homeScore": "",
-      "awayScore": "",
-      "result": "",
-      "source": "",
-      "updatedAt": ""
+      "status": "FINAL",
+      "homeScore": 1,
+      "awayScore": 1,
+      "homePenaltyScore": 2,
+      "awayPenaltyScore": 3,
+      "result": "L",
+      "source": "football-data.org",
+      "updatedAt": "2026-06-30T15:25:08+07:00"
     },
     {
       "matchId": "M076",
-      "status": "PENDING",
-      "homeScore": "",
-      "awayScore": "",
-      "result": "",
-      "source": "",
-      "updatedAt": ""
+      "status": "FINAL",
+      "homeScore": 2,
+      "awayScore": 1,
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
+      "result": "W",
+      "source": "Manual",
+      "updatedAt": "2026-06-30T14:49:41+07:00"
     },
     {
       "matchId": "M077",
       "status": "PENDING",
       "homeScore": "",
       "awayScore": "",
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "",
       "source": "",
       "updatedAt": ""
@@ -8087,6 +8241,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "PENDING",
       "homeScore": "",
       "awayScore": "",
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "",
       "source": "",
       "updatedAt": ""
@@ -8096,6 +8252,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "PENDING",
       "homeScore": "",
       "awayScore": "",
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "",
       "source": "",
       "updatedAt": ""
@@ -8105,6 +8263,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "PENDING",
       "homeScore": "",
       "awayScore": "",
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "",
       "source": "",
       "updatedAt": ""
@@ -8114,6 +8274,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "PENDING",
       "homeScore": "",
       "awayScore": "",
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "",
       "source": "",
       "updatedAt": ""
@@ -8123,6 +8285,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "PENDING",
       "homeScore": "",
       "awayScore": "",
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "",
       "source": "",
       "updatedAt": ""
@@ -8132,6 +8296,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "PENDING",
       "homeScore": "",
       "awayScore": "",
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "",
       "source": "",
       "updatedAt": ""
@@ -8141,6 +8307,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "PENDING",
       "homeScore": "",
       "awayScore": "",
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "",
       "source": "",
       "updatedAt": ""
@@ -8150,6 +8318,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "PENDING",
       "homeScore": "",
       "awayScore": "",
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "",
       "source": "",
       "updatedAt": ""
@@ -8159,6 +8329,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "PENDING",
       "homeScore": "",
       "awayScore": "",
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "",
       "source": "",
       "updatedAt": ""
@@ -8168,6 +8340,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "PENDING",
       "homeScore": "",
       "awayScore": "",
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "",
       "source": "",
       "updatedAt": ""
@@ -8177,6 +8351,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "PENDING",
       "homeScore": "",
       "awayScore": "",
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "",
       "source": "",
       "updatedAt": ""
@@ -8186,6 +8362,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "PENDING",
       "homeScore": "",
       "awayScore": "",
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "",
       "source": "",
       "updatedAt": ""
@@ -8195,6 +8373,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "PENDING",
       "homeScore": "",
       "awayScore": "",
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "",
       "source": "",
       "updatedAt": ""
@@ -8204,6 +8384,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "PENDING",
       "homeScore": "",
       "awayScore": "",
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "",
       "source": "",
       "updatedAt": ""
@@ -8213,6 +8395,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "PENDING",
       "homeScore": "",
       "awayScore": "",
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "",
       "source": "",
       "updatedAt": ""
@@ -8222,6 +8406,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "PENDING",
       "homeScore": "",
       "awayScore": "",
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "",
       "source": "",
       "updatedAt": ""
@@ -8231,6 +8417,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "PENDING",
       "homeScore": "",
       "awayScore": "",
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "",
       "source": "",
       "updatedAt": ""
@@ -8240,6 +8428,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "PENDING",
       "homeScore": "",
       "awayScore": "",
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "",
       "source": "",
       "updatedAt": ""
@@ -8249,6 +8439,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "PENDING",
       "homeScore": "",
       "awayScore": "",
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "",
       "source": "",
       "updatedAt": ""
@@ -8258,6 +8450,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "PENDING",
       "homeScore": "",
       "awayScore": "",
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "",
       "source": "",
       "updatedAt": ""
@@ -8267,6 +8461,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "PENDING",
       "homeScore": "",
       "awayScore": "",
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "",
       "source": "",
       "updatedAt": ""
@@ -8276,6 +8472,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "PENDING",
       "homeScore": "",
       "awayScore": "",
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "",
       "source": "",
       "updatedAt": ""
@@ -8285,6 +8483,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "PENDING",
       "homeScore": "",
       "awayScore": "",
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "",
       "source": "",
       "updatedAt": ""
@@ -8294,6 +8494,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "PENDING",
       "homeScore": "",
       "awayScore": "",
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "",
       "source": "",
       "updatedAt": ""
@@ -8303,6 +8505,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "PENDING",
       "homeScore": "",
       "awayScore": "",
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "",
       "source": "",
       "updatedAt": ""
@@ -8312,6 +8516,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "status": "PENDING",
       "homeScore": "",
       "awayScore": "",
+      "homePenaltyScore": "",
+      "awayPenaltyScore": "",
       "result": "",
       "source": "",
       "updatedAt": ""

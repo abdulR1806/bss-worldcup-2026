@@ -31,6 +31,9 @@ def main() -> None:
         page = browser.new_page(viewport={"width": 1440, "height": 1200})
 
         try:
+            primary_nav_names = ["Beranda", "Klasemen", "Bracket"]
+            secondary_nav_names = ["Peserta", "Undian", "Pertandingan", "Tentang"]
+
             for width in (375, 768, 1024, 1440):
                 page.set_viewport_size({"width": width, "height": 1200})
                 page.goto(URL, wait_until="networkidle")
@@ -39,21 +42,22 @@ def main() -> None:
                 expect(page.locator('link[rel="icon"]')).to_have_attribute("href", "assets/logo-cropped.png")
                 if not page.locator(".brand img").evaluate("image => image.complete && image.naturalWidth > 0"):
                     raise AssertionError("Brand logo did not load.")
-                expect(page.locator("#dataMode")).to_have_text("Data utama dari football-data.org; fallback TheSportsDB jika skor kosong")
+                expect(page.locator("#dataMode")).to_contain_text("Google Sheet panitia")
+                expect(page.locator("#dataMode")).to_contain_text("data pertandingan lokal hanya sebagai referensi")
                 expect(page.locator("#groupFilter")).to_contain_text("Grup A")
                 expect(page.locator("#leaderboardBody tr").first).to_be_visible()
-                if width in (375, 768, 1024):
-                    expect(page.locator("#menuToggle")).to_be_visible()
-                    expect(page.locator("#primaryNav")).not_to_be_visible()
-                    page.locator("#menuToggle").click()
-                    expect(page.locator("#primaryNav")).to_be_visible()
-                    expect(page.locator("#menuToggle")).to_have_attribute("aria-expanded", "true")
-                    page.get_by_role("button", name="Klasemen").click()
-                    expect(page.locator("#primaryNav")).not_to_be_visible()
-                    expect(page.locator("#menuToggle")).to_have_attribute("aria-expanded", "false")
-                else:
-                    expect(page.locator("#menuToggle")).not_to_be_visible()
-                    expect(page.locator("#primaryNav")).to_be_visible()
+                expect(page.locator("#primaryNav .nav-button[data-nav]")).to_have_count(3)
+                expect(page.locator("#primaryNav .nav-button[data-nav]")).to_contain_text(primary_nav_names)
+                expect(page.locator("#menuToggle")).to_be_visible()
+                expect(page.locator("#secondaryNav")).not_to_be_visible()
+                page.locator("#menuToggle").click()
+                expect(page.locator("#secondaryNav")).to_be_visible()
+                expect(page.locator("#menuToggle")).to_have_attribute("aria-expanded", "true")
+                expect(page.locator("#secondaryNav .nav-button[data-nav]")).to_have_count(4)
+                expect(page.locator("#secondaryNav .nav-button[data-nav]")).to_contain_text(secondary_nav_names)
+                page.keyboard.press("Escape")
+                expect(page.locator("#secondaryNav")).not_to_be_visible()
+                expect(page.locator("#menuToggle")).to_have_attribute("aria-expanded", "false")
 
                 search_input = page.locator("#searchInput")
                 search_box = page.locator(".field-search .search-input")
@@ -69,12 +73,52 @@ def main() -> None:
                 expect(page.locator("#leaderboardBody").get_by_text("Bowo", exact=True)).to_be_visible()
                 page.locator("#searchInput").fill("")
 
+                page.locator("#primaryNav button[data-nav=\"bracket\"]").click()
+                expect(page.locator("#bracketView")).to_be_visible()
+                bracket_box = page.locator("#bracketView").bounding_box()
+                if bracket_box["width"] < width * 0.94:
+                    raise AssertionError(f"Bracket section should span the viewport, got {bracket_box['width']}px at {width}px wide.")
+                expect(page.locator("#bracketView .bracket-round-header")).to_contain_text(["32 Besar", "16 Besar", "8 Besar", "4 Besar", "Final"])
+                expect(page.locator("#bracketView .google-match-card").first).to_be_visible()
+                bracket_scroll = page.locator("#googleBracketScroll")
+                scroll_metrics = bracket_scroll.evaluate("el => ({ scrollWidth: el.scrollWidth, clientWidth: el.clientWidth, scrollLeft: el.scrollLeft, overflowX: getComputedStyle(el).overflowX })")
+                max_scroll = scroll_metrics["scrollWidth"] - scroll_metrics["clientWidth"]
+                if scroll_metrics["overflowX"] not in ("auto", "scroll"):
+                    raise AssertionError(f"Bracket scroller should be horizontally scrollable when needed, got {scroll_metrics['overflowX']}")
+                if width >= 1024:
+                    left_btn = page.locator(".bracket-scroll-btn.left")
+                    right_btn = page.locator(".bracket-scroll-btn.right")
+                    expect(left_btn).to_be_visible()
+                    expect(right_btn).to_be_visible()
+                    if max_scroll > 2:
+                        before = bracket_scroll.evaluate("el => el.scrollLeft")
+                        right_btn.click()
+                        page.wait_for_timeout(200)
+                        after = bracket_scroll.evaluate("el => el.scrollLeft")
+                        if after <= before:
+                            raise AssertionError("Bracket right scroll button did not move the scroller.")
+                        right_btn.click()
+                        page.wait_for_timeout(100)
+                        if bracket_scroll.evaluate("el => el.scrollLeft") < after:
+                            pass
+                    elif not right_btn.is_disabled():
+                        raise AssertionError("Bracket right scroll button should be disabled when the full desktop bracket fits.")
+                else:
+                    if max_scroll <= 2:
+                        raise AssertionError("Mobile bracket scroller should overflow horizontally.")
+                    page.locator("#googleBracketScroll").evaluate("el => { el.style.scrollBehavior = 'auto'; el.scrollLeft = Math.min(400, el.scrollWidth - el.clientWidth); }")
+                    page.wait_for_timeout(250)
+                    if bracket_scroll.evaluate("el => el.scrollLeft") == 0:
+                        raise AssertionError("Mobile bracket scroller did not move horizontally.")
+                if page.evaluate("() => document.documentElement.scrollWidth > window.innerWidth + 4"):
+                    raise AssertionError("Document should not overflow horizontally outside the bracket scroller.")
+
                 screenshot = SCREENSHOT_DIR / f"playwright-{width}.png"
                 page.screenshot(path=str(screenshot), full_page=True)
                 results["screenshots"].append(str(screenshot))
 
-            expect(page.locator("#leaderboardBody").get_by_text("Bowo", exact=True)).to_be_visible()
-            page.get_by_role("button", name="Peserta").click()
+            page.locator("#menuToggle").click()
+            page.locator("#secondaryNav button[data-nav=\"participants\"]").click()
             expect(page.locator("#participantsView")).to_be_visible()
             dark_samples = sample_theme(page)
 
@@ -89,7 +133,18 @@ def main() -> None:
                 "wrong": color_sample(wrong_card),
             }
 
-            page.get_by_role("button", name="Pertandingan").click()
+            page.locator("#menuToggle").click()
+            page.locator("#secondaryNav button[data-nav=\"draw\"]").click()
+            expect(page.locator("#drawView")).to_be_visible()
+            expect(page.locator("#drawExportCsvButton")).to_be_visible()
+            with page.expect_download() as download_info:
+                page.locator("#drawExportCsvButton").click()
+            download = download_info.value
+            if not download.suggested_filename.endswith(".csv"):
+                raise AssertionError(f"Expected CSV export, got {download.suggested_filename}")
+
+            page.locator("#menuToggle").click()
+            page.locator("#secondaryNav button[data-nav=\"matches\"]").click()
             expect(page.locator("#matchesView")).to_be_visible()
             final_match_chip = page.locator("#matchesView .match-card .status-chip.final").first
             expect(final_match_chip).to_be_visible()
@@ -115,10 +170,12 @@ def main() -> None:
                 "group_filter_loaded": True,
                 "leaderboard_rows_visible": True,
                 "participant_name_visible": True,
-                "participants_navigation": True,
-                "matches_navigation": True,
-                "mobile_hamburger_navigation": True,
+                "primary_nav_split": True,
+                "secondary_menu_navigation": True,
+                "responsive_bracket_layout": True,
+                "mobile_bracket_scroll": True,
                 "search_input_layout": True,
+                "draw_export_csv": True,
                 "final_match_chip_green": True,
                 "theme_toggle": True,
                 "dark_light_card_difference": True,
