@@ -1,7 +1,10 @@
 from __future__ import annotations
 
 from update_results import (
+    parse_iso,
     find_sportsdb_event,
+    result_fetch_wait_minutes,
+    result_fetch_window_is_open,
     result_code_from_scores,
     result_row_matches_score,
     result_row_score,
@@ -124,10 +127,27 @@ def test_final_score_comparison_helpers_detect_differences() -> None:
         "status": "FINAL",
         "homeScore": "1",
         "awayScore": "1",
+        "homePenaltyScore": "",
+        "awayPenaltyScore": "",
         "result": "D",
         "source": "football-data.org",
         "updatedAt": "2026-06-16T12:00:00+07:00",
     }
+
+
+def test_result_fetch_window_opens_after_configured_wib_time() -> None:
+    now = parse_iso("2026-07-01T06:22:00+07:00")
+    fetch_after = parse_iso("2026-07-01T01:40:00+07:00")
+
+    assert result_fetch_window_is_open(now, fetch_after) is True
+
+
+def test_result_fetch_window_reports_wait_minutes_before_open_time() -> None:
+    now = parse_iso("2026-07-01T06:22:00+07:00")
+    fetch_after = parse_iso("2026-07-01T06:40:00+07:00")
+
+    assert result_fetch_window_is_open(now, fetch_after) is False
+    assert result_fetch_wait_minutes(now, fetch_after) == 18
 
 
 def main() -> None:
@@ -135,6 +155,8 @@ def main() -> None:
     test_sportsdb_reversed_event_maps_scores_to_csv_order()
     test_sportsdb_chooses_closest_event_when_teams_repeat()
     test_final_score_comparison_helpers_detect_differences()
+    test_result_fetch_window_opens_after_configured_wib_time()
+    test_result_fetch_window_reports_wait_minutes_before_open_time()
     print("OK: update results fallback tests passed.")
 
 

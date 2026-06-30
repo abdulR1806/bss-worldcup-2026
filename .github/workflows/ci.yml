@@ -26,6 +26,12 @@ jobs:
       - name: Test scoring
         run: python scripts/test_scoring.py
 
+      - name: Test update results helpers
+        run: python scripts/test_update_results_fallback.py
+
+      - name: Test site data metadata
+        run: python scripts/test_build_site_data.py
+
       - name: Build browser data
         run: python scripts/build_site_data.py
 

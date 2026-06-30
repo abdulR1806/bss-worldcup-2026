@@ -42,7 +42,7 @@ def main() -> None:
     require_columns(data_dir / "matches.csv", matches, ["id", "matchNo", "kickoffWib", "resultFetchAfterWib", "group", "homeTeam", "awayTeam", "location"], errors)
     require_columns(data_dir / "participants.csv", participants, ["id", "displayName", "division", "badge"], errors)
     require_columns(data_dir / "predictions.csv", predictions, ["participantId", "matchId", "prediction"], errors)
-    require_columns(data_dir / "results.csv", results, ["matchId", "status", "homeScore", "awayScore", "result", "source", "updatedAt"], errors)
+    require_columns(data_dir / "results.csv", results, ["matchId", "status", "homeScore", "awayScore", "homePenaltyScore", "awayPenaltyScore", "result", "source", "updatedAt"], errors)
     require_columns(data_dir / "standings.csv", standings, ["Id participant", "nama participan", "total"], errors)
 
     match_ids = {row["id"] for row in matches}
