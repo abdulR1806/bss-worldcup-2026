@@ -62,8 +62,10 @@ def result_fetch_wait_minutes(now: datetime, fetch_after: datetime) -> int:
     return int((fetch_after - now).total_seconds() / 60)
 
 
-def normalize(value: str) -> str:
-    ascii_text = unicodedata.normalize("NFKD", value).encode("ascii", "ignore").decode("ascii")
+def normalize(value: object) -> str:
+    if value is None:
+        return ""
+    ascii_text = unicodedata.normalize("NFKD", str(value)).encode("ascii", "ignore").decode("ascii")
     return " ".join(ascii_text.lower().replace("-", " ").split())
 
 
@@ -90,11 +92,13 @@ def local_team_keys(team: str, aliases: dict[str, set[str]]) -> set[str]:
     return {key for key in keys if key}
 
 
-def api_team_keys(team: dict[str, str]) -> set[str]:
+def api_team_keys(team: dict[str, object] | None) -> set[str]:
+    if not isinstance(team, dict):
+        return set()
     keys = {
-        normalize(team.get("name", "")),
-        normalize(team.get("shortName", "")),
-        normalize(team.get("tla", "")),
+        normalize(team.get("name")),
+        normalize(team.get("shortName")),
+        normalize(team.get("tla")),
     }
     return {key for key in keys if key}
 
