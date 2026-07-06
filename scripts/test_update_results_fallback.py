@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from update_results import (
     parse_iso,
+    api_team_keys,
+    find_match,
     find_sportsdb_event,
     result_fetch_wait_minutes,
     result_fetch_window_is_open,
@@ -11,6 +13,28 @@ from update_results import (
     sportsdb_scores,
     update_result_row,
 )
+
+
+def test_football_data_team_keys_ignore_null_placeholders() -> None:
+    assert api_team_keys({"id": 1234, "name": None, "shortName": None, "tla": None}) == set()
+    assert api_team_keys(None) == set()
+
+
+def test_football_data_match_lookup_skips_unresolved_api_teams() -> None:
+    match = {"homeTeam": "Meksiko", "awayTeam": "Afrika Selatan"}
+    aliases = {"meksiko": {"mexico"}, "afrika selatan": {"south africa"}}
+    fixtures = [
+        {
+            "homeTeam": {"id": 1, "name": None, "shortName": None, "tla": None},
+            "awayTeam": {"id": 2, "name": None, "shortName": None, "tla": None},
+        },
+        {
+            "homeTeam": {"name": "Mexico", "shortName": "Mexico", "tla": "MEX"},
+            "awayTeam": {"name": "South Africa", "shortName": "South Africa", "tla": "RSA"},
+        },
+    ]
+
+    assert find_match(match, fixtures, aliases) is fixtures[1]
 
 
 def test_sportsdb_matches_current_csv_home_away_order() -> None:
@@ -151,6 +175,8 @@ def test_result_fetch_window_reports_wait_minutes_before_open_time() -> None:
 
 
 def main() -> None:
+    test_football_data_team_keys_ignore_null_placeholders()
+    test_football_data_match_lookup_skips_unresolved_api_teams()
     test_sportsdb_matches_current_csv_home_away_order()
     test_sportsdb_reversed_event_maps_scores_to_csv_order()
     test_sportsdb_chooses_closest_event_when_teams_repeat()
