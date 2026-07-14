@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import re
 from collections import Counter, defaultdict
 from pathlib import Path
 
@@ -22,6 +23,45 @@ def require_columns(path: Path, rows: list[dict[str, str]], columns: list[str], 
     missing = [column for column in columns if column not in rows[0]]
     if missing:
         errors.append(f"{path} is missing columns: {', '.join(missing)}")
+
+
+def resolved_winner(match: dict[str, str], result: dict[str, str] | None) -> str:
+    if result is None or result.get("status", "").strip().upper() != "FINAL":
+        return "TBD"
+    winner = result.get("result", "").strip().upper()
+    if winner == "W":
+        return match["homeTeam"]
+    if winner == "L":
+        return match["awayTeam"]
+    return "DRAW"
+
+
+def validate_bracket_source_order(
+    root: Path,
+    matches_by_id: dict[str, dict[str, str]],
+    results_by_match: dict[str, dict[str, str]],
+    errors: list[str],
+) -> None:
+    app_path = root / "site" / "app.js"
+    app_js = app_path.read_text(encoding="utf-8")
+    source_pattern = re.compile(r"\{ id: '([^']+)'.*?sources: \['([^']+)', '([^']+)'\] \}")
+
+    for bracket_match, first_source, second_source in source_pattern.findall(app_js):
+        match = matches_by_id.get(bracket_match)
+        first_match = matches_by_id.get(first_source)
+        second_match = matches_by_id.get(second_source)
+        if match is None or first_match is None or second_match is None:
+            continue
+        if match["homeTeam"] == "TBD" and match["awayTeam"] == "TBD":
+            continue
+
+        expected_home = resolved_winner(first_match, results_by_match.get(first_source))
+        expected_away = resolved_winner(second_match, results_by_match.get(second_source))
+        if (expected_home, expected_away) != (match["homeTeam"], match["awayTeam"]):
+            errors.append(
+                f"Bracket source order for {bracket_match} renders {expected_home} vs {expected_away}, "
+                f"but data/matches.csv has {match['homeTeam']} vs {match['awayTeam']}."
+            )
 
 
 def main() -> None:
@@ -47,6 +87,8 @@ def main() -> None:
 
     match_ids = {row["id"] for row in matches}
     participant_ids = {row["id"] for row in participants}
+    matches_by_id = {row["id"]: row for row in matches}
+    results_by_match = {row["matchId"]: row for row in results}
 
     prediction_match_ids = {row["matchId"] for row in predictions}
     if len(prediction_match_ids) != 72:
@@ -116,6 +158,8 @@ def main() -> None:
             errors.append(f"Final result for {match_id} must be W, L, or D.")
         if status != "FINAL" and result:
             errors.append(f"Non-final result for {match_id} should leave result blank.")
+
+    validate_bracket_source_order(root, matches_by_id, results_by_match, errors)
 
     missing_result_rows = match_ids - seen_result_matches
     if missing_result_rows:

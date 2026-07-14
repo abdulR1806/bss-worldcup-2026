@@ -1074,8 +1074,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "kickoffWib": "2026-07-10T02:00:00+07:00",
       "resultFetchAfterWib": "2026-07-10T03:40:00+07:00",
       "group": "QF",
-      "homeTeam": "TBD",
-      "awayTeam": "TBD",
+      "homeTeam": "Maroko",
+      "awayTeam": "Prancis",
       "location": "Boston Stadium, Boston"
     },
     {
@@ -1085,8 +1085,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "kickoffWib": "2026-07-11T02:00:00+07:00",
       "resultFetchAfterWib": "2026-07-11T03:40:00+07:00",
       "group": "QF",
-      "homeTeam": "TBD",
-      "awayTeam": "TBD",
+      "homeTeam": "Spanyol",
+      "awayTeam": "Belgia",
       "location": "Los Angeles Stadium, Los Angeles"
     },
     {
@@ -1096,8 +1096,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "kickoffWib": "2026-07-12T02:00:00+07:00",
       "resultFetchAfterWib": "2026-07-12T03:40:00+07:00",
       "group": "QF",
-      "homeTeam": "TBD",
-      "awayTeam": "TBD",
+      "homeTeam": "Norwegia",
+      "awayTeam": "Inggris",
       "location": "Miami Stadium, Miami Gardens"
     },
     {
@@ -1107,8 +1107,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "kickoffWib": "2026-07-12T06:00:00+07:00",
       "resultFetchAfterWib": "2026-07-12T07:40:00+07:00",
       "group": "QF",
-      "homeTeam": "TBD",
-      "awayTeam": "TBD",
+      "homeTeam": "Argentina",
+      "awayTeam": "Swiss",
       "location": "Kansas City Stadium, Kansas City"
     },
     {
