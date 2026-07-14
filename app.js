@@ -263,7 +263,7 @@
     { id: 'M091', side: 'left', round: '16 Besar', sources: ['M076', 'M078'] },
     { id: 'M092', side: 'left', round: '16 Besar', sources: ['M079', 'M080'] },
     { id: 'M096', side: 'left', round: '16 Besar', sources: ['M085', 'M087'] },
-    { id: 'M095', side: 'left', round: '16 Besar', sources: ['M088', 'M086'] },
+    { id: 'M095', side: 'left', round: '16 Besar', sources: ['M086', 'M088'] },
     { id: 'M089', side: 'right', round: '16 Besar', sources: ['M073', 'M075'] },
     { id: 'M090', side: 'right', round: '16 Besar', sources: ['M074', 'M077'] },
     { id: 'M094', side: 'right', round: '16 Besar', sources: ['M081', 'M082'] },

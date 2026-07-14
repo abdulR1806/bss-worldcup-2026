@@ -5,7 +5,7 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
     "sourceWorkbook": "Google Sheet SKOR panitia",
     "officialScoreSheetUrl": "https://docs.google.com/spreadsheets/d/1Y8KS4EsNpYr8MTv0bUBEsYz-wNN6FaI9ke9J485N05o/edit?usp=sharing",
     "officialScoreSheetEmbedUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1qP5REOzz6gjjbJf02gWWI3MzNnMCAfGfRPdLQQmSxibAMI2J3NJQCSK1SKZEfiUiS01mKxmmWFbA/pubhtml?gid=0&single=true&widget=true&headers=false",
-    "generatedAt": "2026-07-14T14:21:19+07:00",
+    "generatedAt": "2026-07-14T14:37:51+07:00",
     "timezone": "Asia/Jakarta",
     "resultDelayMinutes": 100,
     "scoring": "Klasemen memakai total resmi dari sheet SKOR panitia. Perhitungan W/L/D lama tidak lagi dipakai untuk menentukan peringkat."
@@ -1074,8 +1074,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "kickoffWib": "2026-07-10T02:00:00+07:00",
       "resultFetchAfterWib": "2026-07-10T03:40:00+07:00",
       "group": "QF",
-      "homeTeam": "TBD",
-      "awayTeam": "TBD",
+      "homeTeam": "Maroko",
+      "awayTeam": "Prancis",
       "location": "Boston Stadium, Boston"
     },
     {
@@ -1085,8 +1085,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "kickoffWib": "2026-07-11T02:00:00+07:00",
       "resultFetchAfterWib": "2026-07-11T03:40:00+07:00",
       "group": "QF",
-      "homeTeam": "TBD",
-      "awayTeam": "TBD",
+      "homeTeam": "Spanyol",
+      "awayTeam": "Belgia",
       "location": "Los Angeles Stadium, Los Angeles"
     },
     {
@@ -1096,8 +1096,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "kickoffWib": "2026-07-12T02:00:00+07:00",
       "resultFetchAfterWib": "2026-07-12T03:40:00+07:00",
       "group": "QF",
-      "homeTeam": "TBD",
-      "awayTeam": "TBD",
+      "homeTeam": "Norwegia",
+      "awayTeam": "Inggris",
       "location": "Miami Stadium, Miami Gardens"
     },
     {
@@ -1107,8 +1107,8 @@ window.WORLD_CUP_LEADERBOARD_DATA = {
       "kickoffWib": "2026-07-12T06:00:00+07:00",
       "resultFetchAfterWib": "2026-07-12T07:40:00+07:00",
       "group": "QF",
-      "homeTeam": "TBD",
-      "awayTeam": "TBD",
+      "homeTeam": "Argentina",
+      "awayTeam": "Swiss",
       "location": "Kansas City Stadium, Kansas City"
     },
     {
